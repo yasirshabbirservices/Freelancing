@@ -43,6 +43,8 @@
 
   * { margin: 0; padding: 0; }
 
+  [hidden] { display: none !important; }
+
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -497,6 +499,14 @@
     outline: none;
   }
 
+  /* Numeric inputs: remove spinners for a cleaner look */
+  .input[type="number"]::-webkit-outer-spin-button,
+  .input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .input[type="number"] { -moz-appearance: textfield; }
+
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr;
@@ -544,6 +554,45 @@
   .color-swatch input[type="color"]::-webkit-color-swatch { border: none; }
   .color-swatch input[type="color"]::-moz-color-swatch { border: none; }
   .color-swatch input[type="color"]:focus-visible { outline: none; }
+
+  /* Custom size quick chips */
+  .size-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.625rem;
+  }
+  .size-chip {
+    font-family: inherit;
+    font-size: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem);
+    font-weight: 500;
+    color: hsl(var(--muted-fg));
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    padding: 0.375rem clamp(0.625rem, 2vw, 0.75rem);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 2rem;
+    white-space: nowrap;
+  }
+  .size-chip:hover,
+  .size-chip:focus-visible {
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary) / 0.5);
+    background: hsl(var(--primary) / 0.08);
+  }
+
+  .custom-size-field {
+    padding: clamp(0.75rem, 2.2vw, 1rem);
+    border-radius: var(--field-radius);
+    border: 1px dashed hsl(var(--primary) / 0.35);
+    background: hsl(var(--primary) / 0.04);
+    margin-top: 0.25rem;
+  }
+  .custom-size-field .field-hint { margin-top: 0.625rem; }
 
   /* Buttons */
   .btn {
@@ -1072,12 +1121,12 @@
 <main class="shell" id="generator">
 
   <header class="hero">
-    <span class="section-label">Service Cover Prompt Generator · v6</span>
+    <span class="section-label">Service Cover Prompt Generator · v7</span>
     <h1 class="hero-title">
       Paste, customize, <span class="gradient-text">preview</span>, ship.
     </h1>
     <p class="hero-sub">
-      For any service provider — designers, developers, marketers, writers, video editors, consultants. Paste your service description, tune the branding, preview the composition at the correct platform size, and copy a box-free AI image prompt.
+      For any service provider — designers, developers, marketers, writers, video editors, consultants. Paste your service description, tune the branding, pick any canvas size you need, preview the composition at the correct platform size, and copy a box-free AI image prompt.
     </p>
   </header>
 
@@ -1168,14 +1217,56 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
           </div>
 
           <div class="field">
-            <label class="field-label" for="platform">Platform <span class="opt">(drives canvas size &amp; safe area)</span></label>
+            <label class="field-label" for="platform">Platform / Canvas Preset <span class="opt">(drives canvas size &amp; safe area)</span></label>
             <select class="select" id="platform" aria-describedby="platformHint">
               <option value="Fiverr">Fiverr — 1280 × 769 px</option>
               <option value="Upwork">Upwork — 1000 × 750 px (4:3)</option>
               <option value="Contra">Contra — 1600 × 1200 px (4:3)</option>
               <option value="Other" selected>Other / Generic — 1280 × 800 px</option>
+              <option value="Custom">Custom — set your own size</option>
             </select>
             <p class="field-hint" id="platformHint">Canvas 1280 × 800 · Safe area 1130 × 650</p>
+          </div>
+
+          <!-- CUSTOM CANVAS SIZE CONTROLS (only visible when platform = Custom) -->
+          <div class="field custom-size-field" id="customSizeField" hidden>
+            <label class="field-label" for="customW">Custom Canvas Size <span class="opt">(width × height, in px)</span></label>
+
+            <div class="grid-2">
+              <div>
+                <label class="sr-only" for="customW">Custom canvas width in pixels</label>
+                <input class="input" id="customW" type="number" inputmode="numeric"
+                       min="200" max="8000" step="1" value="1280" placeholder="Width (px)" />
+              </div>
+              <div>
+                <label class="sr-only" for="customH">Custom canvas height in pixels</label>
+                <input class="input" id="customH" type="number" inputmode="numeric"
+                       min="200" max="8000" step="1" value="800" placeholder="Height (px)" />
+              </div>
+            </div>
+
+            <div class="size-chips" role="group" aria-label="Quick custom sizes">
+              <button type="button" class="size-chip" data-w="1280" data-h="800">1280×800</button>
+              <button type="button" class="size-chip" data-w="1280" data-h="720">1280×720 · HD</button>
+              <button type="button" class="size-chip" data-w="1920" data-h="1080">1920×1080 · FHD</button>
+              <button type="button" class="size-chip" data-w="1080" data-h="1080">1080×1080 · Square</button>
+              <button type="button" class="size-chip" data-w="1080" data-h="1350">1080×1350 · Portrait</button>
+              <button type="button" class="size-chip" data-w="1200" data-h="628">1200×628 · OG</button>
+              <button type="button" class="size-chip" data-w="1500" data-h="1000">1500×1000</button>
+              <button type="button" class="size-chip" data-w="2000" data-h="2000">2000×2000</button>
+            </div>
+
+            <div style="margin-top: 0.875rem;">
+              <label class="field-label" for="customPad">Safe-Area Padding <span class="opt">(px on every side)</span></label>
+              <input class="input" id="customPad" type="number" inputmode="numeric"
+                     min="0" max="1000" step="1" value="75" />
+            </div>
+
+            <p class="field-hint">
+              Any size from <strong>200 × 200</strong> up to <strong>8000 × 8000</strong> px.
+              Padding is the clear margin kept on every side — the safe area is the remaining inner box
+              (<span id="customSafePreview">1130 × 650</span>).
+            </p>
           </div>
 
           <div class="field">
@@ -1423,8 +1514,7 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
   </div>
 
   <footer class="footer">
-    Built on the <a href="https://yasirshabbir.com" target="_blank" rel="noopener">yasirshabbir.com</a> design system · Share this file freely.
-  </footer>
+Built by <a href="https://yasirshabbir.com" target="_blank" rel="noopener">Yasir Shabbir</a> · Free to share, remix, and ship.  </footer>
 
 </main>
 
@@ -1481,9 +1571,79 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
     }
   };
 
+  /* ---------- Custom size helpers ---------- */
+  const CUSTOM_MIN = 200;
+  const CUSTOM_MAX = 8000;
+
+  function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+
+  function simplifyRatio(w, h) {
+    let label;
+    const d = gcd(w, h) || 1;
+    let rw = w / d;
+    let rh = h / d;
+    if (rw > 60 || rh > 60) {
+      label = (w / h).toFixed(2).replace(/\.?0+$/, '') + ':1';
+    } else {
+      label = rw + ':' + rh;
+    }
+    const diff = Math.abs(w - h);
+    const orientation = diff <= Math.min(w, h) * 0.02
+      ? 'square'
+      : (w > h ? 'landscape' : 'portrait');
+    return label + ' ' + orientation;
+  }
+
+  function clampInt(value, min, max, fallback) {
+    const n = parseInt(value, 10);
+    if (!Number.isFinite(n)) return fallback;
+    return Math.min(max, Math.max(min, n));
+  }
+
+  function autoPadFor(w, h) {
+    return Math.max(0, Math.round(Math.min(w, h) * 0.094));
+  }
+
+  function readCustomSize() {
+    const w = clampInt($('customW') ? $('customW').value : '', CUSTOM_MIN, CUSTOM_MAX, 1280);
+    const h = clampInt($('customH') ? $('customH').value : '', CUSTOM_MIN, CUSTOM_MAX, 800);
+    const maxPad = Math.max(0, Math.floor(Math.min(w, h) / 2) - 20);
+    let pad = clampInt($('customPad') ? $('customPad').value : '', 0, 1000, autoPadFor(w, h));
+    pad = Math.min(pad, maxPad);
+    return { w, h, pad };
+  }
+
+  function buildCustomPreset() {
+    const { w, h, pad } = readCustomSize();
+    const safeW = Math.max(40, w - pad * 2);
+    const safeH = Math.max(40, h - pad * 2);
+    return {
+      w, h, pad, safeW, safeH,
+      ratio: simplifyRatio(w, h),
+      label: 'custom-sized (' + w + ' × ' + h + ') freelance service cover',
+      style: 'Modern, premium aesthetic. Bold geometric typography. Clean, professional look. Strong visual hierarchy. Composition tuned for a ' + simplifyRatio(w, h) + ' canvas.'
+    };
+  }
+
   function getPlatformPreset() {
     const p = getVal('platform') || 'Other';
+    if (p === 'Custom') return buildCustomPreset();
     return CANVAS_PRESETS[p] || CANVAS_PRESETS.Other;
+  }
+
+  /* ---------- Show / hide custom controls ---------- */
+  function toggleCustomSizeField() {
+    const field = $('customSizeField');
+    if (!field) return;
+    const isCustom = getVal('platform') === 'Custom';
+    field.hidden = !isCustom;
+  }
+
+  function updateCustomSafePreview() {
+    const el = $('customSafePreview');
+    if (!el) return;
+    const { w, h, pad } = readCustomSize();
+    el.textContent = Math.max(40, w - pad * 2) + ' × ' + Math.max(40, h - pad * 2);
   }
 
   /* ============================================================
@@ -1904,6 +2064,23 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
   });
 
   /* ============================================================
+     CUSTOM SIZE CHIPS
+     ============================================================ */
+  document.querySelectorAll('.size-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const w = parseInt(chip.dataset.w, 10);
+      const h = parseInt(chip.dataset.h, 10);
+      if (!Number.isFinite(w) || !Number.isFinite(h)) return;
+      $('customW').value = w;
+      $('customH').value = h;
+      $('customPad').value = autoPadFor(w, h);
+      updateCustomSafePreview();
+      updatePreview();
+      if (generatedOnce) regenerate();
+    });
+  });
+
+  /* ============================================================
      LIVE PREVIEW
      ============================================================ */
   function hexToRgba(hex, alpha) {
@@ -1956,8 +2133,10 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
     $('previewStatusLine').textContent =
       'Live composition · ' + preset.w + ' × ' + preset.h + ' native · scaled to fit';
     $('platformHint').textContent =
-      'Canvas ' + preset.w + ' × ' + preset.h + ' · Safe area ' + preset.safeW + ' × ' + preset.safeH;
+      'Canvas ' + preset.w + ' × ' + preset.h + ' · Safe area ' + preset.safeW + ' × ' + preset.safeH +
+      ' · ' + preset.ratio;
 
+    updateCustomSafePreview();
     fitPreviewCanvas();
   }
 
@@ -2081,6 +2260,11 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
     const avoid        = getVal('avoid');
     const notes        = getVal('notes');
 
+    const isCustom = getVal('platform') === 'Custom';
+    const sizeLine = isCustom
+      ? '- Output: **one single image**, exactly **' + preset.w + ' × ' + preset.h + ' px**, ' + preset.ratio + ' aspect ratio (custom size chosen by the user).'
+      : '- Output: **one single image**, exactly **' + preset.w + ' × ' + preset.h + ' px**, ' + preset.ratio + ' aspect ratio.';
+
     const featureBlock = features.length
       ? features.map((f, i) => (i + 1) + '. ' + f).join('\n')
       : '1. (none specified)';
@@ -2105,7 +2289,7 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
       '## 🛑 ABSOLUTE RULES — READ BEFORE ANYTHING ELSE',
       '',
       '**1. RENDER NOTHING ABOUT THIS SPEC.**',
-      'This document is an instruction set for you. It is NOT content for the image. Do NOT draw, write, hint at, reference, label, or annotate any canvas dimensions, safe-area numbers, padding values, grid lines, dashed guides, ruler marks, coordinate labels, crop marks, ratio text, or technical specifications anywhere inside the image. If you are about to render the words "safe area", "1280", "1000", "1600", "px", "canvas", "padding", or any dimension label — STOP and delete it. The image contains ONLY the design content described below.',
+      'This document is an instruction set for you. It is NOT content for the image. Do NOT draw, write, hint at, reference, label, or annotate any canvas dimensions, safe-area numbers, padding values, grid lines, dashed guides, ruler marks, coordinate labels, crop marks, ratio text, or technical specifications anywhere inside the image. If you are about to render the words "safe area", "' + preset.w + '", "' + preset.h + '", "px", "canvas", "padding", or any dimension label — STOP and delete it. The image contains ONLY the design content described below.',
       '',
       '**2. NO CONTAINERS. EVER.**',
       'Do not draw cards, tiles, chips, pills, badges with backgrounds, panels, boxes, frames, grid cells, or any rectangle that contains other elements. Text and icons sit directly on the background. Nothing sits inside anything.',
@@ -2127,7 +2311,7 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
       '---',
       '',
       '## CANVAS',
-      '- Output: **one single image**, exactly **' + preset.w + ' × ' + preset.h + ' px**, ' + preset.ratio + ' aspect ratio.',
+      sizeLine,
       '- The entire design floats on **one continuous background** edge-to-edge.',
       '- Leave generous breathing room on all four sides so nothing crowds the edges. All headlines, secondary text, feature items, tool icons, and trust line stay comfortably inside the canvas with clear margin all around.',
       '- **CRITICAL: There are NO guides, NO dashed lines, NO crop marks, NO dimension labels, NO "safe area" text, NO ruler marks, and NO annotations of any kind in the image. Just clean background with the composition floating on it.**',
@@ -2317,10 +2501,17 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
     el.addEventListener('change', scheduleLiveUpdate);
   });
 
+  /* Platform change → toggle the custom size controls */
+  $('platform').addEventListener('change', () => {
+    toggleCustomSizeField();
+    updateCustomSafePreview();
+  });
+
   /* ============================================================
      INIT — neutral demo
      ============================================================ */
   syncSwatchPreview();
+  toggleCustomSizeField();
 
   $('topic').value = 'Logo & Brand Identity Design';
   $('mainHeadline').value = 'Logo & Brand Identity Design';
@@ -2332,6 +2523,7 @@ I edit short-form and long-form video for YouTube, Reels, TikTok, and ads. Cuts,
   $('visuals').value = 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.';
   $('avoid').value = 'Generic clipart, stock photography, busy backgrounds, distorted typography.';
 
+  updateCustomSafePreview();
   updatePreview();
   fitPreviewCanvas();
 
