@@ -25,8 +25,7 @@
     --fg: 60 10% 95%;
     --destructive: 0 84% 60%;
 
-    /* ArzoKeys brand orange */
-    --arzokeys: 25 100% 50%;      /* #FF7A00 */
+    --arzokeys: 25 100% 50%;
     --arzokeys-soft: 25 100% 55%;
     --arzokeys-fg: 0 0% 100%;
 
@@ -65,7 +64,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     position: relative;
-    /* clip instead of hidden so position:sticky works on the header */
     overflow-x: clip;
     padding: 0;
   }
@@ -115,9 +113,7 @@
   }
   .skip-link:focus { transform: translateY(0); }
 
-  /* ============================================================
-     SITE HEADER (sticky)
-     ============================================================ */
+  /* ============ SITE HEADER ============ */
   .site-header {
     position: sticky;
     top: 0;
@@ -180,7 +176,6 @@
     flex-shrink: 0;
   }
 
-  /* ArzoKeys chip in header */
   .header-ak-chip {
     display: inline-flex;
     align-items: center;
@@ -228,7 +223,6 @@
     margin-left: 0.125rem;
   }
 
-  /* Icon-only button with hover label */
   .header-icon-btn {
     position: relative;
     appearance: none;
@@ -255,7 +249,6 @@
   }
   .header-icon-btn:active { transform: scale(0.96); }
 
-  /* Tooltip (label on hover) */
   .header-icon-btn::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -290,9 +283,7 @@
     .header-ak-chip .header-ak-dot { margin: 0; }
   }
 
-  /* ============================================================
-     MAIN SHELL
-     ============================================================ */
+  /* ============ MAIN SHELL ============ */
   .shell {
     position: relative;
     z-index: 2;
@@ -301,7 +292,6 @@
     padding: var(--gutter-y-top) var(--gutter-x) calc(var(--gutter-y-bottom) + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Decorative background */
   .blob {
     position: fixed;
     border-radius: 9999px;
@@ -346,9 +336,7 @@
     }
   }
 
-  /* ============================================================
-     HERO
-     ============================================================ */
+  /* ============ HERO ============ */
   .hero {
     text-align: center;
     max-width: 51.25rem;
@@ -382,18 +370,13 @@
     text-wrap: pretty;
   }
 
-  /* ============================================================
-     APP MAIN
-     ============================================================ */
   .app-main {
     width: 100%;
     max-width: var(--app-width);
     margin: 0 auto;
   }
 
-  /* ============================================================
-     TABS
-     ============================================================ */
+  /* ============ TABS ============ */
   .tabs {
     display: flex;
     gap: 0.25rem;
@@ -489,9 +472,7 @@
     .tab.active { box-shadow: 0 0 15px hsl(var(--primary) / 0.4); }
   }
 
-  /* ============================================================
-     PANELS
-     ============================================================ */
+  /* ============ PANELS ============ */
   .panel { display: none; width: 100%; }
   .panel.active { display: block; animation: fadeUp 260ms ease; }
   .panel:focus { outline: none; }
@@ -514,7 +495,6 @@
     border-radius: var(--card-radius);
     padding: var(--card-pad);
     position: relative;
-    /* visible so icon-button tooltips are never clipped */
     overflow: visible;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
@@ -531,9 +511,7 @@
   }
   .glass-card > * { position: relative; z-index: 1; }
 
-  /* ============================================================
-     SECTION NAV (sticky sub-tabs, inside Customize & Service Data)
-     ============================================================ */
+  /* ============ SECTION NAV (sticky sub-tabs) ============ */
   .section-nav {
     position: sticky;
     top: calc(var(--header-h) + 0.5rem);
@@ -583,9 +561,7 @@
     background: hsl(var(--primary));
   }
 
-  /* ============================================================
-     FORM
-     ============================================================ */
+  /* ============ FORM ============ */
   .form-section { margin-bottom: clamp(1.5rem, 4vw, 2rem); scroll-margin-top: calc(var(--header-h) + 5rem); }
   .form-section:last-of-type { margin-bottom: 1.25rem; }
 
@@ -770,9 +746,7 @@
   }
   .custom-size-field .field-hint { margin-top: 0.625rem; }
 
-  /* ============================================================
-     DESIGN / PROFILE MODE SWITCH
-     ============================================================ */
+  /* ============ MODE SWITCH ============ */
   .mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
   @media (max-width: 34rem) { .mode-switch { grid-template-columns: 1fr; } }
 
@@ -831,9 +805,7 @@
 
   .spec-block, .brand-block, .cv-block { margin-top: 1.25rem; }
 
-  /* ============================================================
-     MULTI-SELECT CHECKBOX GRID
-     ============================================================ */
+  /* ============ MULTI-SELECT CHECKBOX GRID ============ */
   .check-fieldset { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
   .check-fieldset > legend { padding: 0; }
   .check-fieldset:last-child { margin-bottom: 0; }
@@ -915,9 +887,7 @@
     text-wrap: pretty;
   }
 
-  /* ============================================================
-     DROP ZONE
-     ============================================================ */
+  /* ============ DROP ZONE ============ */
   .drop-zone {
     margin-top: 0.875rem;
     padding: clamp(1rem, 3vw, 1.5rem) 1rem;
@@ -989,9 +959,7 @@
   }
   .spec-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }
 
-  /* ============================================================
-     BUTTONS
-     ============================================================ */
+  /* ============ BUTTONS ============ */
   .btn {
     position: relative;
     display: inline-flex;
@@ -1061,7 +1029,6 @@
   }
   .btn-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
 
-  /* Icon-only square button */
   .btn-icon-only {
     width: 2.375rem;
     min-width: 2.375rem;
@@ -1072,9 +1039,7 @@
     border-radius: 0.625rem;
   }
   .btn-icon-only svg { width: 1.0625rem; height: 1.0625rem; }
-  .btn-icon-only .icon-spin-target { display: inline-flex; }
 
-  /* Tooltip for any button carrying data-tooltip */
   .btn[data-tooltip]::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -1105,9 +1070,7 @@
   .form-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
   .form-actions .btn-glow { flex: 1 1 11.25rem; min-width: 0; }
 
-  /* ============================================================
-     PASTE PANEL
-     ============================================================ */
+  /* ============ PASTE PANEL ============ */
   .paste-head { text-align: center; margin-bottom: clamp(1rem, 3vw, 1.5rem); }
   .paste-title {
     font-family: 'Syne', sans-serif;
@@ -1161,9 +1124,7 @@
     background: hsl(var(--primary) / 0.08);
   }
 
-  /* ============================================================
-     PREVIEW PANEL
-     ============================================================ */
+  /* ============ PREVIEW ============ */
   .preview-toolbar {
     display: flex;
     align-items: center;
@@ -1359,9 +1320,7 @@
 
   .preview-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: clamp(0.75rem, 2vw, 1.125rem); }
 
-  /* ============================================================
-     OUTPUT
-     ============================================================ */
+  /* ============ OUTPUT ============ */
   .output-head {
     display: flex;
     align-items: center;
@@ -1432,9 +1391,7 @@
     line-height: 1.7;
   }
 
-  /* ============================================================
-     FOOTER
-     ============================================================ */
+  /* ============ FOOTER ============ */
   .footer {
     margin-top: clamp(3rem, 10vw, 5rem);
     text-align: center;
@@ -1451,9 +1408,6 @@
   .footer a:hover { text-decoration: underline; }
   .footer a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-  /* ============================================================
-     ARZOKEYS PROMO CARD (footer, orange brand)
-     ============================================================ */
   .promo-card {
     position: relative;
     display: flex;
@@ -1575,9 +1529,7 @@
     .promo-card-cta { width: 100%; justify-content: center; }
   }
 
-  /* ============================================================
-     TOAST
-     ============================================================ */
+  /* ============ TOAST ============ */
   .toast {
     position: fixed;
     bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px));
@@ -1604,9 +1556,7 @@
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   .toast .check { color: hsl(var(--primary)); font-weight: 700; flex-shrink: 0; }
 
-  /* ============================================================
-     NARROW-SCREEN REFINEMENTS
-     ============================================================ */
+  /* ============ NARROW ============ */
   @media (max-width: 23.75rem) {
     :root { --card-pad: 0.875rem; }
     .preview-toolbar { gap: 0.5rem; }
@@ -1639,22 +1589,13 @@
 <div class="blob blob-2" aria-hidden="true"></div>
 <div class="noise" aria-hidden="true"></div>
 
-<!-- ============================================================
-     SITE HEADER
-     ============================================================ -->
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="#generator" aria-label="Prompt Forge — back to top">
       <span class="brand-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 4V2"/>
-          <path d="M15 16v-2"/>
-          <path d="M8 9h2"/>
-          <path d="M20 9h2"/>
-          <path d="M17.8 11.8 19 13"/>
-          <path d="M17.8 6.2 19 5"/>
-          <path d="M3 21l9-9"/>
-          <path d="M12.2 6.2 11 5"/>
+          <path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/>
+          <path d="M17.8 11.8 19 13"/><path d="M17.8 6.2 19 5"/><path d="M3 21l9-9"/><path d="M12.2 6.2 11 5"/>
         </svg>
       </span>
       <span class="brand-name">Prompt Forge</span>
@@ -1690,7 +1631,6 @@
   </header>
 
   <div class="app-main">
-    <!-- TABS -->
     <nav class="tabs" role="tablist" aria-label="Generator steps" id="tabsNav">
       <button class="tab active" id="tab-paste" data-tab="paste" role="tab" aria-selected="true" aria-controls="panel-paste" tabindex="0">
         <span class="tab-num" aria-hidden="true">1</span> Paste Description
@@ -1715,9 +1655,7 @@
       </button>
     </nav>
 
-    <!-- ============================================================
-         PANEL 1 · PASTE DESCRIPTION
-         ============================================================ -->
+    <!-- PANEL 1 · PASTE -->
     <section class="panel active" id="panel-paste" role="tabpanel" aria-labelledby="tab-paste" tabindex="0">
       <div class="paste-wrap glass-card">
         <div class="paste-head">
@@ -1728,11 +1666,8 @@
         </div>
 
         <label class="sr-only" for="pasteInput">Service description to extract from</label>
-        <textarea
-          class="textarea paste-textarea"
-          id="pasteInput"
-          aria-labelledby="pasteTitle"
-          aria-describedby="pasteDesc"
+        <textarea class="textarea paste-textarea" id="pasteInput"
+          aria-labelledby="pasteTitle" aria-describedby="pasteDesc"
           placeholder="Paste anything — a gig description, a proposal paragraph, or a few lines from your portfolio."></textarea>
 
         <div class="paste-actions">
@@ -1744,10 +1679,8 @@
           </button>
           <button class="btn btn-ghost" id="pasteClearBtn" type="button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 6h18"/>
-              <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6M14 11v6"/>
+              <path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/>
             </svg>
             Clear
           </button>
@@ -1764,9 +1697,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 2 · CUSTOMIZE
-         ============================================================ -->
+    <!-- PANEL 2 · CUSTOMIZE -->
     <section class="panel" id="panel-customize" role="tabpanel" aria-labelledby="tab-customize" tabindex="0">
       <nav class="section-nav" aria-label="Customize sections">
         <a href="#section-basics" class="section-nav-link">
@@ -1905,9 +1836,6 @@
           </div>
         </div>
 
-        <!-- ============================================================
-             SECTION 3 · BRANDING & DESIGN SYSTEM
-             ============================================================ -->
         <div class="form-section" id="section-branding">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">3</span>
@@ -1920,10 +1848,8 @@
               <input class="sr-only" type="radio" name="designMode" value="manual" checked />
               <span class="mode-option-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="13.5" cy="6.5" r="1.2" />
-                  <circle cx="17.5" cy="10.5" r="1.2" />
-                  <circle cx="8.5" cy="7.5" r="1.2" />
-                  <circle cx="6.5" cy="12.5" r="1.2" />
+                  <circle cx="13.5" cy="6.5" r="1.2" /><circle cx="17.5" cy="10.5" r="1.2" />
+                  <circle cx="8.5" cy="7.5" r="1.2" /><circle cx="6.5" cy="12.5" r="1.2" />
                   <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z" />
                 </svg>
               </span>
@@ -1939,8 +1865,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
-                  <line x1="9" y1="13" x2="15" y2="13" />
-                  <line x1="9" y1="17" x2="13" y2="17" />
+                  <line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="13" y2="17" />
                 </svg>
               </span>
               <span class="mode-option-body">
@@ -1950,7 +1875,6 @@
             </label>
           </div>
 
-          <!-- SPEC BLOCK -->
           <div class="spec-block" id="specBlock" hidden>
             <div class="field">
               <label class="field-label" for="specText">Paste your design spec <span class="opt">(optional if you upload a file)</span></label>
@@ -1962,13 +1886,10 @@
             <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload design spec files" aria-describedby="dropHint">
               <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
+                <polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" />
               </svg>
               <p class="dz-title">Drop a spec file here, or <span class="dz-link">browse</span></p>
-              <p class="dz-hint" id="dropHint">
-                Text files only — .txt .md .json .css .html .svg .csv .yml .js. Images are added as named visual references.
-              </p>
+              <p class="dz-hint" id="dropHint">Text files only — .txt .md .json .css .html .svg .csv .yml .js. Images are added as named visual references.</p>
             </div>
             <input class="sr-only" type="file" id="specFile" multiple tabindex="-1"
               accept=".txt,.md,.markdown,.json,.css,.scss,.less,.html,.htm,.svg,.csv,.yml,.yaml,.js,.jsx,.ts,.tsx,.xml,.log,text/*,application/json,image/*" />
@@ -1978,17 +1899,14 @@
             <div class="spec-actions">
               <button class="btn btn-ghost btn-sm" id="specClearBtn" type="button">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M3 6h18"/>
-                  <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
-                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/>
                 </svg>
                 Clear spec
               </button>
             </div>
           </div>
 
-          <!-- MANUAL BRAND BLOCK (hidden when spec mode is active) -->
           <div class="brand-block" id="brandBlock">
             <div class="grid-2">
               <div class="field">
@@ -2036,33 +1954,19 @@
               <div class="field">
                 <label class="field-label" for="headingFont">Heading Font</label>
                 <select class="select" id="headingFont">
-                  <option>Syne</option>
-                  <option>Space Grotesk</option>
-                  <option>Inter</option>
-                  <option>Poppins</option>
-                  <option>Montserrat</option>
-                  <option>Manrope</option>
-                  <option>Sora</option>
-                  <option>Outfit</option>
-                  <option>DM Sans</option>
-                  <option>Plus Jakarta Sans</option>
-                  <option>Bricolage Grotesque</option>
-                  <option>Playfair Display</option>
+                  <option>Syne</option><option>Space Grotesk</option><option>Inter</option>
+                  <option>Poppins</option><option>Montserrat</option><option>Manrope</option>
+                  <option>Sora</option><option>Outfit</option><option>DM Sans</option>
+                  <option>Plus Jakarta Sans</option><option>Bricolage Grotesque</option><option>Playfair Display</option>
                 </select>
               </div>
 
               <div class="field">
                 <label class="field-label" for="bodyFont">Body / UI Font</label>
                 <select class="select" id="bodyFont">
-                  <option>Space Grotesk</option>
-                  <option>Syne</option>
-                  <option>Inter</option>
-                  <option>Poppins</option>
-                  <option>Montserrat</option>
-                  <option>Manrope</option>
-                  <option>Sora</option>
-                  <option>Outfit</option>
-                  <option>DM Sans</option>
+                  <option>Space Grotesk</option><option>Syne</option><option>Inter</option>
+                  <option>Poppins</option><option>Montserrat</option><option>Manrope</option>
+                  <option>Sora</option><option>Outfit</option><option>DM Sans</option>
                   <option>Plus Jakarta Sans</option>
                 </select>
               </div>
@@ -2108,11 +2012,8 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 3 · SERVICE DATA
-         ============================================================ -->
+    <!-- PANEL 3 · SERVICE DATA -->
     <section class="panel" id="panel-servicedata" role="tabpanel" aria-labelledby="tab-servicedata" tabindex="0">
-
       <nav class="section-nav" aria-label="Service data sections">
         <a href="#section-profile" class="section-nav-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -2153,10 +2054,9 @@
       <div class="glass-card">
         <div class="paste-head">
           <h2 class="paste-title">Your full service data</h2>
-          <p class="paste-desc">Fill this once — or upload your CV and let it auto-fill. Every text prompt on the next tabs is built from these fields plus the Customize tab, so ChatGPT, Claude, or Gemini gets complete context instead of guesses.</p>
+          <p class="paste-desc">Fill this once — or upload your CV / LinkedIn PDF and let it auto-fill. Every text prompt on the next tabs is built from these fields plus the Customize tab, so ChatGPT, Claude, or Gemini gets complete context instead of guesses.</p>
         </div>
 
-        <!-- ---------- 1 · PROFILE ---------- -->
         <div class="form-section" id="section-profile">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">1</span>
@@ -2191,12 +2091,11 @@
               </span>
               <span class="mode-option-body">
                 <span class="mode-option-title">Upload CV / LinkedIn PDF</span>
-                <span class="mode-option-sub">Drop a PDF, Markdown or text résumé — it fills the fields below for you.</span>
+                <span class="mode-option-sub">Drop a LinkedIn export, PDF, Markdown or text résumé — it fills the fields below for you.</span>
               </span>
             </label>
           </div>
 
-          <!-- CV BLOCK -->
           <div class="cv-block" id="cvBlock" hidden>
             <div class="drop-zone" id="cvDropZone" role="button" tabindex="0"
                  aria-label="Upload your CV, résumé or LinkedIn profile PDF"
@@ -2206,10 +2105,11 @@
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
               </svg>
-              <p class="dz-title">Drop your CV here, or <span class="dz-link">browse</span></p>
+              <p class="dz-title">Drop your CV / LinkedIn PDF here, or <span class="dz-link">browse</span></p>
               <p class="dz-hint" id="cvDropHint">
-                PDF, Markdown, plain text, RTF or HTML. PDF text is extracted in your browser — nothing is uploaded anywhere.
-                Image-only PDFs are still attached as a named reference for the AI.
+                PDF, Markdown, plain text, RTF or HTML. LinkedIn PDF exports are detected automatically —
+                the parser strips the "3. 3. 3." section markers and repairs garbled date tokens.
+                Everything runs in your browser; nothing is uploaded anywhere.
               </p>
             </div>
             <input class="sr-only" type="file" id="cvFile" multiple tabindex="-1"
@@ -2226,10 +2126,8 @@
               </button>
               <button class="btn btn-ghost btn-sm" id="cvClearBtn" type="button">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M3 6h18"/>
-                  <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
-                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                  <path d="M10 11v6M14 11v6"/>
+                  <path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/>
                 </svg>
                 Clear CV
               </button>
@@ -2260,7 +2158,6 @@
           </div>
         </div>
 
-        <!-- ---------- 2 · POSITIONING ---------- -->
         <div class="form-section" id="section-positioning">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">2</span>
@@ -2285,7 +2182,6 @@
           </div>
         </div>
 
-        <!-- ---------- 3 · PRICING ---------- -->
         <div class="form-section" id="section-pricing">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">3</span>
@@ -2314,7 +2210,6 @@
           </div>
         </div>
 
-        <!-- ---------- 4 · PROCESS ---------- -->
         <div class="form-section" id="section-process">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">4</span>
@@ -2335,7 +2230,6 @@
           </div>
         </div>
 
-        <!-- ---------- 5 · SEO ---------- -->
         <div class="form-section" id="section-seo">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">5</span>
@@ -2358,9 +2252,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 4 · COVER PREVIEW
-         ============================================================ -->
+    <!-- PANEL 4 · COVER PREVIEW -->
     <section class="panel" id="panel-preview" role="tabpanel" aria-labelledby="tab-preview" tabindex="0">
       <div class="preview-wrap">
         <div class="preview-toolbar">
@@ -2399,9 +2291,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 5 · IMAGE PROMPT
-         ============================================================ -->
+    <!-- PANEL 5 · IMAGE PROMPT -->
     <section class="panel" id="panel-markdown" role="tabpanel" aria-labelledby="tab-markdown" tabindex="0">
       <div class="output-wrap glass-card">
         <div class="output-head">
@@ -2423,16 +2313,14 @@
           <button class="btn btn-outline btn-sm" id="downloadBtn" type="button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             Download .md
           </button>
           <button class="btn btn-ghost btn-sm btn-icon-only" id="regenBtn" type="button"
                   data-tooltip="Regenerate prompt" aria-label="Regenerate prompt">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="23 4 23 10 17 10"/>
-              <polyline points="1 20 1 14 7 14"/>
+              <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
             </svg>
           </button>
@@ -2442,9 +2330,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 6 · TEXT PROMPTS
-         ============================================================ -->
+    <!-- PANEL 6 · TEXT PROMPTS -->
     <section class="panel" id="panel-textprompts" role="tabpanel" aria-labelledby="tab-textprompts" tabindex="0">
       <div class="glass-card">
         <div class="paste-head">
@@ -2466,8 +2352,7 @@
               </button>
               <button class="btn btn-ghost btn-sm" id="kindClearAll" type="button">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
                 Clear
               </button>
@@ -2602,16 +2487,14 @@
           <button class="btn btn-outline btn-sm" id="tpDownloadBtn" type="button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             Download .md
           </button>
           <button class="btn btn-ghost btn-sm btn-icon-only" id="tpRegenBtn" type="button"
                   data-tooltip="Regenerate prompts" aria-label="Regenerate prompts">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="23 4 23 10 17 10"/>
-              <polyline points="1 20 1 14 7 14"/>
+              <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
             </svg>
           </button>
@@ -2621,9 +2504,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         PANEL 7 · LAUNCH PACK
-         ============================================================ -->
+    <!-- PANEL 7 · LAUNCH PACK -->
     <section class="panel" id="panel-launchpack" role="tabpanel" aria-labelledby="tab-launchpack" tabindex="0">
       <div class="output-wrap glass-card">
         <div class="output-head">
@@ -2634,7 +2515,7 @@
           </span>
         </div>
         <p class="paste-desc" style="margin-bottom:1rem;">
-          Everything in one document: your service brief, platform rules, the cover image prompt, and the text prompts you ticked on the Text Prompts tab (all of them if none are ticked). Paste it into one AI chat and work through it section by section.
+          Everything in one document: your service brief (including any attached CV / LinkedIn PDF), platform rules, the cover image prompt, and the text prompts you ticked on the Text Prompts tab (all of them if none are ticked). Paste it into one AI chat and work through it section by section.
         </p>
 
         <div class="output-actions">
@@ -2648,16 +2529,14 @@
           <button class="btn btn-outline btn-sm" id="packDownloadBtn" type="button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
+              <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             Download .md
           </button>
           <button class="btn btn-ghost btn-sm btn-icon-only" id="packRegenBtn" type="button"
                   data-tooltip="Regenerate launch pack" aria-label="Regenerate launch pack">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="23 4 23 10 17 10"/>
-              <polyline points="1 20 1 14 7 14"/>
+              <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
             </svg>
           </button>
@@ -2668,17 +2547,12 @@
     </section>
   </div>
 
-  <!-- ============================================================
-       ARZOKEYS PROMO CARD (footer)
-       ============================================================ -->
   <aside class="promo-card" aria-labelledby="ak-promo-title">
     <div class="promo-card-left">
       <div class="promo-card-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="7.5" cy="15.5" r="4.5"/>
-          <path d="M10.7 12.3 21 2"/>
-          <path d="M18 5l3 3"/>
-          <path d="M15 8l3 3"/>
+          <path d="M10.7 12.3 21 2"/><path d="M18 5l3 3"/><path d="M15 8l3 3"/>
         </svg>
       </div>
       <div class="promo-card-body">
@@ -2689,8 +2563,7 @@
     </div>
     <a class="promo-card-cta" href="https://arzokeys.com/" target="_blank" rel="noopener" aria-label="Add ArzoKeys to Chrome — opens arzokeys.com">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="10"/>
-        <circle cx="12" cy="12" r="4"/>
+        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
         <line x1="21.17" y1="8" x2="12" y2="8"/>
         <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
         <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
@@ -2797,7 +2670,7 @@ window.showToast = function (msg) {
 })();
 
 /* ============================================================
-   RESET ALL — header button
+   RESET ALL
    ============================================================ */
 (function () {
   'use strict';
@@ -3012,10 +2885,8 @@ window.showToast = function (msg) {
      COLOUR SYNC
      ============================================================ */
   const colorPairs = [
-    ['primary', 'primaryHex'],
-    ['accent', 'accentHex'],
-    ['bg', 'bgHex'],
-    ['text', 'textHex']
+    ['primary', 'primaryHex'], ['accent', 'accentHex'],
+    ['bg', 'bgHex'], ['text', 'textHex']
   ];
   const HEX_RE = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
 
@@ -3057,7 +2928,7 @@ window.showToast = function (msg) {
   }
 
   /* ============================================================
-     DESIGN MODE — hide manual branding when spec is active
+     DESIGN MODE
      ============================================================ */
   function setDesignMode(mode) {
     document.querySelectorAll('input[name="designMode"]').forEach((r) => {
@@ -3091,7 +2962,7 @@ window.showToast = function (msg) {
   });
 
   /* ============================================================
-     PROFILE MODE — show/hide the CV uploader
+     PROFILE MODE
      ============================================================ */
   function setProfileMode(mode) {
     document.querySelectorAll('input[name="profileMode"]').forEach((r) => {
@@ -3172,14 +3043,12 @@ window.showToast = function (msg) {
 
     for (const f of files) {
       if (specFiles.some((x) => x.name === f.name && x.size === f.size)) continue;
-
       if (isImageFile(f)) {
         specFiles.push({ id: 'f' + ++specFileSeq, name: f.name, size: f.size, content: '', isImage: true });
         added++;
         continue;
       }
       if (!isTextFile(f)) { skipped++; continue; }
-
       try {
         let text = await readTextFile(f);
         if (text.length > MAX_FILE_CHARS) {
@@ -3244,8 +3113,7 @@ window.showToast = function (msg) {
     });
     ['dragenter','dragover'].forEach((ev) => {
       dropZone.addEventListener(ev, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
         dropZone.classList.add('is-dragover');
       });
@@ -3254,8 +3122,7 @@ window.showToast = function (msg) {
       if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove('is-dragover');
     });
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault(); e.stopPropagation();
       dropZone.classList.remove('is-dragover');
       const dt = e.dataTransfer;
       if (dt && dt.files && dt.files.length) addSpecFiles(dt.files);
@@ -3326,13 +3193,11 @@ window.showToast = function (msg) {
     if (activeTab) {
       activeTab.scrollIntoView({
         behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-        block: 'nearest',
-        inline: 'center'
+        block: 'nearest', inline: 'center'
       });
     }
 
     if (focusPanel) panels[name].focus({ preventScroll: true });
-
     const behavior = prefersReducedMotion() ? 'auto' : 'smooth';
     window.scrollTo({ top: 0, behavior });
   }
@@ -3350,7 +3215,6 @@ window.showToast = function (msg) {
         activateTab(t.dataset.tab, true);
         return;
       }
-
       if (nextIndex !== null) {
         e.preventDefault();
         const nextTab = tabs[nextIndex];
@@ -3362,7 +3226,6 @@ window.showToast = function (msg) {
 
   /* ============================================================
      SECTION NAV — highlight active section on scroll
-     (works for every .section-nav on the page)
      ============================================================ */
   if ('IntersectionObserver' in window) {
     document.querySelectorAll('.section-nav').forEach((nav) => {
@@ -3779,8 +3642,6 @@ window.showToast = function (msg) {
       '- Official brand colors of every tool / platform icon must be preserved exactly — never tint them to match the background.'
     ].join('\n');
 
-    // When spec mode is active and spec content exists, use only the spec.
-    // Otherwise fall back to the manual branding block.
     const designDetails = (mode === 'spec' && specSection) ? specSection : brandingSection;
 
     const md = [
@@ -4015,11 +3876,8 @@ window.showToast = function (msg) {
 
     syncSwatchPreview();
     toggleCustomSizeField();
-
-    // Reflect persisted radio state in the UI
     setDesignMode(getDesignMode() || 'manual');
     setProfileMode(getProfileMode() || 'manual');
-
     renderSpecFiles();
 
     updateCustomSafePreview();
@@ -4039,20 +3897,15 @@ window.showToast = function (msg) {
   }
 
   window.__arzoHelpers = {
-    getVal,
-    getLines,
-    updatePreview,
-    generatePromptIfNeeded,
-    regenerate,
-    getPlatformPreset,
-    scheduleLiveUpdate
+    getVal, getLines, updatePreview, generatePromptIfNeeded, regenerate,
+    getPlatformPreset, scheduleLiveUpdate
   };
 })();
 </script>
 
 <script>
 /* ============================================================
-   PROMPT FORGE — SERVICE DATA, CV UPLOAD + TEXT PROMPT BUILDERS
+   PROMPT FORGE — SERVICE DATA, CV UPLOAD + LINKEDIN-AWARE PARSER
    ============================================================ */
 (function () {
   'use strict';
@@ -4121,7 +3974,7 @@ window.showToast = function (msg) {
   }
 
   /* ============================================================
-     CV / RÉSUMÉ UPLOAD
+     CV / RÉSUMÉ UPLOAD — LinkedIn-aware
      ============================================================ */
   const CV_TEXT_EXTS = ['txt','md','markdown','json','html','htm','yml','yaml','csv','log','rtf'];
   const CV_REF_EXTS = ['doc','docx','pages','odt'];
@@ -4148,9 +4001,7 @@ window.showToast = function (msg) {
       const stream = new Blob([u8]).stream().pipeThrough(ds);
       const buf = await new Response(stream).arrayBuffer();
       return new Uint8Array(buf);
-    } catch (e) {
-      return null;
-    }
+    } catch (e) { return null; }
   }
 
   function decodeHexString(hex) {
@@ -4209,7 +4060,6 @@ window.showToast = function (msg) {
       const end = raw.indexOf('endstream', start);
       if (end < 0) continue;
       let chunk = bytes.subarray(start, end);
-      // strip trailing EOL bytes
       while (chunk.length && (chunk[chunk.length - 1] === 0x0A || chunk[chunk.length - 1] === 0x0D)) {
         chunk = chunk.subarray(0, chunk.length - 1);
       }
@@ -4225,7 +4075,6 @@ window.showToast = function (msg) {
     }
 
     const text = cleanupPdfText(collected);
-    // sanity check: at least 60 visible chars and mostly printable
     if (text.replace(/\s/g, '').length < 60) return '';
     const printable = text.replace(/[^\x20-\x7E\u00A0-\u024F\n]/g, '');
     if (printable.length / text.length < 0.55) return '';
@@ -4268,7 +4117,11 @@ window.showToast = function (msg) {
     }
     const chars = cvFiles.reduce((n, f) => n + (f.content ? f.content.length : 0), 0);
     const readable = cvFiles.filter((f) => f.content).length;
-    let msg = cvFiles.length + ' file' + (cvFiles.length > 1 ? 's' : '') + ' attached';
+    const types = new Set(cvFiles.map((f) => f.docType || f.kind));
+    const typeLabel = types.size === 1 && types.has('linkedin') ? 'LinkedIn profile'
+                     : types.size === 1 && types.has('pdf') ? 'PDF résumé'
+                     : 'CV';
+    let msg = cvFiles.length + ' file' + (cvFiles.length > 1 ? 's' : '') + ' attached · ' + typeLabel;
     if (readable) msg += ' · ' + chars.toLocaleString() + ' characters extracted';
     else msg += ' · no readable text — kept as an AI reference';
     el.textContent = msg;
@@ -4291,9 +4144,15 @@ window.showToast = function (msg) {
 
       const meta = document.createElement('span');
       meta.className = 'spec-file-size';
-      meta.textContent = f.kind === 'pdf'
-        ? (f.content ? 'PDF · text' : 'PDF · ref')
-        : (f.content ? formatBytesCv(f.size) : 'ref');
+      if (f.docType === 'linkedin') {
+        meta.textContent = f.content ? 'LinkedIn · parsed' : 'LinkedIn · ref';
+      } else if (f.kind === 'pdf') {
+        meta.textContent = f.content ? 'PDF · text' : 'PDF · ref';
+      } else if (f.content) {
+        meta.textContent = formatBytesCv(f.size);
+      } else {
+        meta.textContent = 'ref';
+      }
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -4322,7 +4181,7 @@ window.showToast = function (msg) {
 
     for (const f of files) {
       if (cvFiles.some((x) => x.name === f.name && x.size === f.size)) continue;
-      const entry = { id: 'cv' + ++cvSeq, name: f.name, size: f.size, content: '', kind: 'ref' };
+      const entry = { id: 'cv' + ++cvSeq, name: f.name, size: f.size, content: '', kind: 'ref', docType: '' };
 
       try {
         if (isPdfFile(f)) {
@@ -4330,6 +4189,7 @@ window.showToast = function (msg) {
           const buf = await readFileAsArrayBuffer(f);
           const text = await extractPdfText(buf);
           entry.content = text || '';
+          entry.docType = detectCvDocType(entry.content) || 'pdf';
         } else if (isCvTextFile(f)) {
           entry.kind = 'text';
           let text = await readFileAsText(f);
@@ -4337,16 +4197,16 @@ window.showToast = function (msg) {
             text = text.slice(0, MAX_CV_CHARS) + '\n\n[... truncated ...]';
           }
           entry.content = text;
+          entry.docType = detectCvDocType(entry.content) || 'text';
         } else if (isCvRefFile(f)) {
           entry.kind = 'ref';
           entry.content = '';
+          entry.docType = 'ref';
         } else {
           failed++;
           continue;
         }
-      } catch (e) {
-        entry.content = '';
-      }
+      } catch (e) { entry.content = ''; }
 
       cvFiles.push(entry);
       added++;
@@ -4356,8 +4216,9 @@ window.showToast = function (msg) {
     renderCvFiles();
 
     if (added) {
-      showToast(added + ' file' + (added > 1 ? 's' : '') + ' attached');
-      // Auto-fill only when fields are still empty — never clobber typed data.
+      const linkedinCount = cvFiles.filter((f) => f.docType === 'linkedin').length;
+      showToast(added + ' file' + (added > 1 ? 's' : '') + ' attached' +
+                (linkedinCount ? ' · LinkedIn profile detected' : ''));
       if (!val('sdName') && !val('sdTitle')) {
         runCvAutofill(false);
       }
@@ -4370,29 +4231,288 @@ window.showToast = function (msg) {
     window.__arzoScheduleSave && window.__arzoScheduleSave();
   }
 
-  /* ---- CV parsing ---- */
-  const TITLE_HINTS = ['designer','developer','engineer','marketer','writer','editor','consultant','manager','specialist','analyst','architect','strategist','copywriter','videographer','photographer','founder','director','lead','expert','artist','illustrator','seo','social media','virtual assistant','accountant','technician','coordinator','producer','creator','freelancer','student','intern'];
+  /* ============================================================
+     DOCUMENT TYPE DETECTION + LINKEDIN CLEANUP
+     ============================================================ */
+  function detectCvDocType(text) {
+    const t = String(text || '');
+    if (!t) return '';
+    if (/linkedin\.com\/in\//i.test(t)) return 'linkedin';
+    if (/\(LinkedIn\)/.test(t)) return 'linkedin';
+    // LinkedIn PDF section icon glyphs extract as runs of "3. 3. 3. 3."
+    if (/(?:^|\n)[ \t]*#{0,3}[ \t]*(?:\d+\.[ \t]+){5,}\d*\.?[ \t]*(?=\n|$)/m.test(t)) return 'linkedin';
+    return '';
+  }
+
+  // LinkedIn's PDF font encoding garbles a few common tokens. Repair them
+  // ONLY inside parentheses (where date durations live) to avoid false hits.
+  const LINKEDIN_DATE_FIXES = [
+    [/\bpik\b/gi, 'yr'],
+    [/\bpokib\b/gi, 'yrs'],
+    [/\bpobik\b/gi, 'yrs'],
+    [/\bpib\b/gi, 'yr'],
+    [/\bmicsuib\b/gi, 'mos'],
+    [/\bmicnub\b/gi, 'mos'],
+    [/\bmicsub\b/gi, 'mos'],
+    [/\bmiconub\b/gi, 'mos'],
+    [/\bmics\b/gi, 'mo']
+  ];
+
+  function repairParenthesisedDates(str) {
+    return str.replace(/\(([^)]*?\d[^)]*?)\)/g, function (match, inner) {
+      let out = inner;
+      LINKEDIN_DATE_FIXES.forEach(function (pair) { out = out.replace(pair[0], pair[1]); });
+      return '(' + out + ')';
+    });
+  }
+
+  function fixLinkedInArtifacts(text) {
+    let out = String(text || '');
+    // Strip long runs of "3. 3. 3. 3." (LinkedIn section icon glyphs), with any markdown prefix.
+    out = out.replace(/^[ \t]*#{0,6}[ \t]*(?:\d+\.[ \t]+){4,}\d*\.?[ \t]*$/gm, '\n');
+    // Also kill any single long run even if it wraps mid-line.
+    out = out.replace(/(?:\d+\.[ \t]+){6,}/g, ' ');
+    // Strip the markdown heading hashes LinkedIn sprinkles throughout.
+    out = out.replace(/^#{1,6}[ \t]*/gm, '');
+    // Repair garbled date durations inside parentheses.
+    out = repairParenthesisedDates(out);
+    // Decode HTML entities LinkedIn sometimes inserts.
+    out = out.replace(/&amp;/g, '&')
+             .replace(/&lt;/g, '<')
+             .replace(/&gt;/g, '>')
+             .replace(/&quot;/g, '"')
+             .replace(/&#39;/g, "'")
+             .replace(/&nbsp;/g, ' ');
+    // Collapse intra-line whitespace, then blank runs.
+    out = out.replace(/[ \t\u00A0]{2,}/g, ' ');
+    out = out.replace(/\n{3,}/g, '\n\n');
+    return out.trim();
+  }
+
+  /* ============================================================
+     LINKEDIN PARSER
+     ============================================================ */
+  const LOCATION_RE = /([A-Z][a-zA-Z\u00C0-\u024F'’.-]+(?:\s+(?:District|City|Region|Province|State|County|Area))?(?:\s*[\/,]\s*[A-Z][a-zA-Z\u00C0-\u024F'’.-]+){1,3})/;
+
+  function parseLinkedIn(text) {
+    const out = { proof: [], skills: [], diff: [], tools: [] };
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    const lowerText = text.toLowerCase();
+
+    /* ---- Contact ---- */
+    const em = text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
+    if (em) out.email = em[0];
+
+    const ph = text.match(/\+\d[\d\s().-]{7,}\d/);
+    if (ph) out.phone = ph[0].replace(/\s*\(Mobile\)\s*/i, '').trim();
+
+    const li = text.match(/(?:https?:\/\/)?(?:[a-z]{2,3}\.)?linkedin\.com\/in\/[\w\u00C0-\u024F-]+/i);
+    if (li) out.linkedin = li[0].replace(/^https?:\/\//i, '');
+
+    const urls = text.match(/(?:https?:\/\/)?(?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/[\w\/-]*)?/gi) || [];
+    for (const u of urls) {
+      if (/linkedin\.com/i.test(u)) continue;
+      if (/@/.test(u)) continue;
+      if (/\.(?:png|jpg|jpeg|gif|svg|webp|pdf)$/i.test(u)) continue;
+      if (/(?:gmail|yahoo|hotmail|outlook|protonmail)\./i.test(u)) continue;
+      if (!/\.(?:com|io|dev|net|org|co|app|tech|design|so|xyz|me|ai|studio|site|online)(?:\/|$)/i.test(u)) continue;
+      out.website = u.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+      break;
+    }
+
+    const loc = text.match(LOCATION_RE);
+    if (loc) out.location = loc[1].trim();
+
+    /* ---- Name ---- */
+    const him = text.match(/Hi,?\s*I(?:'m|’m| am)\s+([A-Z][a-zA-Z'’.-]+(?:\s+[A-Z][a-zA-Z'’.-]+){1,3})/);
+    if (him) out.name = him[1].trim();
+
+    if (!out.name) {
+      for (let i = 0; i < lines.length - 1; i++) {
+        const l = lines[i];
+        const nxt = lines[i + 1] || '';
+        if (l.length >= 3 && l.length <= 42 &&
+            /^[A-Z][a-zA-Z'’.-]+(?:\s+[A-Z][a-zA-Z'’.-]+){1,3}$/.test(l) &&
+            nxt.split('|').length >= 2) {
+          out.name = l;
+          break;
+        }
+      }
+    }
+
+    /* ---- Headline ---- */
+    for (const l of lines) {
+      if (l.split('|').length >= 2 && l.length >= 20 && l.length <= 320) {
+        const lm = l.match(/[\s,]+([A-Z][a-zA-Z'’.-]+(?:\s+(?:District|City|Region|Province|State))?(?:\s*[\/,]\s*[A-Z][a-zA-Z'’.-]+){1,3})\s*$/);
+        if (lm) {
+          out.headline = l.slice(0, lm.index).replace(/[\s,|]+$/, '').trim();
+          if (!out.location) out.location = lm[1].trim();
+        } else {
+          out.headline = l;
+        }
+        break;
+      }
+    }
+
+    /* ---- Bio (About) ---- */
+    const bioStart = lines.findIndex(l =>
+      /^(hi,?\s*i(?:'m|’m| am)|i\s+am\s+a\b|i'm\s+a\b|about\s+me\b|professional\s+summary|summary\b)/i.test(l)
+    );
+    if (bioStart >= 0) {
+      const buf = [lines[bioStart]];
+      for (let i = bioStart + 1; i < lines.length; i++) {
+        const l = lines[i];
+        if (!l) { if (buf.length > 1) break; continue; }
+        if (/^(?:experience|education|licenses|certifications|skills|languages|projects|honors|awards|volunteering|publications|recommendations|interests)\b/i.test(l)) break;
+        if (buf.join(' ').length > 900) break;
+        if (/^\d{4}\s*[-–]/.test(l) || /^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{4}/i.test(l)) break;
+        buf.push(l);
+      }
+      out.bio = buf.join(' ')
+        .replace(/\s+/g, ' ')
+        .replace(/\s+([.,;:!?])/g, '$1')
+        .trim()
+        .slice(0, 900);
+    }
+
+    /* ---- Experience years (max of all "X+ years" mentions) ---- */
+    const yearNums = [];
+    const yearsRe = /(\d+)\s*\+?\s*(?:years?|yrs?|yr)\b/gi;
+    let ym;
+    while ((ym = yearsRe.exec(text))) {
+      const n = parseInt(ym[1], 10);
+      if (n > 0 && n < 50) yearNums.push(n);
+    }
+    if (yearNums.length) {
+      const maxY = Math.max.apply(null, yearNums);
+      const level = maxY >= 8 ? 'Expert' : maxY >= 5 ? 'Senior' : maxY >= 2 ? 'Intermediate' : 'Rising';
+      out.experience = level + ' · ' + maxY + '+ years';
+    }
+
+    /* ---- Proof points ---- */
+    const proofPatterns = [
+      /\b\d+\s*\+\s*(?:projects?|clients?|websites?|stores?|apps?|brands?|teams?)\b/gi,
+      /\b\d+\s*\+\s*years?\b/gi,
+      /\bTop[\s-]?Rated\b(?:\s+(?:Freelancer|Seller|Developer|Plus))?/gi,
+      /\bLevel\s+\d+(?:\s+(?:Seller|Freelancer|Developer|Partner))?/gi,
+      /\b\d{1,3}%\s+[A-Za-z][^.,;!?]{0,50}/g,
+      /\b(?:Certified|Award[\s-]?winning|Featured|Verified|Recommended)\b/gi
+    ];
+    const proofSet = new Set();
+    proofPatterns.forEach(function (re) {
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(text)) && proofSet.size < 8) {
+        const v = m[0].replace(/\s+/g, ' ').trim();
+        if (v.length >= 4 && v.length <= 70) proofSet.add(v);
+      }
+    });
+    out.proof = Array.from(proofSet);
+
+    /* ---- Tools (matched against known brand list) ---- */
+    const known = window.__arzoKnownTools || [];
+    const matched = [];
+    known.forEach(function (t) {
+      const escaped = t.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp('(?:^|[^a-z0-9])' + escaped + '(?:$|[^a-z0-9])', 'i');
+      if (re.test(lowerText) && !matched.includes(t)) matched.push(t);
+    });
+    out.tools = matched.slice(0, 10);
+
+    /* ---- Skills ---- */
+    const skills = [];
+    for (let i = 0; i < Math.min(lines.length, 40); i++) {
+      const l = lines[i];
+      if (l.length < 12 || l.length > 180) continue;
+      if (/[@|]/.test(l)) continue;
+      if (/\b(?:Mobile|LinkedIn|Personal|Bilingual|Professional)\)/.test(l)) continue;
+      if (/\d{4}/.test(l)) continue;
+      if (/(?:District|Punjab|Sindh|Pakistan|India|USA|UK|Canada|UAE)\b/i.test(l)) continue;
+
+      // Split into runs of Capitalised / techy tokens.
+      const tokens = l.split(/\s{1,}/);
+      const skillish = [];
+      let run = [];
+      for (const tok of tokens) {
+        const isCap = /^[A-Z]/.test(tok);
+        const isTechish = /\.(js|io|ai|net|py)$/i.test(tok)
+                       || /^[A-Z]{2,}$/.test(tok)
+                       || /^V\d+$/i.test(tok)
+                       || /\([A-Z]{2,}\)/.test(tok);
+        if (isCap || isTechish) run.push(tok);
+        else { if (run.length) { skillish.push(run.join(' ')); run = []; } }
+      }
+      if (run.length) skillish.push(run.join(' '));
+
+      const filtered = skillish.filter(function (s) {
+        return s.length >= 2 && s.length <= 45 &&
+               !/^(?:And|The|Of|For|With|In|On|At|To|A|An)$/i.test(s);
+      });
+
+      if (filtered.length >= 2 && filtered.length <= 8) {
+        filtered.forEach(function (s) {
+          if (!skills.includes(s)) skills.push(s);
+        });
+        if (skills.length >= 12) break;
+      }
+    }
+    out.skills = skills.slice(0, 12);
+
+    /* ---- Differentiators from bio ---- */
+    const bioLower = (out.bio || '').toLowerCase();
+    const diff = [];
+    if (/deploy|debug|fix/.test(bioLower) && /(lovable|bolt|replit|base44|vibe)/.test(bioLower)) {
+      diff.push('Deploys and debugs AI-built apps end-to-end (Lovable, Bolt, Replit, Base44)');
+    }
+    if (/automat/.test(bioLower)) diff.push('Automates business workflows with N8N, Make and Zapier');
+    if (/openai|chatgpt|gemini|llm/.test(bioLower)) diff.push('Integrates OpenAI, ChatGPT, Gemini and custom LLMs');
+    if (/wordpress|woocommerce/.test(bioLower)) diff.push('Custom WordPress & WooCommerce builds');
+    if (/geo|aeo|ai overview|perplexity/.test(bioLower)) diff.push('Ranks sites in AI search engines (ChatGPT, Perplexity, Google AI Overviews)');
+    if (/full[\s-]?stack|react|node|next\.?js|supabase/.test(bioLower)) diff.push('Full-stack delivery with React, Next.js, Node.js & Supabase');
+    out.diff = diff.slice(0, 6);
+
+    /* ---- Tone ---- */
+    out.tone = 'Confident, direct, technical';
+
+    /* ---- Search intent phrases ---- */
+    const intent = [];
+    if (/vibe[\s-]?cod/.test(lowerText)) intent.push('fix vibe coded app');
+    if (/lovable|bolt|replit|base44/.test(lowerText)) intent.push('deploy lovable app');
+    if (/openai|chatgpt|gemini|llm/.test(lowerText)) intent.push('integrate chatgpt api');
+    if (/n8n|zapier|make\.com/.test(lowerText)) intent.push('n8n automation expert');
+    if (/wordpress|woocommerce/.test(lowerText)) intent.push('wordpress woocommerce developer');
+    if (/geo|aeo|ai overview/.test(lowerText)) intent.push('rank in ai search');
+    if (/full[\s-]?stack/.test(lowerText)) intent.push('full stack developer');
+    out.intent = intent.slice(0, 6);
+
+    return out;
+  }
+
+  /* ============================================================
+     GENERIC PARSER (non-LinkedIn CVs)
+     ============================================================ */
+  const TITLE_HINTS = ['designer','developer','engineer','marketer','writer','editor','consultant','manager','specialist','analyst','architect','strategist','copywriter','videographer','photographer','founder','director','lead','expert','artist','illustrator','seo','social media','virtual assistant','accountant','technician','coordinator','producer','creator','freelancer'];
 
   const CV_SECTION_RE = /^(about( me)?|professional summary|summary|profile|objective|overview|experience|work experience|employment|education|skills|technical skills|core skills|expertise|core competencies|tools|technologies|tech stack|toolbox|projects|contact|languages|certifications|awards|interests|references|achievements)\b[:\-]?\s*$/i;
 
-  function parseCv(raw) {
+  function parseGeneric(text) {
     const out = { proof: [], skills: [] };
-    const text = String(raw).replace(/\r/g, '');
-    const rows = text.split('\n').map((s) => s.replace(/[ \t\u00A0]+/g, ' ').trim());
+    const rows = text.replace(/\r/g, '').split('\n')
+      .map((s) => s.replace(/[ \t\u00A0]+/g, ' ').trim());
 
-    /* name */
+    /* Name */
     for (let i = 0; i < Math.min(rows.length, 16); i++) {
       const l = rows[i];
       if (!l || l.length > 46) continue;
       if (/[@\d]|http|www\.|linkedin|resume|curriculum|vitae/i.test(l)) continue;
       const w = l.split(' ');
-      if (w.length >= 2 && w.length <= 4 && w.every((x) => /^[A-Z][A-Za-z'’.\-]*$/.test(x))) {
+      if (w.length >= 2 && w.length <= 4 && w.every((x) => /^[A-Z][A-Za-z'’.-]*$/.test(x))) {
         out.name = l;
         break;
       }
     }
 
-    /* title */
+    /* Title */
     for (let i = 0; i < Math.min(rows.length, 26); i++) {
       const l = rows[i];
       if (!l || l.length > 70 || l === out.name) continue;
@@ -4404,7 +4524,7 @@ window.showToast = function (msg) {
       }
     }
 
-    /* experience */
+    /* Experience */
     const ym = text.match(/(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i);
     if (ym) {
       const n = parseInt(ym[1], 10);
@@ -4412,7 +4532,7 @@ window.showToast = function (msg) {
       out.experience = level + ' · ' + n + '+ years';
     }
 
-    /* bio */
+    /* Bio */
     const aboutIdx = rows.findIndex((l) =>
       /^(about( me)?|professional summary|summary|profile|objective|overview)\b[:\-]?\s*$/i.test(l)
     );
@@ -4431,7 +4551,7 @@ window.showToast = function (msg) {
       if (p) out.bio = p.slice(0, 420);
     }
 
-    /* proof */
+    /* Proof */
     const PROOF_RE = /(\d+\s*%|\d+\s*\+|\baward|\branked|\brating|\brevenue|\bgrowth|\bclients?|\bprojects?|\bdelivered|\blaunched|\bscaled|\bincreased|\breduced|\bsaved|\bmanaged \d|\bbuilt \d)/i;
     rows.forEach((l) => {
       if (out.proof.length >= 5) return;
@@ -4442,7 +4562,7 @@ window.showToast = function (msg) {
       }
     });
 
-    /* skills + tools */
+    /* Skills */
     const skIdx = rows.findIndex((l) =>
       /^(technical skills|core skills|skills|expertise|core competencies|tools|technologies|tech stack|toolbox)\s*[:\-]?\s*$/i.test(l)
     );
@@ -4454,15 +4574,14 @@ window.showToast = function (msg) {
         if (CV_SECTION_RE.test(l)) break;
         buf.push(l);
       }
-      const joined = buf.join(', ');
-      out.skills = joined
+      out.skills = buf.join(', ')
         .split(/[,;|•·\/]/)
         .map((s) => s.replace(/^[-–—*]\s*/, '').trim())
         .filter((s) => s && s.length < 42)
         .slice(0, 24);
     }
 
-    /* tool matching against the known brand list */
+    /* Tools */
     const known = window.__arzoKnownTools || [];
     const matched = [];
     const pool = out.skills.concat(rows.filter((l) => l.length < 40 && !CV_SECTION_RE.test(l)));
@@ -4478,23 +4597,49 @@ window.showToast = function (msg) {
     return out;
   }
 
+  /* ============================================================
+     CV PARSER DISPATCHER
+     ============================================================ */
+  function parseCv(raw) {
+    const text = String(raw || '');
+    const type = detectCvDocType(text);
+    if (type === 'linkedin') {
+      const cleaned = fixLinkedInArtifacts(text);
+      const data = parseLinkedIn(cleaned);
+      data.docType = 'linkedin';
+      return data;
+    }
+    const cleaned = text.replace(/\r/g, '');
+    const data = parseGeneric(cleaned);
+    data.docType = 'generic';
+    return data;
+  }
+
+  /* ============================================================
+     APPLY CV DATA → FIELDS
+     ============================================================ */
   function applyCvData(d) {
     let filled = 0;
     const set = (id, v) => {
       if (!v) return;
       const el = $(id);
       if (!el) return;
+      if (el.value && el.value.trim()) return;
       el.value = v;
       filled++;
     };
 
     set('sdName', d.name);
-    set('sdTitle', d.title);
+    set('sdTitle', d.title || d.headline);
     set('sdExperience', d.experience);
     set('sdBio', d.bio);
 
     if (d.proof && d.proof.length && !val('sdProof')) {
       $('sdProof').value = d.proof.join('\n');
+      filled++;
+    }
+    if (d.diff && d.diff.length && !val('sdDiff')) {
+      $('sdDiff').value = d.diff.join('\n');
       filled++;
     }
     if (d.skills && d.skills.length && !val('sdKeywords')) {
@@ -4505,6 +4650,15 @@ window.showToast = function (msg) {
       $('tools').value = d.tools.join('\n');
       filled++;
     }
+    if (d.intent && d.intent.length && !val('sdIntent')) {
+      $('sdIntent').value = d.intent.join('\n');
+      filled++;
+    }
+    if (d.tone && !val('sdTone')) {
+      $('sdTone').value = d.tone;
+      filled++;
+    }
+
     return filled;
   }
 
@@ -4533,7 +4687,10 @@ window.showToast = function (msg) {
     window.__arzoScheduleSave && window.__arzoScheduleSave();
 
     if (notify) {
-      showToast(filled ? 'Filled ' + filled + ' profile field' + (filled > 1 ? 's' : '') : 'Nothing new to fill — edit the fields manually');
+      const tag = data.docType === 'linkedin' ? 'LinkedIn profile' : 'CV';
+      showToast(filled
+        ? tag + ' parsed · filled ' + filled + ' field' + (filled > 1 ? 's' : '')
+        : tag + ' parsed · nothing new to fill');
     }
   }
 
@@ -4550,8 +4707,7 @@ window.showToast = function (msg) {
     });
     ['dragenter', 'dragover'].forEach((ev) => {
       cvDropZone.addEventListener(ev, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
         if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
         cvDropZone.classList.add('is-dragover');
       });
@@ -4560,8 +4716,7 @@ window.showToast = function (msg) {
       if (!cvDropZone.contains(e.relatedTarget)) cvDropZone.classList.remove('is-dragover');
     });
     cvDropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+      e.preventDefault(); e.stopPropagation();
       cvDropZone.classList.remove('is-dragover');
       const dt = e.dataTransfer;
       if (dt && dt.files && dt.files.length) addCvFiles(dt.files);
@@ -4636,14 +4791,13 @@ window.showToast = function (msg) {
     const pkgs = [pkg('sdPkgBasic', 'Basic'), pkg('sdPkgStandard', 'Standard'), pkg('sdPkgPremium', 'Premium')].filter(Boolean);
     if (pkgs.length) out.push('\n### Packages\n' + pkgs.join('\n'));
 
-    /* attached CV / profile files */
     const cv = window.__arzoCvFiles || [];
     if (cv.length) {
       out.push('\n### Attached CV / profile references');
       out.push('The user supplied the following résumé material. Use it as authoritative background — never invent facts that contradict it.');
       cv.forEach((f) => {
         if (f.content) {
-          out.push('\n#### ' + f.name + '\n' + f.content);
+          out.push('\n#### ' + f.name + (f.docType === 'linkedin' ? '  _(LinkedIn export)_' : '') + '\n' + f.content);
         } else {
           out.push('\n- `' + f.name + '` (attached by the user — treat as authoritative background)');
         }
@@ -4713,7 +4867,7 @@ window.showToast = function (msg) {
     layers: 'Thumbnail layer spec'
   };
 
-  /* ---- multi-select helpers ---- */
+  /* ---- multi-select ---- */
   function kindCheckboxes() {
     return Array.from(document.querySelectorAll('input[name="promptKind"]'));
   }
@@ -4834,7 +4988,6 @@ window.showToast = function (msg) {
 
   const on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
 
-  /* ---- kind checkbox wiring ---- */
   kindCheckboxes().forEach((cb) => {
     cb.addEventListener('change', () => {
       syncKindStyles();
@@ -4874,16 +5027,10 @@ window.showToast = function (msg) {
 
   window.ArzoStudio = { renderTextPrompt, renderPack };
 
-  /* ============================================================
-     INIT
-     ============================================================ */
   function init() {
     syncKindStyles();
     renderCvFiles();
     renderTextPrompt();
-    if (typeof window.__arzoRestoreState === 'function') {
-      // already restored by the previous script; just refresh the UI
-    }
   }
 
   if (document.readyState === 'loading') {
