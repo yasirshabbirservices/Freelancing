@@ -514,7 +514,8 @@
     border-radius: var(--card-radius);
     padding: var(--card-pad);
     position: relative;
-    overflow: hidden;
+    /* visible so icon-button tooltips are never clipped */
+    overflow: visible;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     width: 100%;
@@ -531,7 +532,7 @@
   .glass-card > * { position: relative; z-index: 1; }
 
   /* ============================================================
-     SECTION NAV (sticky, inside Customize panel)
+     SECTION NAV (sticky sub-tabs, inside Customize & Service Data)
      ============================================================ */
   .section-nav {
     position: sticky;
@@ -552,6 +553,9 @@
   }
   .section-nav::-webkit-scrollbar { display: none; }
   .section-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
@@ -563,6 +567,11 @@
     flex: 0 0 auto;
     transition: color 180ms ease, background 180ms ease;
     -webkit-tap-highlight-color: transparent;
+  }
+  .section-nav-link svg {
+    width: 0.8125rem;
+    height: 0.8125rem;
+    flex-shrink: 0;
   }
   .section-nav-link:hover,
   .section-nav-link:focus-visible {
@@ -762,7 +771,7 @@
   .custom-size-field .field-hint { margin-top: 0.625rem; }
 
   /* ============================================================
-     DESIGN SYSTEM MODE SWITCH
+     DESIGN / PROFILE MODE SWITCH
      ============================================================ */
   .mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
   @media (max-width: 34rem) { .mode-switch { grid-template-columns: 1fr; } }
@@ -820,9 +829,95 @@
     text-wrap: pretty;
   }
 
-  .spec-block, .brand-block { margin-top: 1.25rem; }
+  .spec-block, .brand-block, .cv-block { margin-top: 1.25rem; }
 
-  /* Drop zone */
+  /* ============================================================
+     MULTI-SELECT CHECKBOX GRID
+     ============================================================ */
+  .check-fieldset { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
+  .check-fieldset > legend { padding: 0; }
+  .check-fieldset:last-child { margin-bottom: 0; }
+
+  .check-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .check-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+  @media (min-width: 40rem) { .check-grid { grid-template-columns: 1fr 1fr; } }
+
+  .check-option {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.6875rem 0.75rem;
+    border-radius: var(--field-radius);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card) / 0.5);
+    cursor: pointer;
+    min-width: 0;
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .check-option:hover { border-color: hsl(var(--primary) / 0.45); background: hsl(var(--card-2) / 0.75); }
+  .check-option.is-checked {
+    border-color: hsl(var(--primary) / 0.7);
+    background: hsl(var(--primary) / 0.09);
+  }
+  .check-option:focus-within { box-shadow: var(--focus-ring); }
+
+  .check-box {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    margin-top: 0.0625rem;
+    border-radius: 0.375rem;
+    border: 1.5px solid hsl(var(--border));
+    background: hsl(var(--card));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 180ms ease, border-color 180ms ease;
+  }
+  .check-box svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: hsl(var(--primary-fg));
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+  .check-option input:checked ~ .check-box {
+    background: hsl(var(--primary));
+    border-color: hsl(var(--primary));
+  }
+  .check-option input:checked ~ .check-box svg { opacity: 1; }
+  .check-option input:focus-visible ~ .check-box {
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.25);
+  }
+
+  .check-body { min-width: 0; }
+  .check-title {
+    display: block;
+    font-size: clamp(0.75rem, 0.73rem + 0.15vw, 0.8125rem);
+    font-weight: 600;
+    color: hsl(var(--fg));
+    line-height: 1.35;
+  }
+  .check-sub {
+    display: block;
+    font-size: clamp(0.625rem, 0.61rem + 0.15vw, 0.6875rem);
+    color: hsl(var(--muted-fg));
+    line-height: 1.45;
+    margin-top: 0.125rem;
+    text-wrap: pretty;
+  }
+
+  /* ============================================================
+     DROP ZONE
+     ============================================================ */
   .drop-zone {
     margin-top: 0.875rem;
     padding: clamp(1rem, 3vw, 1.5rem) 1rem;
@@ -894,8 +989,11 @@
   }
   .spec-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }
 
-  /* Buttons */
+  /* ============================================================
+     BUTTONS
+     ============================================================ */
   .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -962,6 +1060,47 @@
     border-radius: 0.625rem;
   }
   .btn-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+  /* Icon-only square button */
+  .btn-icon-only {
+    width: 2.375rem;
+    min-width: 2.375rem;
+    height: 2.375rem;
+    min-height: 2.375rem;
+    padding: 0;
+    gap: 0;
+    border-radius: 0.625rem;
+  }
+  .btn-icon-only svg { width: 1.0625rem; height: 1.0625rem; }
+  .btn-icon-only .icon-spin-target { display: inline-flex; }
+
+  /* Tooltip for any button carrying data-tooltip */
+  .btn[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(0.25rem);
+    padding: 0.375rem 0.625rem;
+    background: hsl(var(--card));
+    color: hsl(var(--fg));
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 160ms ease;
+    z-index: 60;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  }
+  .btn[data-tooltip]:hover::after,
+  .btn[data-tooltip]:focus-visible::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 
   .form-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
   .form-actions .btn-glow { flex: 1 1 11.25rem; min-width: 0; }
@@ -1481,13 +1620,14 @@
 
   @media (forced-colors: active) {
     .glass-card, .input, .textarea, .select, .preview-frame, .output-pre,
-    .promo-card, .header-ak-chip, .header-icon-btn {
+    .promo-card, .header-ak-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone {
       border: 1px solid CanvasText;
     }
     .btn-glow { forced-color-adjust: none; }
     .tab.active { forced-color-adjust: none; }
     .section-nav-link[aria-current="true"] { forced-color-adjust: none; }
     .promo-card-cta { forced-color-adjust: none; }
+    .check-option input:checked ~ .check-box { forced-color-adjust: none; }
   }
 </style>
 </head>
@@ -1602,7 +1742,15 @@
             </svg>
             Extract &amp; Auto-fill
           </button>
-          <button class="btn btn-ghost" id="pasteClearBtn" type="button">Clear</button>
+          <button class="btn btn-ghost" id="pasteClearBtn" type="button">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 6h18"/>
+              <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+            </svg>
+            Clear
+          </button>
         </div>
 
         <div class="paste-chips" id="pasteSamples" role="group" aria-label="Example service descriptions">
@@ -1621,10 +1769,37 @@
          ============================================================ -->
     <section class="panel" id="panel-customize" role="tabpanel" aria-labelledby="tab-customize" tabindex="0">
       <nav class="section-nav" aria-label="Customize sections">
-        <a href="#section-basics" class="section-nav-link">Basics</a>
-        <a href="#section-features" class="section-nav-link">Features</a>
-        <a href="#section-branding" class="section-nav-link">Branding</a>
-        <a href="#section-visual" class="section-nav-link">Visual</a>
+        <a href="#section-basics" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+            <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+            <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>
+          </svg>
+          Basics
+        </a>
+        <a href="#section-features" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+          Features
+        </a>
+        <a href="#section-branding" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/>
+            <circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/>
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z"/>
+          </svg>
+          Branding
+        </a>
+        <a href="#section-visual" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          Visual
+        </a>
       </nav>
 
       <div class="glass-card">
@@ -1801,7 +1976,15 @@
             <div class="spec-files" id="specFiles" hidden></div>
 
             <div class="spec-actions">
-              <button class="btn btn-ghost btn-sm" id="specClearBtn" type="button">Clear spec</button>
+              <button class="btn btn-ghost btn-sm" id="specClearBtn" type="button">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6h18"/>
+                  <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                </svg>
+                Clear spec
+              </button>
             </div>
           </div>
 
@@ -1929,18 +2112,133 @@
          PANEL 3 · SERVICE DATA
          ============================================================ -->
     <section class="panel" id="panel-servicedata" role="tabpanel" aria-labelledby="tab-servicedata" tabindex="0">
+
+      <nav class="section-nav" aria-label="Service data sections">
+        <a href="#section-profile" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Profile
+        </a>
+        <a href="#section-positioning" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+          </svg>
+          Positioning
+        </a>
+        <a href="#section-pricing" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.59 13.41 12 22l-9-9V3h10l7.59 7.59a2 2 0 0 1 0 2.82z"/>
+            <circle cx="7.5" cy="7.5" r="1.5"/>
+          </svg>
+          Pricing
+        </a>
+        <a href="#section-process" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+            <path d="M10 6.5h4.5a2 2 0 0 1 2 2V14"/>
+          </svg>
+          Process
+        </a>
+        <a href="#section-seo" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          SEO
+        </a>
+      </nav>
+
       <div class="glass-card">
         <div class="paste-head">
           <h2 class="paste-title">Your full service data</h2>
-          <p class="paste-desc">Fill this once. Every text prompt on the next tabs is built from these fields plus the Customize tab, so ChatGPT, Claude, or Gemini gets complete context instead of guesses.</p>
+          <p class="paste-desc">Fill this once — or upload your CV and let it auto-fill. Every text prompt on the next tabs is built from these fields plus the Customize tab, so ChatGPT, Claude, or Gemini gets complete context instead of guesses.</p>
         </div>
-        <div class="form-section">
+
+        <!-- ---------- 1 · PROFILE ---------- -->
+        <div class="form-section" id="section-profile">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">1</span>
             <h2 class="form-section-title">Freelancer Profile</h2>
             <span class="form-section-line" aria-hidden="true"></span>
           </div>
-          <div class="field">
+
+          <div class="mode-switch" role="radiogroup" aria-label="How would you like to fill your profile?">
+            <label class="mode-option is-active" id="modeOptionProfileManual">
+              <input class="sr-only" type="radio" name="profileMode" value="manual" checked />
+              <span class="mode-option-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>
+                </svg>
+              </span>
+              <span class="mode-option-body">
+                <span class="mode-option-title">Fill it manually</span>
+                <span class="mode-option-sub">Type your name, title, bio and proof points in the fields below.</span>
+              </span>
+            </label>
+
+            <label class="mode-option" id="modeOptionProfileUpload">
+              <input class="sr-only" type="radio" name="profileMode" value="upload" />
+              <span class="mode-option-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <path d="M12 18v-6"/>
+                  <polyline points="9.5 14.5 12 12 14.5 14.5"/>
+                </svg>
+              </span>
+              <span class="mode-option-body">
+                <span class="mode-option-title">Upload CV / LinkedIn PDF</span>
+                <span class="mode-option-sub">Drop a PDF, Markdown or text résumé — it fills the fields below for you.</span>
+              </span>
+            </label>
+          </div>
+
+          <!-- CV BLOCK -->
+          <div class="cv-block" id="cvBlock" hidden>
+            <div class="drop-zone" id="cvDropZone" role="button" tabindex="0"
+                 aria-label="Upload your CV, résumé or LinkedIn profile PDF"
+                 aria-describedby="cvDropHint">
+              <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              <p class="dz-title">Drop your CV here, or <span class="dz-link">browse</span></p>
+              <p class="dz-hint" id="cvDropHint">
+                PDF, Markdown, plain text, RTF or HTML. PDF text is extracted in your browser — nothing is uploaded anywhere.
+                Image-only PDFs are still attached as a named reference for the AI.
+              </p>
+            </div>
+            <input class="sr-only" type="file" id="cvFile" multiple tabindex="-1"
+              accept=".pdf,.md,.markdown,.txt,.rtf,.json,.html,.htm,.yml,.yaml,.csv,.log,.doc,.docx,application/pdf,text/*" />
+
+            <div class="spec-files" id="cvFiles" hidden></div>
+
+            <div class="spec-actions">
+              <button class="btn btn-glow btn-sm" id="cvAutofillBtn" type="button">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+                Auto-fill profile
+              </button>
+              <button class="btn btn-ghost btn-sm" id="cvClearBtn" type="button">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6h18"/>
+                  <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                  <path d="M10 11v6M14 11v6"/>
+                </svg>
+                Clear CV
+              </button>
+            </div>
+
+            <p class="field-hint" id="cvStatus" role="status" aria-live="polite">No CV attached yet.</p>
+          </div>
+
+          <div class="field" style="margin-top: 1.25rem;">
             <label class="field-label" for="sdName">Your Name / Studio</label>
             <input class="input" id="sdName" type="text" placeholder="e.g. Yasir Shabbir" autocomplete="name" />
           </div>
@@ -1961,7 +2259,9 @@
             <textarea class="textarea" id="sdProof" rows="3" placeholder="200+ projects delivered&#10;4.9 average rating&#10;Worked with 3 funded startups"></textarea>
           </div>
         </div>
-        <div class="form-section">
+
+        <!-- ---------- 2 · POSITIONING ---------- -->
+        <div class="form-section" id="section-positioning">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">2</span>
             <h2 class="form-section-title">Buyer Positioning</h2>
@@ -1984,7 +2284,9 @@
             <textarea class="textarea" id="sdDiff" rows="3" placeholder="Ship in days, not weeks&#10;Senior engineer, no juniors&#10;Fixed price, no surprises"></textarea>
           </div>
         </div>
-        <div class="form-section">
+
+        <!-- ---------- 3 · PRICING ---------- -->
+        <div class="form-section" id="section-pricing">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">3</span>
             <h2 class="form-section-title">Packages &amp; Pricing</h2>
@@ -2011,7 +2313,9 @@
             <textarea class="textarea" id="sdDeliverables" rows="4" placeholder="Working deployed app&#10;Source code + README&#10;Loom walkthrough"></textarea>
           </div>
         </div>
-        <div class="form-section">
+
+        <!-- ---------- 4 · PROCESS ---------- -->
+        <div class="form-section" id="section-process">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">4</span>
             <h2 class="form-section-title">Buyer Requirements &amp; Process</h2>
@@ -2030,7 +2334,9 @@
             <textarea class="textarea" id="sdFaqSeeds" rows="3" placeholder="Do you work with existing code?&#10;What if it breaks later?&#10;Can you sign an NDA?"></textarea>
           </div>
         </div>
-        <div class="form-section">
+
+        <!-- ---------- 5 · SEO ---------- -->
+        <div class="form-section" id="section-seo">
           <div class="form-section-head">
             <span class="form-section-num" aria-hidden="true">5</span>
             <h2 class="form-section-title">SEO &amp; Search Intent</h2>
@@ -2122,7 +2428,14 @@
             </svg>
             Download .md
           </button>
-          <button class="btn btn-ghost btn-sm" id="regenBtn" type="button">Regenerate</button>
+          <button class="btn btn-ghost btn-sm btn-icon-only" id="regenBtn" type="button"
+                  data-tooltip="Regenerate prompt" aria-label="Regenerate prompt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
         </div>
 
         <pre class="output-pre" id="output" aria-live="polite" aria-label="Generated markdown prompt"></pre>
@@ -2136,26 +2449,132 @@
       <div class="glass-card">
         <div class="paste-head">
           <h2 class="paste-title">Text prompts for any AI bot</h2>
-          <p class="paste-desc">Pick what you need, copy the prompt, and paste it into ChatGPT, Claude, Gemini, or any other assistant. Each prompt carries your service data, platform rules, and tone.</p>
+          <p class="paste-desc">Tick everything you want written — one prompt per item is generated below, ready to paste into ChatGPT, Claude, Gemini, or any other assistant. Each prompt carries your service data, platform rules, and tone.</p>
         </div>
 
         <div class="form-section">
-          <div class="field">
-            <label class="field-label" for="promptKind">What do you want written?</label>
-            <select class="select" id="promptKind">
-              <option value="listing">Full listing copy (title + description)</option>
-              <option value="variations">3 listing variations (different angles)</option>
-              <option value="pricing">Pricing packages &amp; add-ons</option>
-              <option value="faq">FAQ &amp; objection handling</option>
-              <option value="tags">Search tags &amp; SEO keywords</option>
-              <option value="requirements">Buyer requirements &amp; onboarding questions</option>
-              <option value="messages">Order messages (welcome, delivery, review request)</option>
-              <option value="proposal">Proposal / cover letter</option>
-              <option value="profile">Profile bio &amp; headline</option>
-              <option value="rewrite">Rewrite a single field</option>
-              <option value="layers">Thumbnail layer spec (for a design tool)</option>
-            </select>
-          </div>
+          <fieldset class="field check-fieldset">
+            <legend class="field-label" id="kindsLabel">What do you want written? <span class="opt">(select one or more)</span></legend>
+
+            <div class="check-toolbar">
+              <button class="btn btn-ghost btn-sm" id="kindSelectAll" type="button">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="9 11 12 14 22 4"/>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                Select all
+              </button>
+              <button class="btn btn-ghost btn-sm" id="kindClearAll" type="button">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+                Clear
+              </button>
+            </div>
+
+            <div class="check-grid" role="group" aria-labelledby="kindsLabel">
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-listing" name="promptKind" value="listing" checked />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Full listing copy</span>
+                  <span class="check-sub">Title + description</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-variations" name="promptKind" value="variations" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">3 listing variations</span>
+                  <span class="check-sub">Different angles</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-pricing" name="promptKind" value="pricing" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Pricing packages</span>
+                  <span class="check-sub">Tiers &amp; add-ons</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-faq" name="promptKind" value="faq" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">FAQ &amp; objections</span>
+                  <span class="check-sub">Buyer questions, answered</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-tags" name="promptKind" value="tags" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Search tags &amp; SEO</span>
+                  <span class="check-sub">Keywords &amp; placement</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-requirements" name="promptKind" value="requirements" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Buyer requirements</span>
+                  <span class="check-sub">Onboarding questions</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-messages" name="promptKind" value="messages" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Order messages</span>
+                  <span class="check-sub">Welcome, delivery, review</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-proposal" name="promptKind" value="proposal" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Proposal / cover letter</span>
+                  <span class="check-sub">Per-job adaptable</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-profile" name="promptKind" value="profile" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Profile bio &amp; headline</span>
+                  <span class="check-sub">Positioning copy</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-rewrite" name="promptKind" value="rewrite" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Rewrite a single field</span>
+                  <span class="check-sub">Improve existing text</span>
+                </span>
+              </label>
+
+              <label class="check-option">
+                <input class="sr-only" type="checkbox" id="kind-layers" name="promptKind" value="layers" />
+                <span class="check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                <span class="check-body">
+                  <span class="check-title">Thumbnail layer spec</span>
+                  <span class="check-sub">JSON for a design tool</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
           <div class="field" id="rewriteField" hidden>
             <label class="field-label" for="rewriteTarget">Field to rewrite <span class="opt">(and what is wrong with it)</span></label>
             <textarea class="textarea" id="rewriteTarget" rows="3" placeholder="Paste the current title, description, or package text you want improved."></textarea>
@@ -2166,16 +2585,36 @@
       <div class="output-wrap glass-card" style="margin-top:1.25rem;">
         <div class="output-head">
           <h2 class="output-title">Generated prompt</h2>
-          <span class="output-status">
+          <span class="output-status ready">
             <span class="dot" aria-hidden="true"></span>
             <span id="textPromptStatus">Ready</span>
           </span>
         </div>
 
         <div class="output-actions">
-          <button class="btn btn-glow btn-sm" id="tpCopyBtn" type="button">Copy Prompt</button>
-          <button class="btn btn-outline btn-sm" id="tpDownloadBtn" type="button">Download .md</button>
-          <button class="btn btn-ghost btn-sm" id="tpRegenBtn" type="button">Regenerate</button>
+          <button class="btn btn-glow btn-sm" id="tpCopyBtn" type="button">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy Prompt
+          </button>
+          <button class="btn btn-outline btn-sm" id="tpDownloadBtn" type="button">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download .md
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon-only" id="tpRegenBtn" type="button"
+                  data-tooltip="Regenerate prompts" aria-label="Regenerate prompts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
         </div>
 
         <pre class="output-pre" id="textPromptOut" aria-live="polite"></pre>
@@ -2189,17 +2628,39 @@
       <div class="output-wrap glass-card">
         <div class="output-head">
           <h2 class="output-title">Complete launch pack</h2>
-          <span class="output-status">
+          <span class="output-status ready">
             <span class="dot" aria-hidden="true"></span>
             <span id="packStatus">Ready</span>
           </span>
         </div>
-        <p class="paste-desc" style="margin-bottom:1rem;">Everything in one document: your service brief, platform rules, the cover image prompt, and every text prompt. Paste it into one AI chat and work through it section by section.</p>
+        <p class="paste-desc" style="margin-bottom:1rem;">
+          Everything in one document: your service brief, platform rules, the cover image prompt, and the text prompts you ticked on the Text Prompts tab (all of them if none are ticked). Paste it into one AI chat and work through it section by section.
+        </p>
 
         <div class="output-actions">
-          <button class="btn btn-glow btn-sm" id="packCopyBtn" type="button">Copy Launch Pack</button>
-          <button class="btn btn-outline btn-sm" id="packDownloadBtn" type="button">Download .md</button>
-          <button class="btn btn-ghost btn-sm" id="packRegenBtn" type="button">Regenerate</button>
+          <button class="btn btn-glow btn-sm" id="packCopyBtn" type="button">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy Launch Pack
+          </button>
+          <button class="btn btn-outline btn-sm" id="packDownloadBtn" type="button">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download .md
+          </button>
+          <button class="btn btn-ghost btn-sm btn-icon-only" id="packRegenBtn" type="button"
+                  data-tooltip="Regenerate launch pack" aria-label="Regenerate launch pack">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </button>
         </div>
 
         <pre class="output-pre" id="packOut" aria-live="polite"></pre>
@@ -2604,7 +3065,8 @@ window.showToast = function (msg) {
     });
     document.querySelectorAll('.mode-option').forEach((el) => {
       const input = el.querySelector('input[name="designMode"]');
-      el.classList.toggle('is-active', !!(input && input.checked));
+      if (!input) return;
+      el.classList.toggle('is-active', !!input.checked);
     });
     const isSpec = mode === 'spec';
     const specBlock = $('specBlock');
@@ -2624,6 +3086,38 @@ window.showToast = function (msg) {
         setDesignMode(r.value);
         updatePreview();
         if (typeof generatedOnce !== 'undefined' && generatedOnce) regenerate();
+      }
+    });
+  });
+
+  /* ============================================================
+     PROFILE MODE — show/hide the CV uploader
+     ============================================================ */
+  function setProfileMode(mode) {
+    document.querySelectorAll('input[name="profileMode"]').forEach((r) => {
+      r.checked = r.value === mode;
+    });
+    document.querySelectorAll('.mode-option').forEach((el) => {
+      const input = el.querySelector('input[name="profileMode"]');
+      if (!input) return;
+      el.classList.toggle('is-active', !!input.checked);
+    });
+    const cvBlock = $('cvBlock');
+    if (cvBlock) cvBlock.hidden = mode !== 'upload';
+  }
+
+  function getProfileMode() {
+    const checked = document.querySelector('input[name="profileMode"]:checked');
+    return checked ? checked.value : 'manual';
+  }
+
+  document.querySelectorAll('input[name="profileMode"]').forEach((r) => {
+    r.addEventListener('change', () => {
+      if (r.checked) {
+        setProfileMode(r.value);
+        if (r.value === 'upload' && $('cvDropZone')) {
+          requestAnimationFrame(() => $('cvDropZone').focus({ preventScroll: true }));
+        }
       }
     });
   });
@@ -2774,7 +3268,7 @@ window.showToast = function (msg) {
     });
   }
 
-  $('specFiles') && $('specFiles').addEventListener('click', (e) => {
+  if ($('specFiles')) $('specFiles').addEventListener('click', (e) => {
     const btn = e.target.closest('.spec-file-remove');
     if (!btn) return;
     specFiles = specFiles.filter((f) => f.id !== btn.dataset.id);
@@ -2784,7 +3278,7 @@ window.showToast = function (msg) {
     window.__arzoScheduleSave && window.__arzoScheduleSave();
   });
 
-  $('specClearBtn') && $('specClearBtn').addEventListener('click', () => {
+  if ($('specClearBtn')) $('specClearBtn').addEventListener('click', () => {
     $('specText').value = '';
     specFiles = [];
     window.__arzoSpecFiles = specFiles;
@@ -2868,22 +3362,26 @@ window.showToast = function (msg) {
 
   /* ============================================================
      SECTION NAV — highlight active section on scroll
+     (works for every .section-nav on the page)
      ============================================================ */
-  const sectionNavLinks = document.querySelectorAll('.section-nav-link');
-  const sectionIds = ['section-basics', 'section-features', 'section-branding', 'section-visual'];
-  if (sectionNavLinks.length && 'IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const link = document.querySelector('.section-nav-link[href="#' + entry.target.id + '"]');
-        if (link && entry.isIntersecting) {
-          sectionNavLinks.forEach(l => l.removeAttribute('aria-current'));
-          link.setAttribute('aria-current', 'true');
-        }
-      });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
+  if ('IntersectionObserver' in window) {
+    document.querySelectorAll('.section-nav').forEach((nav) => {
+      const links = Array.from(nav.querySelectorAll('.section-nav-link'));
+      const targets = links
+        .map((l) => document.querySelector(l.getAttribute('href')))
+        .filter(Boolean);
+      if (!targets.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => l.removeAttribute('aria-current'));
+          const link = links.find((l) => l.getAttribute('href') === '#' + entry.target.id);
+          if (link) link.setAttribute('aria-current', 'true');
+        });
+      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+      targets.forEach((el) => observer.observe(el));
     });
   }
 
@@ -2891,6 +3389,8 @@ window.showToast = function (msg) {
      EXTRACTION
      ============================================================ */
   const KNOWN_TOOLS = ['ChatGPT','OpenAI','Gemini','Claude','Anthropic','GPT-4','Midjourney','Stable Diffusion','Jasper','Copy.ai','Grammarly','React','React Native','Next.js','Node.js','Python','Vue','Angular','Flutter','Swift','Kotlin','Django','Laravel','PHP','TypeScript','JavaScript','GitHub','GitLab','Docker','AWS','Google Cloud','Azure','Firebase','Supabase','Vercel','Netlify','Railway','Cloudflare','LiteSpeed','WP Rocket','GoHighLevel','Pabbly','WordPress','WooCommerce','Elementor','Webflow','Shopify','Squarespace','Wix','Framer','Cursor','Lovable','Replit','Bolt','Base44','LangChain','Pinecone','n8n','Make.com','Zapier','Dialogflow','Stripe','PayPal','WhatsApp','Figma','Adobe XD','Photoshop','Illustrator','InDesign','After Effects','Premiere Pro','Lightroom','Canva','Sketch','Blender','Cinema 4D','Procreate','Affinity Designer','Affinity Photo','CorelDRAW','Inkscape','GIMP','Krita','DaVinci Resolve','Final Cut Pro','CapCut','OBS','Audacity','Google Analytics','Google Ads','Google Search Console','Google Tag Manager','Meta Ads','Facebook Ads','Facebook','Instagram','LinkedIn','Twitter','TikTok','YouTube','Pinterest','Snapchat','HubSpot','Mailchimp','Klaviyo','ConvertKit','ActiveCampaign','Brevo','Mailerlite','Constant Contact','SEMrush','Ahrefs','Moz Pro','Moz','Ubersuggest','Surfer SEO','RankMath','Yoast','GTmetrix','PageSpeed','Buffer','Hootsuite','Sprout Social','Hotjar','Mixpanel','Notion','Airtable','Calendly','Typeform','Slack','Zoom','Trello','Asana','Monday.com','ClickUp','Jira','QuickBooks','Xero','Google Docs'];
+
+  window.__arzoKnownTools = KNOWN_TOOLS;
 
   const KNOWN_FEATURES = ['Logo Design','Brand Identity','Brand Guidelines','Visual Identity','Brand Strategy','UI/UX Design','UI Design','UX Design','Wireframes','Prototyping','Icon Design','Illustration','Print Design','Packaging Design','Social Media Design','Presentation Design','Pitch Deck','Business Cards','Flyers','Brochures','Banner Design','Thumbnail Design','Book Cover','Merch Design','3D Modeling','3D Rendering','Motion Graphics','Animation','Video Editing','Color Grading','Sound Design','Reels Editing','YouTube Editing','Short-form Video','Subtitles & Captions','Voiceover','Storyboarding','SEO Strategy','On-Page SEO','Off-Page SEO','Technical SEO','Local SEO','Link Building','Keyword Research','SEO Audit','Content Strategy','Content Writing','Copywriting','Blog Writing','Website Copy','Landing Page Copy','Ad Copy','Product Descriptions','Email Copy','Email Marketing','Email Automation','Newsletter Design','Social Media Management','Social Media Strategy','Community Management','Influencer Outreach','Paid Ads','Facebook Ads','Google Ads','TikTok Ads','LinkedIn Ads','PPC Campaigns','Display Ads','Funnel Building','Landing Pages','Conversion Optimization','A/B Testing','Marketing Automation','Audience Research','Competitor Analysis','Market Research','Growth Strategy','Analytics & Reporting','Tracking Setup','Pixel Setup','Lead Generation','Lead Capture','Lead Scoring','Customer Retention','Reputation Management','GMB Optimization','Search Console','Core Web Vitals','Blog Posts','Articles','Scripts','Ghostwriting','Editing','Proofreading','Technical Writing','UX Writing','Case Studies','Whitepapers','eBooks','Press Releases','Social Captions','SEO Content','Translation','Transcription','Email Sequences','Sales Letters','Bug Fixing','UI/UX Fixes','Auth Issues','Performance','CORS','RAG System','AI Chatbot','AI Agents','AI Support','API Integration','REST API','Database Architecture','Backend Setup','Auth Setup','Deployment','SaaS Development','MVP Development','API Development','Full Stack','Mobile App','PWA','Payment Integration','Stripe Integration','Inventory Sync','POS Sync','CRM Sync','Webhooks','AI Automation','AI Content','GPT-4o','Machine Learning','NLP & Analytics','Vector DB','AI Search','Vector Search','AI Knowledge Base','RAG Systems','Runtime Errors','Supabase Errors','Integration Issues','Malware Cleanup','PHP Errors','Plugin Conflicts','Login Recovery','Custom Themes','Custom Plugins','Speed & Security','SSL Management','Daily Backups','Security Monitoring','Performance Optimization','24/7 Uptime','Priority Support','E-commerce Flows','Workflow Automation','Sales Alerts','Follow-Ups','Auto Posting','Content Repurposing','Engagement Tracking','Business Plan','Financial Modeling','Operations Setup','SOP Documentation','Process Automation','CRM Setup','Project Management','Virtual Assistance','Data Entry','Bookkeeping','Customer Support','Sales Strategy','Cold Outreach','LinkedIn Outreach','Appointment Setting','Lead Qualification','Account Management','SEO','Marketing','Automation'];
 
@@ -3518,6 +4018,7 @@ window.showToast = function (msg) {
 
     // Reflect persisted radio state in the UI
     setDesignMode(getDesignMode() || 'manual');
+    setProfileMode(getProfileMode() || 'manual');
 
     renderSpecFiles();
 
@@ -3537,13 +4038,21 @@ window.showToast = function (msg) {
     init();
   }
 
-  window.__arzoHelpers = { getVal, getLines, updatePreview, generatePromptIfNeeded, regenerate, getPlatformPreset };
+  window.__arzoHelpers = {
+    getVal,
+    getLines,
+    updatePreview,
+    generatePromptIfNeeded,
+    regenerate,
+    getPlatformPreset,
+    scheduleLiveUpdate
+  };
 })();
 </script>
 
 <script>
 /* ============================================================
-   PROMPT FORGE — SERVICE DATA + TEXT PROMPT BUILDERS
+   PROMPT FORGE — SERVICE DATA, CV UPLOAD + TEXT PROMPT BUILDERS
    ============================================================ */
 (function () {
   'use strict';
@@ -3553,6 +4062,9 @@ window.showToast = function (msg) {
   const lines = (id) => val(id).split('\n').map(s => s.trim()).filter(Boolean);
   const list = (arr) => arr.map(s => '- ' + s).join('\n');
 
+  /* ============================================================
+     PLATFORM RULES
+     ============================================================ */
   const PLATFORM_RULES = {
     Fiverr: [
       'Title must start with "I will" and stay at or under 80 characters.',
@@ -3608,6 +4120,486 @@ window.showToast = function (msg) {
       (incl ? ' · Includes: ' + incl : '');
   }
 
+  /* ============================================================
+     CV / RÉSUMÉ UPLOAD
+     ============================================================ */
+  const CV_TEXT_EXTS = ['txt','md','markdown','json','html','htm','yml','yaml','csv','log','rtf'];
+  const CV_REF_EXTS = ['doc','docx','pages','odt'];
+  const MAX_CV_CHARS = 60000;
+
+  let cvFiles = [];
+  let cvSeq = 0;
+  window.__arzoCvFiles = cvFiles;
+
+  /* ---- minimal PDF text extractor (browser-only, no deps) ---- */
+  function latin1(u8) {
+    let s = '';
+    const CH = 0x8000;
+    for (let i = 0; i < u8.length; i += CH) {
+      s += String.fromCharCode.apply(null, u8.subarray(i, Math.min(i + CH, u8.length)));
+    }
+    return s;
+  }
+
+  async function inflateBytes(u8) {
+    if (typeof DecompressionStream === 'undefined') return null;
+    try {
+      const ds = new DecompressionStream('deflate');
+      const stream = new Blob([u8]).stream().pipeThrough(ds);
+      const buf = await new Response(stream).arrayBuffer();
+      return new Uint8Array(buf);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function decodeHexString(hex) {
+    let out = '';
+    for (let i = 0; i + 1 < hex.length; i += 2) {
+      const code = parseInt(hex.slice(i, i + 2), 16);
+      if (code) out += String.fromCharCode(code);
+    }
+    return out;
+  }
+
+  const PDF_TOKEN_RE = /\((?:\\.|[^\\()])*\)|<[0-9A-Fa-f\s]+>|\b(Td|TD|T\*|ET|BT)\b/g;
+
+  function pdfTextFromContent(s) {
+    let out = '';
+    let m;
+    PDF_TOKEN_RE.lastIndex = 0;
+    while ((m = PDF_TOKEN_RE.exec(s))) {
+      const tok = m[0];
+      if (tok.charAt(0) === '(') {
+        out += tok.slice(1, -1)
+          .replace(/\\([()\\])/g, '$1')
+          .replace(/\\n/g, ' ')
+          .replace(/\\r/g, ' ');
+      } else if (tok.charAt(0) === '<') {
+        out += decodeHexString(tok.slice(1, -1).replace(/\s+/g, ''));
+      } else if (m[1]) {
+        out += '\n';
+      }
+    }
+    return out;
+  }
+
+  function cleanupPdfText(raw) {
+    return String(raw)
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '')
+      .replace(/[ \t]{2,}/g, ' ')
+      .replace(/\n{3,}/g, '\n\n')
+      .split('\n')
+      .map((l) => l.trim())
+      .filter((l, i, arr) => !(l === '' && arr[i - 1] === ''))
+      .join('\n')
+      .trim();
+  }
+
+  async function extractPdfText(arrayBuffer) {
+    const bytes = new Uint8Array(arrayBuffer);
+    const raw = latin1(bytes);
+    let collected = '';
+    const re = /stream\r?\n/g;
+    let m;
+    let guard = 0;
+    while ((m = re.exec(raw)) && guard < 400) {
+      guard++;
+      const start = m.index + m[0].length;
+      const end = raw.indexOf('endstream', start);
+      if (end < 0) continue;
+      let chunk = bytes.subarray(start, end);
+      // strip trailing EOL bytes
+      while (chunk.length && (chunk[chunk.length - 1] === 0x0A || chunk[chunk.length - 1] === 0x0D)) {
+        chunk = chunk.subarray(0, chunk.length - 1);
+      }
+      let content = null;
+      const inflated = await inflateBytes(chunk);
+      if (inflated && inflated.length) content = latin1(inflated);
+      else content = latin1(chunk);
+
+      if (content && /(BT|Tj|TJ)/.test(content)) {
+        collected += pdfTextFromContent(content) + '\n';
+      }
+      re.lastIndex = end;
+    }
+
+    const text = cleanupPdfText(collected);
+    // sanity check: at least 60 visible chars and mostly printable
+    if (text.replace(/\s/g, '').length < 60) return '';
+    const printable = text.replace(/[^\x20-\x7E\u00A0-\u024F\n]/g, '');
+    if (printable.length / text.length < 0.55) return '';
+    return text.slice(0, MAX_CV_CHARS);
+  }
+  /* ----------------------------------------------------------- */
+
+  function cvExt(name) { return (name.split('.').pop() || '').toLowerCase(); }
+  function isPdfFile(f) { return f.type === 'application/pdf' || cvExt(f.name) === 'pdf'; }
+  function isCvTextFile(f) {
+    if (f.type && f.type.startsWith('text/')) return true;
+    if (f.type === 'application/json') return true;
+    return CV_TEXT_EXTS.includes(cvExt(f.name));
+  }
+  function isCvRefFile(f) { return CV_REF_EXTS.includes(cvExt(f.name)); }
+
+  function readFileAsText(f) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result || ''));
+      r.onerror = () => reject(r.error || new Error('read failed'));
+      r.readAsText(f);
+    });
+  }
+  function readFileAsArrayBuffer(f) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(r.error || new Error('read failed'));
+      r.readAsArrayBuffer(f);
+    });
+  }
+
+  function updateCvStatus() {
+    const el = $('cvStatus');
+    if (!el) return;
+    if (!cvFiles.length) {
+      el.textContent = 'No CV attached yet.';
+      return;
+    }
+    const chars = cvFiles.reduce((n, f) => n + (f.content ? f.content.length : 0), 0);
+    const readable = cvFiles.filter((f) => f.content).length;
+    let msg = cvFiles.length + ' file' + (cvFiles.length > 1 ? 's' : '') + ' attached';
+    if (readable) msg += ' · ' + chars.toLocaleString() + ' characters extracted';
+    else msg += ' · no readable text — kept as an AI reference';
+    el.textContent = msg;
+  }
+
+  function renderCvFiles() {
+    const wrap = $('cvFiles');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    if (!cvFiles.length) { wrap.hidden = true; updateCvStatus(); return; }
+    wrap.hidden = false;
+    cvFiles.forEach((f) => {
+      const chip = document.createElement('div');
+      chip.className = 'spec-file-chip';
+
+      const name = document.createElement('span');
+      name.className = 'spec-file-name';
+      name.title = f.name;
+      name.textContent = f.name;
+
+      const meta = document.createElement('span');
+      meta.className = 'spec-file-size';
+      meta.textContent = f.kind === 'pdf'
+        ? (f.content ? 'PDF · text' : 'PDF · ref')
+        : (f.content ? formatBytesCv(f.size) : 'ref');
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'spec-file-remove';
+      btn.dataset.id = f.id;
+      btn.setAttribute('aria-label', 'Remove ' + f.name);
+      btn.textContent = '×';
+
+      chip.appendChild(name); chip.appendChild(meta); chip.appendChild(btn);
+      wrap.appendChild(chip);
+    });
+    updateCvStatus();
+  }
+
+  function formatBytesCv(n) {
+    if (!Number.isFinite(n)) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+    return (n / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  async function addCvFiles(fileList) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    let added = 0, failed = 0;
+
+    for (const f of files) {
+      if (cvFiles.some((x) => x.name === f.name && x.size === f.size)) continue;
+      const entry = { id: 'cv' + ++cvSeq, name: f.name, size: f.size, content: '', kind: 'ref' };
+
+      try {
+        if (isPdfFile(f)) {
+          entry.kind = 'pdf';
+          const buf = await readFileAsArrayBuffer(f);
+          const text = await extractPdfText(buf);
+          entry.content = text || '';
+        } else if (isCvTextFile(f)) {
+          entry.kind = 'text';
+          let text = await readFileAsText(f);
+          if (text.length > MAX_CV_CHARS) {
+            text = text.slice(0, MAX_CV_CHARS) + '\n\n[... truncated ...]';
+          }
+          entry.content = text;
+        } else if (isCvRefFile(f)) {
+          entry.kind = 'ref';
+          entry.content = '';
+        } else {
+          failed++;
+          continue;
+        }
+      } catch (e) {
+        entry.content = '';
+      }
+
+      cvFiles.push(entry);
+      added++;
+    }
+
+    window.__arzoCvFiles = cvFiles;
+    renderCvFiles();
+
+    if (added) {
+      showToast(added + ' file' + (added > 1 ? 's' : '') + ' attached');
+      // Auto-fill only when fields are still empty — never clobber typed data.
+      if (!val('sdName') && !val('sdTitle')) {
+        runCvAutofill(false);
+      }
+    } else if (failed) {
+      showToast('Unsupported file type');
+    }
+
+    const helpers = window.__arzoHelpers;
+    if (helpers && helpers.scheduleLiveUpdate) helpers.scheduleLiveUpdate();
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+  }
+
+  /* ---- CV parsing ---- */
+  const TITLE_HINTS = ['designer','developer','engineer','marketer','writer','editor','consultant','manager','specialist','analyst','architect','strategist','copywriter','videographer','photographer','founder','director','lead','expert','artist','illustrator','seo','social media','virtual assistant','accountant','technician','coordinator','producer','creator','freelancer','student','intern'];
+
+  const CV_SECTION_RE = /^(about( me)?|professional summary|summary|profile|objective|overview|experience|work experience|employment|education|skills|technical skills|core skills|expertise|core competencies|tools|technologies|tech stack|toolbox|projects|contact|languages|certifications|awards|interests|references|achievements)\b[:\-]?\s*$/i;
+
+  function parseCv(raw) {
+    const out = { proof: [], skills: [] };
+    const text = String(raw).replace(/\r/g, '');
+    const rows = text.split('\n').map((s) => s.replace(/[ \t\u00A0]+/g, ' ').trim());
+
+    /* name */
+    for (let i = 0; i < Math.min(rows.length, 16); i++) {
+      const l = rows[i];
+      if (!l || l.length > 46) continue;
+      if (/[@\d]|http|www\.|linkedin|resume|curriculum|vitae/i.test(l)) continue;
+      const w = l.split(' ');
+      if (w.length >= 2 && w.length <= 4 && w.every((x) => /^[A-Z][A-Za-z'’.\-]*$/.test(x))) {
+        out.name = l;
+        break;
+      }
+    }
+
+    /* title */
+    for (let i = 0; i < Math.min(rows.length, 26); i++) {
+      const l = rows[i];
+      if (!l || l.length > 70 || l === out.name) continue;
+      if (CV_SECTION_RE.test(l)) continue;
+      const low = l.toLowerCase();
+      if (TITLE_HINTS.some((t) => low.includes(t))) {
+        out.title = l.replace(/^[•\-–—|]\s*/, '');
+        break;
+      }
+    }
+
+    /* experience */
+    const ym = text.match(/(\d{1,2})\s*\+?\s*(?:years?|yrs?)\b/i);
+    if (ym) {
+      const n = parseInt(ym[1], 10);
+      const level = n >= 8 ? 'Expert' : n >= 5 ? 'Senior' : n >= 2 ? 'Intermediate' : 'Rising';
+      out.experience = level + ' · ' + n + '+ years';
+    }
+
+    /* bio */
+    const aboutIdx = rows.findIndex((l) =>
+      /^(about( me)?|professional summary|summary|profile|objective|overview)\b[:\-]?\s*$/i.test(l)
+    );
+    if (aboutIdx >= 0) {
+      const buf = [];
+      for (let i = aboutIdx + 1; i < rows.length && buf.join(' ').length < 420; i++) {
+        const l = rows[i];
+        if (!l) { if (buf.length) break; continue; }
+        if (CV_SECTION_RE.test(l) && !/^(about|summary|profile|objective|overview)/i.test(l)) break;
+        buf.push(l);
+      }
+      if (buf.length) out.bio = buf.join(' ').slice(0, 420);
+    }
+    if (!out.bio) {
+      const p = rows.find((l) => l.length > 90 && !/[@|]/.test(l) && !CV_SECTION_RE.test(l));
+      if (p) out.bio = p.slice(0, 420);
+    }
+
+    /* proof */
+    const PROOF_RE = /(\d+\s*%|\d+\s*\+|\baward|\branked|\brating|\brevenue|\bgrowth|\bclients?|\bprojects?|\bdelivered|\blaunched|\bscaled|\bincreased|\breduced|\bsaved|\bmanaged \d|\bbuilt \d)/i;
+    rows.forEach((l) => {
+      if (out.proof.length >= 5) return;
+      if (!l || l.length < 8 || l.length > 110) return;
+      if (CV_SECTION_RE.test(l)) return;
+      if (PROOF_RE.test(l) && !/^(19|20)\d{2}\b/.test(l)) {
+        out.proof.push(l.replace(/^[•\-–—*]\s*/, ''));
+      }
+    });
+
+    /* skills + tools */
+    const skIdx = rows.findIndex((l) =>
+      /^(technical skills|core skills|skills|expertise|core competencies|tools|technologies|tech stack|toolbox)\s*[:\-]?\s*$/i.test(l)
+    );
+    if (skIdx >= 0) {
+      const buf = [];
+      for (let i = skIdx + 1; i < rows.length && buf.length < 8; i++) {
+        const l = rows[i];
+        if (!l) { if (buf.length) break; continue; }
+        if (CV_SECTION_RE.test(l)) break;
+        buf.push(l);
+      }
+      const joined = buf.join(', ');
+      out.skills = joined
+        .split(/[,;|•·\/]/)
+        .map((s) => s.replace(/^[-–—*]\s*/, '').trim())
+        .filter((s) => s && s.length < 42)
+        .slice(0, 24);
+    }
+
+    /* tool matching against the known brand list */
+    const known = window.__arzoKnownTools || [];
+    const matched = [];
+    const pool = out.skills.concat(rows.filter((l) => l.length < 40 && !CV_SECTION_RE.test(l)));
+    pool.forEach((s) => {
+      const low = s.toLowerCase();
+      known.forEach((k) => {
+        const kl = k.toLowerCase();
+        if ((low === kl || low.includes(kl)) && !matched.includes(k)) matched.push(k);
+      });
+    });
+    out.tools = matched.slice(0, 8);
+
+    return out;
+  }
+
+  function applyCvData(d) {
+    let filled = 0;
+    const set = (id, v) => {
+      if (!v) return;
+      const el = $(id);
+      if (!el) return;
+      el.value = v;
+      filled++;
+    };
+
+    set('sdName', d.name);
+    set('sdTitle', d.title);
+    set('sdExperience', d.experience);
+    set('sdBio', d.bio);
+
+    if (d.proof && d.proof.length && !val('sdProof')) {
+      $('sdProof').value = d.proof.join('\n');
+      filled++;
+    }
+    if (d.skills && d.skills.length && !val('sdKeywords')) {
+      $('sdKeywords').value = d.skills.slice(0, 8).join(', ');
+      filled++;
+    }
+    if (d.tools && d.tools.length && !val('tools')) {
+      $('tools').value = d.tools.join('\n');
+      filled++;
+    }
+    return filled;
+  }
+
+  function cvCombinedText() {
+    return cvFiles.filter((f) => f.content).map((f) => f.content).join('\n\n');
+  }
+
+  function runCvAutofill(notify) {
+    if (!cvFiles.length) {
+      if (notify) showToast('Attach a CV first');
+      return;
+    }
+    const text = cvCombinedText();
+    if (!text) {
+      if (notify) showToast('No readable text — the file is attached as a reference only');
+      return;
+    }
+    const data = parseCv(text);
+    const filled = applyCvData(data);
+
+    const helpers = window.__arzoHelpers;
+    if (helpers) {
+      helpers.updatePreview();
+      if (helpers.scheduleLiveUpdate) helpers.scheduleLiveUpdate();
+    }
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+
+    if (notify) {
+      showToast(filled ? 'Filled ' + filled + ' profile field' + (filled > 1 ? 's' : '') : 'Nothing new to fill — edit the fields manually');
+    }
+  }
+
+  const cvDropZone = $('cvDropZone');
+  const cvFileInput = $('cvFile');
+
+  if (cvDropZone && cvFileInput) {
+    cvDropZone.addEventListener('click', () => cvFileInput.click());
+    cvDropZone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        cvFileInput.click();
+      }
+    });
+    ['dragenter', 'dragover'].forEach((ev) => {
+      cvDropZone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+        cvDropZone.classList.add('is-dragover');
+      });
+    });
+    cvDropZone.addEventListener('dragleave', (e) => {
+      if (!cvDropZone.contains(e.relatedTarget)) cvDropZone.classList.remove('is-dragover');
+    });
+    cvDropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      cvDropZone.classList.remove('is-dragover');
+      const dt = e.dataTransfer;
+      if (dt && dt.files && dt.files.length) addCvFiles(dt.files);
+    });
+    cvFileInput.addEventListener('change', () => {
+      const files = cvFileInput.files;
+      if (files && files.length) {
+        addCvFiles(files).then(() => { cvFileInput.value = ''; });
+      }
+    });
+  }
+
+  if ($('cvFiles')) $('cvFiles').addEventListener('click', (e) => {
+    const btn = e.target.closest('.spec-file-remove');
+    if (!btn) return;
+    cvFiles = cvFiles.filter((f) => f.id !== btn.dataset.id);
+    window.__arzoCvFiles = cvFiles;
+    renderCvFiles();
+    const helpers = window.__arzoHelpers;
+    if (helpers && helpers.scheduleLiveUpdate) helpers.scheduleLiveUpdate();
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+  });
+
+  if ($('cvAutofillBtn')) $('cvAutofillBtn').addEventListener('click', () => runCvAutofill(true));
+
+  if ($('cvClearBtn')) $('cvClearBtn').addEventListener('click', () => {
+    cvFiles = [];
+    window.__arzoCvFiles = cvFiles;
+    renderCvFiles();
+    const helpers = window.__arzoHelpers;
+    if (helpers && helpers.scheduleLiveUpdate) helpers.scheduleLiveUpdate();
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+    showToast('CV cleared');
+  });
+
+  /* ============================================================
+     SERVICE BRIEF
+     ============================================================ */
   function brief() {
     const out = [];
     out.push('## SERVICE BRIEF');
@@ -3644,9 +4636,26 @@ window.showToast = function (msg) {
     const pkgs = [pkg('sdPkgBasic', 'Basic'), pkg('sdPkgStandard', 'Standard'), pkg('sdPkgPremium', 'Premium')].filter(Boolean);
     if (pkgs.length) out.push('\n### Packages\n' + pkgs.join('\n'));
 
+    /* attached CV / profile files */
+    const cv = window.__arzoCvFiles || [];
+    if (cv.length) {
+      out.push('\n### Attached CV / profile references');
+      out.push('The user supplied the following résumé material. Use it as authoritative background — never invent facts that contradict it.');
+      cv.forEach((f) => {
+        if (f.content) {
+          out.push('\n#### ' + f.name + '\n' + f.content);
+        } else {
+          out.push('\n- `' + f.name + '` (attached by the user — treat as authoritative background)');
+        }
+      });
+    }
+
     return out.join('\n');
   }
 
+  /* ============================================================
+     TEXT PROMPT BUILDERS
+     ============================================================ */
   const ROLE = 'You are a senior freelance marketplace copywriter who has written listings that rank and convert on Fiverr, Upwork, LinkedIn and Contra.';
 
   function wrap(title, task, format) {
@@ -3690,15 +4699,57 @@ window.showToast = function (msg) {
       'A JSON array of layers. Each layer: {"type":"text|chip|icon|shape|logo","content":"","x":0,"y":0,"width":0,"height":0,"fontSize":0,"weight":"","color":"#hex","align":"","note":""}. Coordinates in pixels from the top-left of the canvas. After the JSON, add `### Why this layout` with 3 bullets.')
   };
 
+  const LABELS = {
+    listing: 'Full listing copy',
+    variations: 'Three listing variations',
+    pricing: 'Pricing packages',
+    faq: 'FAQ and objections',
+    tags: 'Search tags and SEO',
+    requirements: 'Buyer requirements',
+    messages: 'Order messages',
+    proposal: 'Proposal / cover letter',
+    profile: 'Profile bio and headline',
+    rewrite: 'Single-field rewrite',
+    layers: 'Thumbnail layer spec'
+  };
+
+  /* ---- multi-select helpers ---- */
+  function kindCheckboxes() {
+    return Array.from(document.querySelectorAll('input[name="promptKind"]'));
+  }
+  function selectedKinds() {
+    return kindCheckboxes().filter((i) => i.checked).map((i) => i.value);
+  }
+  function syncKindStyles() {
+    kindCheckboxes().forEach((cb) => {
+      const opt = cb.closest('.check-option');
+      if (opt) opt.classList.toggle('is-checked', cb.checked);
+    });
+  }
+
+  /* ============================================================
+     RENDERERS
+     ============================================================ */
   function renderTextPrompt() {
-    const kind = val('promptKind') || 'listing';
+    const kinds = selectedKinds();
     const rf = $('rewriteField');
-    if (rf) rf.hidden = kind !== 'rewrite';
+    if (rf) rf.hidden = !kinds.includes('rewrite');
+
     const out = $('textPromptOut');
     if (!out) return;
-    out.textContent = (BUILDERS[kind] || BUILDERS.listing)();
+
+    const useKinds = kinds.length ? kinds : ['listing'];
+    const chunks = useKinds.map((k, idx) => {
+      const head = useKinds.length > 1
+        ? '# ' + (idx + 1) + ' · ' + (LABELS[k] || k).toUpperCase() + '\n\n'
+        : '';
+      return head + ((BUILDERS[k] || BUILDERS.listing)());
+    });
+
+    out.textContent = chunks.join('\n\n---\n\n');
+
     const st = $('textPromptStatus');
-    if (st) st.textContent = 'Ready';
+    if (st) st.textContent = useKinds.length + ' prompt' + (useKinds.length > 1 ? 's' : '') + ' ready';
   }
 
   function imagePrompt() {
@@ -3712,26 +4763,35 @@ window.showToast = function (msg) {
   function renderPack() {
     const out = $('packOut');
     if (!out) return;
-    const parts = ['# ' + (val('topic') || 'Service') + ' — complete launch pack',
+
+    const kinds = selectedKinds();
+    const useKinds = kinds.length ? kinds : Object.keys(BUILDERS);
+
+    const parts = [
+      '# ' + (val('topic') || 'Service') + ' — complete launch pack',
       '',
       'Platform: **' + platform() + '**. Work through each section in order; each one is a standalone prompt you can paste into ChatGPT, Claude or Gemini.',
-      '', '---', '', brief(), '', rules(), '', '---', '', '# 1 · COVER IMAGE PROMPT', '', imagePrompt()];
+      '', '---', '',
+      brief(), '', rules(), '', '---', '',
+      '# 1 · COVER IMAGE PROMPT', '', imagePrompt()
+    ];
+
     let i = 2;
-    const labels = {
-      listing: 'Full listing copy', variations: 'Three listing variations', pricing: 'Pricing packages',
-      faq: 'FAQ and objections', tags: 'Search tags and SEO', requirements: 'Buyer requirements',
-      messages: 'Order messages', proposal: 'Proposal / cover letter', profile: 'Profile bio and headline',
-      rewrite: 'Single-field rewrite', layers: 'Thumbnail layer spec'
-    };
-    Object.keys(BUILDERS).forEach(k => {
-      parts.push('', '---', '', '# ' + i + ' · ' + (labels[k] || k).toUpperCase(), '', BUILDERS[k]());
+    useKinds.forEach((k) => {
+      if (!BUILDERS[k]) return;
+      parts.push('', '---', '', '# ' + i + ' · ' + (LABELS[k] || k).toUpperCase(), '', BUILDERS[k]());
       i++;
     });
+
     out.textContent = parts.join('\n');
+
     const st = $('packStatus');
-    if (st) st.textContent = 'Ready';
+    if (st) st.textContent = (useKinds.length + 1) + ' sections ready';
   }
 
+  /* ============================================================
+     COPY / DOWNLOAD
+     ============================================================ */
   async function copyEl(id, msg) {
     const el = $(id);
     const text = el ? (el.textContent || '') : '';
@@ -3741,9 +4801,15 @@ window.showToast = function (msg) {
       showToast(msg);
     } catch (e) {
       const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta); ta.select();
-      document.execCommand('copy'); document.body.removeChild(ta);
-      showToast(msg);
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      ta.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast(msg); }
+      catch (err) { showToast('Copy failed — select manually'); }
+      document.body.removeChild(ta);
     }
   }
 
@@ -3755,7 +4821,9 @@ window.showToast = function (msg) {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = name;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     showToast('Downloaded');
   }
@@ -3766,10 +4834,38 @@ window.showToast = function (msg) {
 
   const on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
 
-  on('promptKind', 'change', renderTextPrompt);
+  /* ---- kind checkbox wiring ---- */
+  kindCheckboxes().forEach((cb) => {
+    cb.addEventListener('change', () => {
+      syncKindStyles();
+      renderTextPrompt();
+    });
+  });
+
+  on('kindSelectAll', 'click', () => {
+    kindCheckboxes().forEach((cb) => { cb.checked = true; });
+    syncKindStyles();
+    renderTextPrompt();
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+    showToast('All prompt types selected');
+  });
+
+  on('kindClearAll', 'click', () => {
+    kindCheckboxes().forEach((cb) => { cb.checked = false; });
+    syncKindStyles();
+    renderTextPrompt();
+    window.__arzoScheduleSave && window.__arzoScheduleSave();
+    showToast('Selection cleared');
+  });
+
   on('rewriteTarget', 'input', renderTextPrompt);
+
   on('tpCopyBtn', 'click', () => copyEl('textPromptOut', 'Prompt copied'));
-  on('tpDownloadBtn', 'click', () => download('textPromptOut', slug() + '-' + (val('promptKind') || 'prompt') + '-prompt.md'));
+  on('tpDownloadBtn', 'click', () => {
+    const kinds = selectedKinds();
+    const tag = kinds.length === 1 ? kinds[0] : 'prompts';
+    download('textPromptOut', slug() + '-' + tag + '-prompt.md');
+  });
   on('tpRegenBtn', 'click', () => { renderTextPrompt(); showToast('Prompt regenerated'); });
 
   on('packCopyBtn', 'click', () => copyEl('packOut', 'Launch pack copied'));
@@ -3778,10 +4874,22 @@ window.showToast = function (msg) {
 
   window.ArzoStudio = { renderTextPrompt, renderPack };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderTextPrompt);
-  } else {
+  /* ============================================================
+     INIT
+     ============================================================ */
+  function init() {
+    syncKindStyles();
+    renderCvFiles();
     renderTextPrompt();
+    if (typeof window.__arzoRestoreState === 'function') {
+      // already restored by the previous script; just refresh the UI
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
 </script>
