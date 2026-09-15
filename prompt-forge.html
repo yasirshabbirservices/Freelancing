@@ -260,6 +260,42 @@
   .review-link.is-error::before { color: hsl(var(--destructive)); }
   .review-link.is-error { color: hsl(var(--destructive) / 0.92); }
 
+  /* ADVANCED TOGGLE */
+  .advanced-toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background: hsl(var(--card) / 0.5);
+    border: 1px dashed hsl(var(--border));
+    margin-bottom: 1.25rem;
+  }
+  .advanced-toggle-wrap label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+    color: hsl(var(--muted-fg));
+    cursor: pointer;
+    line-height: 1.4;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .advanced-toggle-wrap input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    accent-color: hsl(var(--primary));
+    cursor: pointer;
+    margin: 0;
+  }
+  .advanced-toggle-wrap label strong { color: hsl(var(--fg)); font-weight: 600; }
+  .form-section.is-advanced { display: none; }
+  body.show-advanced .form-section.is-advanced { display: block; }
+  .section-nav-link.is-advanced { display: none; }
+  body.show-advanced .section-nav-link.is-advanced { display: inline-flex; }
+
   /* COLOUR ROW */
   .color-row { display: grid; grid-template-columns: clamp(2.5rem, 10vw, 3.25rem) minmax(0, 1fr); gap: 0.625rem; align-items: stretch; }
   .color-swatch { position: relative; width: 100%; min-height: var(--control-h); border-radius: var(--field-radius); border: 1px solid hsl(var(--border)); overflow: hidden; cursor: pointer; padding: 0; background: transparent; display: block; transition: border-color 200ms ease, box-shadow 200ms ease; }
@@ -428,7 +464,7 @@
   @media (max-width: 23.75rem) { :root { --card-pad: 0.875rem; } .preview-toolbar { gap: 0.5rem; } .preview-toolbar-right { width: 100%; } .form-section-line { display: none; } .form-section-title { font-size: 0.9375rem; } .output-actions .btn { flex: 1 1 100%; } }
   @media (min-width: 100rem) { :root { --shell-max: 96rem; } }
   @media (forced-colors: active) {
-    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-gh-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone, .review-bar { border: 1px solid CanvasText; }
+    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-gh-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone, .review-bar, .advanced-toggle-wrap { border: 1px solid CanvasText; }
     .btn-glow { forced-color-adjust: none; }
     .tab.active { forced-color-adjust: none; }
     .section-nav-link[aria-current="true"] { forced-color-adjust: none; }
@@ -493,7 +529,7 @@
       <div class="tips-viewport">
         <span class="tips-item is-active"><strong>Step 2 check:</strong> after auto-fill, open Service Setup and verify every field. Auto-fill is a rough draft — not a finished brief.</span>
         <span class="tips-item">Use reasoning / pro models — Gemini 2.5 Pro, GPT-5, Claude Opus. Fast/instant variants cut corners.</span>
-        <span class="tips-item">Taglines split by <strong>• · |</strong> or commas (like <em>Word • Word • Word</em>) are deliberately dropped from the image. Write a real phrase if you want it rendered.</span>
+        <span class="tips-item">Taglines split by <strong>• · |</strong> or commas are deliberately dropped from the image. Write a real phrase if you want it rendered.</span>
         <span class="tips-item">For consistent images: re-paste the FULL prompt in a <strong>new chat</strong> every time. Regenerating in the same thread drifts.</span>
         <span class="tips-item">Ask for one image per message. The STYLE LOCK block in the prompt keeps palette, fonts and layout identical across runs.</span>
         <span class="tips-item">If extra text keeps appearing, reply: "Remove ALL text except the main headline."</span>
@@ -553,23 +589,23 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           Features
         </a>
-        <a href="#section-visual" class="section-nav-link">
+        <a href="#section-visual" class="section-nav-link is-advanced">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           Visual
         </a>
-        <a href="#section-positioning" class="section-nav-link">
+        <a href="#section-positioning" class="section-nav-link is-advanced">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           Positioning
         </a>
-        <a href="#section-pricing" class="section-nav-link">
+        <a href="#section-pricing" class="section-nav-link is-advanced">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 12 22l-9-9V3h10l7.59 7.59a2 2 0 0 1 0 2.82z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
           Pricing
         </a>
-        <a href="#section-process" class="section-nav-link">
+        <a href="#section-process" class="section-nav-link is-advanced">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a2 2 0 0 1 2 2V14"/></svg>
           Process
         </a>
-        <a href="#section-service-seo" class="section-nav-link">
+        <a href="#section-service-seo" class="section-nav-link is-advanced">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           SEO
         </a>
@@ -579,6 +615,14 @@
         <div class="paste-head">
           <h2 class="paste-title">This service's setup</h2>
           <p class="paste-desc">Everything on this tab describes the <strong>one service you're launching right now</strong>. Buyer positioning, packages, requirements, and service keywords all live here — change them each time you launch a new service. Your identity, branding, rates and overall skills stay on the Freelancer Profile tab.</p>
+        </div>
+
+        <!-- ADVANCED TOGGLE -->
+        <div class="advanced-toggle-wrap">
+          <label for="advancedToggle">
+            <input type="checkbox" id="advancedToggle" />
+            <span><strong>Show advanced fields</strong> — buyer positioning, packages, process, SEO, visual notes</span>
+          </label>
         </div>
 
         <!-- LIVE REVIEW -->
@@ -630,23 +674,23 @@
           <div class="field">
             <label class="field-label" for="secondary">Secondary Tagline <span class="opt">(optional — a short phrase, NOT a tool list)</span></label>
             <input class="input" id="secondary" type="text" placeholder="e.g. From Idea to Launch in 7 Days" autocomplete="off" />
-            <p class="field-hint">Only rendered if it reads as a genuine tagline. <strong>If you separate words with • · | or commas, the prompt tells the AI to drop it entirely.</strong> Tool / software names belong in the Tool &amp; Software Icons field below — they become icons, not text.</p>
+            <p class="field-hint">Only rendered if it reads as a genuine tagline. <strong>If you separate words with • · | or commas, the prompt tells the AI to drop it entirely.</strong></p>
           </div>
-          <div class="field">
-            <label class="field-label" for="supporting">Supporting Line <span class="opt">(optional — a short tagline, NOT a feature list)</span></label>
-            <input class="input" id="supporting" type="text" placeholder="e.g. Design • Build • Ship" autocomplete="off" />
-            <p class="field-hint">Only rendered if it reads as a tagline. <strong>List-like values are dropped automatically.</strong> Deliverables and features belong in the Floating Feature Items field below.</p>
+          <!-- Supporting Line: hidden from users, still used by auto-fill and the prompt if a value exists. -->
+          <div class="field" hidden>
+            <label class="field-label" for="supporting">Supporting Line</label>
+            <input class="input" id="supporting" type="text" autocomplete="off" />
           </div>
         </div>
 
         <div class="form-section" id="section-features">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">2</span><h2 class="form-section-title">Features &amp; Tools</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <div class="field"><label class="field-label" for="features">Floating Feature Items <span class="opt">(max 6, one per line)</span></label><textarea class="textarea" id="features" rows="4" aria-describedby="featuresHint" placeholder="Logo Design&#10;Brand Guidelines&#10;Typography&#10;Color Palette&#10;Icon Set&#10;Social Kit"></textarea><p class="field-hint" id="featuresHint">Each item renders as a small icon + text pair floating directly on the background. NOT a card, NOT a grid tile, NOT a chip. Keep each item to 1–3 words. Only the first 6 are used.</p></div>
-          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — <strong>icons only</strong>. Never as text, never inside boxes, never duplicated. Do NOT also list these names in the Secondary or Supporting fields. Only the first 8 are used.</p></div>
-          <div class="field"><label class="field-label" for="trust">Trust Line <span class="opt">(optional — a phrase, not a bullet list)</span></label><input class="input" id="trust" type="text" placeholder="e.g. Built to be remembered" autocomplete="off" /><p class="field-hint">Rendered as small centred text at the bottom. <strong>If it reads as a separated list (Word • Word • Word), the prompt instructs the AI to drop it completely</strong> — that is the usual cause of stray "Word . Word . Word" text appearing on the image. Write a real phrase if you want it rendered.</p></div>
+          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — <strong>icons only</strong>. Never as text, never inside boxes, never duplicated. Do NOT also list these names in the Secondary field. Only the first 8 are used.</p></div>
+          <div class="field"><label class="field-label" for="trust">Trust Line <span class="opt">(optional — a phrase, not a bullet list)</span></label><input class="input" id="trust" type="text" placeholder="e.g. Built to be remembered" autocomplete="off" /><p class="field-hint">Rendered as small centred text at the bottom. <strong>If it reads as a separated list (Word • Word • Word), the prompt instructs the AI to drop it completely</strong> — that is the usual cause of stray "Word . Word . Word" text appearing on the image.</p></div>
         </div>
 
-        <div class="form-section" id="section-visual">
+        <div class="form-section is-advanced" id="section-visual">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Visual Direction — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <p class="form-section-intro">Composition notes for this specific service's cover. Colours, fonts and the shared design spec come from the Freelancer Profile tab.</p>
           <div class="field"><label class="field-label" for="visuals">Visual Elements / Composition Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="visuals" rows="3" placeholder="e.g. Floating vector shapes and color swatches arranged organically. Soft accent glow behind the headline."></textarea></div>
@@ -654,7 +698,7 @@
           <div class="field"><label class="field-label" for="notes">Additional Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="notes" rows="2" placeholder="Anything else the AI should know."></textarea></div>
         </div>
 
-        <div class="form-section" id="section-positioning">
+        <div class="form-section is-advanced" id="section-positioning">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">4</span><h2 class="form-section-title">Buyer Positioning — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <p class="form-section-intro">Who this specific service is for and what it delivers. Change these when you launch a different service — the AI uses them to write the listing, proposal and FAQ for <em>this</em> offer.</p>
           <div class="field"><label class="field-label" for="sdAudience">Target Buyer <span class="opt">(for this service)</span></label><input class="input" id="sdAudience" type="text" placeholder="e.g. DTC founders doing $50k+/month" autocomplete="off" /></div>
@@ -662,7 +706,7 @@
           <div class="field"><label class="field-label" for="sdOutcome">Promised Outcome</label><input class="input" id="sdOutcome" type="text" placeholder="e.g. A stable, deployed app with monitoring in 5 days" autocomplete="off" /></div>
         </div>
 
-        <div class="form-section" id="section-pricing">
+        <div class="form-section is-advanced" id="section-pricing">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">5</span><h2 class="form-section-title">Packages &amp; Pricing — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <p class="form-section-intro">Packages belong to the service you're launching, not to your profile. The AI cross-checks these against your baseline hourly rate and minimum project budget on the Freelancer Profile tab.</p>
           <div class="field"><label class="field-label" for="sdPkgBasic">Basic Package <span class="opt">(name | price | delivery days | revisions | what is included)</span></label><input class="input" id="sdPkgBasic" type="text" placeholder="Starter | 75 | 3 | 1 | Single fix, tested, documented" autocomplete="off" /></div>
@@ -672,14 +716,14 @@
           <div class="field"><label class="field-label" for="sdDeliverables">Deliverables <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdDeliverables" rows="4" placeholder="Working deployed app&#10;Source code + README&#10;Loom walkthrough"></textarea></div>
         </div>
 
-        <div class="form-section" id="section-process">
+        <div class="form-section is-advanced" id="section-process">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">6</span><h2 class="form-section-title">Requirements &amp; Process — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <div class="field"><label class="field-label" for="sdRequirements">What You Need From The Buyer <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdRequirements" rows="3" placeholder="Repository or project access&#10;Description of the bug or goal&#10;Any API keys needed"></textarea></div>
           <div class="field"><label class="field-label" for="sdProcess">Your Process Steps <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdProcess" rows="4" placeholder="Discovery call or brief&#10;Audit and plan&#10;Build and test&#10;Deploy and hand over"></textarea></div>
           <div class="field"><label class="field-label" for="sdFaqSeeds">Questions Buyers Always Ask <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdFaqSeeds" rows="3" placeholder="Do you work with existing code?&#10;What if it breaks later?&#10;Can you sign an NDA?"></textarea></div>
         </div>
 
-        <div class="form-section" id="section-service-seo">
+        <div class="form-section is-advanced" id="section-service-seo">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">7</span><h2 class="form-section-title">SEO &amp; Search Intent — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <p class="form-section-intro">Keywords and buyer search phrases for <strong>this service only</strong>. Your overall skills and profile-level search intent live on the Freelancer Profile tab.</p>
           <div class="field"><label class="field-label" for="sdKeywords">Primary Keywords <span class="opt">(comma separated)</span></label><input class="input" id="sdKeywords" type="text" placeholder="ai agent developer, rag chatbot, langchain expert" autocomplete="off" /></div>
@@ -941,7 +985,7 @@
             <div class="pc-inner">
               <div class="pc-headline" id="pcHeadline">Logo &amp; Brand Identity Design</div>
               <div class="pc-secondary" id="pcSecondary">Where Strategy Meets Craft</div>
-              <div class="pc-supporting" id="pcSupporting">Designed to Last</div>
+              <div class="pc-supporting" id="pcSupporting"></div>
               <div class="pc-tools" id="pcTools"></div>
               <div class="pc-features" id="pcFeatures"></div>
               <div class="pc-trust" id="pcTrust">Built to be remembered</div>
@@ -1456,6 +1500,23 @@ window.showToast = function (msg) {
     });
   });
 
+  /* ADVANCED TOGGLE */
+  (function () {
+    const cb = $('advancedToggle');
+    if (!cb) return;
+    function sync() {
+      document.body.classList.toggle('show-advanced', cb.checked);
+      if (window.__arzoReview) window.__arzoReview();
+    }
+    cb.addEventListener('change', () => {
+      sync();
+      window.__arzoScheduleSave && window.__arzoScheduleSave();
+    });
+    // restore from storage happens in __arzoRestoreState; sync after DOM ready
+    document.addEventListener('DOMContentLoaded', sync);
+    sync();
+  })();
+
   /* SPEC FILES */
   const TEXT_EXTS = ['txt','md','markdown','json','css','scss','less','html','htm','svg','csv','yml','yaml','js','jsx','ts','tsx','xml','log','env','rtf'];
   const IMAGE_EXTS = ['png','jpg','jpeg','webp','gif','avif','bmp','tiff','tif','heic'];
@@ -1619,7 +1680,7 @@ window.showToast = function (msg) {
   const KNOWN_FEATURES = ['Logo Design','Brand Identity','Brand Guidelines','Visual Identity','Brand Strategy','UI/UX Design','UI Design','UX Design','Wireframes','Prototyping','Icon Design','Illustration','Print Design','Packaging Design','Social Media Design','Presentation Design','Pitch Deck','Business Cards','Flyers','Brochures','Banner Design','Thumbnail Design','Book Cover','Merch Design','3D Modeling','3D Rendering','Motion Graphics','Animation','Video Editing','Color Grading','Sound Design','Reels Editing','YouTube Editing','Short-form Video','Subtitles & Captions','Voiceover','Storyboarding','SEO Strategy','On-Page SEO','Off-Page SEO','Technical SEO','Local SEO','Link Building','Keyword Research','SEO Audit','Content Strategy','Content Writing','Copywriting','Blog Writing','Website Copy','Landing Page Copy','Ad Copy','Product Descriptions','Email Copy','Email Marketing','Email Automation','Newsletter Design','Social Media Management','Social Media Strategy','Community Management','Influencer Outreach','Paid Ads','Facebook Ads','Google Ads','TikTok Ads','LinkedIn Ads','PPC Campaigns','Display Ads','Funnel Building','Landing Pages','Conversion Optimization','A/B Testing','Marketing Automation','Audience Research','Competitor Analysis','Market Research','Growth Strategy','Analytics & Reporting','Tracking Setup','Pixel Setup','Lead Generation','Lead Capture','Lead Scoring','Customer Retention','Reputation Management','GMB Optimization','Search Console','Core Web Vitals','Blog Posts','Articles','Scripts','Ghostwriting','Editing','Proofreading','Technical Writing','UX Writing','Case Studies','Whitepapers','eBooks','Press Releases','Social Captions','SEO Content','Translation','Transcription','Email Sequences','Sales Letters','Bug Fixing','UI/UX Fixes','Auth Issues','Performance','CORS','RAG System','AI Chatbot','AI Agents','AI Support','API Integration','REST API','Database Architecture','Backend Setup','Auth Setup','Deployment','SaaS Development','MVP Development','API Development','Full Stack','Mobile App','PWA','Payment Integration','Stripe Integration','Inventory Sync','POS Sync','CRM Sync','Webhooks','AI Automation','AI Content','GPT-4o','Machine Learning','NLP & Analytics','Vector DB','AI Search','Vector Search','AI Knowledge Base','RAG Systems','Runtime Errors','Supabase Errors','Integration Issues','Malware Cleanup','PHP Errors','Plugin Conflicts','Login Recovery','Custom Themes','Custom Plugins','Speed & Security','SSL Management','Daily Backups','Security Monitoring','Performance Optimization','24/7 Uptime','Priority Support','E-commerce Flows','Workflow Automation','Sales Alerts','Follow-Ups','Auto Posting','Content Repurposing','Engagement Tracking','Business Plan','Financial Modeling','Operations Setup','SOP Documentation','Process Automation','CRM Setup','Project Management','Virtual Assistance','Data Entry','Bookkeeping','Customer Support','Sales Strategy','Cold Outreach','LinkedIn Outreach','Appointment Setting','Lead Qualification','Account Management','SEO','Marketing','Automation'];
 
   const SAMPLES = [
-    "I'll design a custom logo and full brand identity for your business. I deliver a primary logo, secondary marks, color palette, typography system, brand guidelines PDF, social media kit, business cards, and stationery. Clean, modern, memorable. Figma source files included. Unlimited revisions. Distinct. Timeless. Memorable.",
+    "I'll design a custom logo and full brand identity for your business. I deliver a primary logo, secondary marks, color palette, typography system, brand guidelines PDF, social media kit, business cards, and stationery. Clean, modern, memorable. Figma source files included. Unlimited revisions.",
     "I build modern web and mobile apps using React, Next.js, Node.js, and React Native. I handle UI/UX implementation, backend APIs, database design, authentication, payments with Stripe, and deployment on Vercel or AWS. Clean code. Responsive design. Scalable architecture. MVP ready in weeks.",
     "I grow your organic traffic with a complete SEO strategy. I run a technical SEO audit, fix Core Web Vitals, build high-quality backlinks, do keyword research, optimize on-page content, set up Google Analytics and Search Console, and report monthly. Real rankings. Real traffic. Real growth.",
     "I edit short-form and long-form video for YouTube, Instagram Reels, TikTok, and paid ads. I handle cuts, transitions, motion graphics, subtitles, sound design, color grading, and thumbnail design in Premiere Pro, After Effects, and DaVinci Resolve. Fast turnaround. Scroll-stopping edits.",
@@ -1627,7 +1688,7 @@ window.showToast = function (msg) {
     "I manage your social media from strategy to daily posting. I create content calendars, design posts and stories in Canva, write captions, schedule across Instagram, Facebook, LinkedIn, and TikTok with Buffer or Hootsuite, engage your audience, and report on growth. Consistent. On-brand. Growth-focused."
   ];
 
-  /* ---------- IMPROVED SERVICE CATEGORY RULES ---------- */
+  /* ---------- SERVICE CATEGORY RULES ---------- */
   const SERVICE_RULES = [
     { re: /\b(logo|brand identity|branding|visual identity|brand guidelines|rebrand)\b/i, topic: 'Logo & Brand Identity Design', keywords: 'logo design, brand identity, custom logo design, brand guidelines, minimal logo' },
     { re: /\b(ui\s*\/?\s*ux|ui design|ux design|app design|product design|wireframe|prototype|design system)\b/i, topic: 'UI/UX Design', keywords: 'ui ux designer, app design, figma designer, product design, design system' },
@@ -1665,14 +1726,14 @@ window.showToast = function (msg) {
     const lower = text.toLowerCase();
     const result = {};
 
-    /* --- Tools & features (unchanged core, broader match) --- */
+    /* Tools & features */
     const foundTools = KNOWN_TOOLS.filter(t => new RegExp('(?:^|[^a-z0-9])' + escapeRegExp(t) + '(?:$|[^a-z0-9])', 'i').test(text));
     result.tools = foundTools.slice(0, 8);
 
     const foundFeatures = KNOWN_FEATURES.filter(f => lower.includes(f.toLowerCase()));
     result.features = foundFeatures.slice(0, 6);
 
-    /* --- Service category (topic + keywords) --- */
+    /* Service category */
     let matched = null;
     for (const rule of SERVICE_RULES) { if (rule.re.test(text)) { matched = rule; break; } }
     if (!matched && foundFeatures.length) {
@@ -1684,7 +1745,7 @@ window.showToast = function (msg) {
       result.sdKeywords = matched.keywords;
     }
 
-    /* --- Headline --- */
+    /* Headline */
     const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
     const firstSentence = text.split(/[.!?\n]/)[0].trim();
     let headline = firstSentence;
@@ -1702,13 +1763,13 @@ window.showToast = function (msg) {
     if (headline) result.mainHeadline = headline.charAt(0).toUpperCase() + headline.slice(1);
     if (!result.topic && result.mainHeadline) result.topic = result.mainHeadline.replace(/[.!?]$/, '');
 
-    /* --- Trust line --- */
+    /* Trust line */
     const lastLine = lines[lines.length - 1] || '';
     const trustCandidate = lastLine.length < 90 && /[•·|]/.test(lastLine) ? lastLine
       : (/^(?:distinct|timeless|memorable|reliable|fast|clean|professional)/i.test(lastLine) && lastLine.length < 90 ? lastLine : '');
     if (trustCandidate) result.trust = trustCandidate;
 
-    /* --- Deliverables --- */
+    /* Deliverables */
     const delivMatch = text.match(/(?:you(?:'ll| will)?\s*(?:get|receive)|includes?|deliverables?(?:\s+include)?|deliver(?:s|ing)?|i\s+deliver)[:\s]+([^\n]{10,320})/i);
     if (delivMatch) {
       const items = delivMatch[1]
@@ -1718,7 +1779,7 @@ window.showToast = function (msg) {
       if (items.length >= 2) result.sdDeliverables = items.slice(0, 8);
     }
 
-    /* --- Audience --- */
+    /* Audience */
     const AUDIENCE_RES = [
       /\bfor\s+((?:small|medium|large|early[\s-]stage|funded|bootstrapped|solo|saas|e-?commerce|dtc|b2b|b2c)[\s\w'-]{2,44})/i,
       /\b(?:help|helps|helping)\s+((?:startups?|founders?|businesses|brands?|creators|agencies|coaches|consultants|stores?|shops?|marketers|developers|teams?|entrepreneurs)[\s\w'-]{0,44})/i,
@@ -1729,22 +1790,22 @@ window.showToast = function (msg) {
       if (m && m[1]) { result.sdAudience = m[1].trim().replace(/\s+/g, ' '); break; }
     }
 
-    /* --- Problem --- */
+    /* Problem */
     const probM = text.match(/\b(?:struggling with|tired of|fed up with|need help with|problems? with|frustrated by|sick of)\s+([^.,;\n]{5,90})/i);
     if (probM) result.sdProblem = probM[1].trim();
     else if (result.sdAudience) result.sdProblem = 'Buyers in this niche need reliable, on-time delivery without managing it themselves';
 
-    /* --- Outcome --- */
+    /* Outcome */
     const outM = text.match(/\b(?:so you can|so that you|to help you|resulting in|which means|you(?:'ll| will) get|get a)\s+([^.,;\n]{5,90})/i);
     if (outM) result.sdOutcome = outM[1].trim();
 
-    /* --- Tone --- */
+    /* Tone */
     if (/\b(premium|high[\s-]end|luxury|elegant|sophisticated)\b/i.test(text)) result.sdTone = 'Confident, premium, no fluff';
     else if (/\b(friendly|approachable|warm|easy[\s-]going)\b/i.test(text)) result.sdTone = 'Friendly, approachable, plain-spoken';
     else if (/\b(fast|quick|rapid|24[\s-]?hour|same[\s-]?day)\b/i.test(text)) result.sdTone = 'Fast, direct, results-first';
     else result.sdTone = 'Confident, direct, no fluff';
 
-    /* --- Search intent --- */
+    /* Search intent */
     const intents = [];
     if (result.topic) {
       const t = result.topic.toLowerCase();
@@ -1754,7 +1815,7 @@ window.showToast = function (msg) {
     if (result.sdAudience) intents.push('help my ' + result.sdAudience.toLowerCase());
     if (intents.length) result.sdIntent = intents.slice(0, 5);
 
-    /* --- Visual hint --- */
+    /* Visual hint */
     const VISUAL_HINTS = [
       { re: /logo|brand identity|graphic design|vector|icon design|illustration/i, hint: 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.' },
       { re: /ui\/ux|ui design|ux design|app design|product design|wireframe|prototype/i, hint: 'Floating UI screens and wireframe elements scattered organically. Soft ambient glow behind the composition. No container boxes.' },
@@ -2306,7 +2367,6 @@ window.showToast = function (msg) {
     $('topic').value = 'Logo & Brand Identity Design';
     $('mainHeadline').value = 'Logo & Brand Identity Design';
     $('secondary').value = 'Where Strategy Meets Craft';
-    $('supporting').value = 'Designed to Last';
     $('features').value = 'Logo Design\nBrand Guidelines\nTypography\nColor Palette\nIcon Set\nSocial Kit';
     $('tools').value = 'Figma\nIllustrator\nPhotoshop\nCanva';
     $('trust').value = 'Built to be remembered';
@@ -2382,7 +2442,7 @@ window.showToast = function (msg) {
      LIVE SERVICE REVIEW  —  flags bad / missing input data
      ============================================================ */
   const REVIEW_FIELD_IDS = [
-    'topic','mainHeadline','secondary','supporting','trust',
+    'topic','mainHeadline','secondary','trust',
     'features','tools',
     'sdAudience','sdProblem','sdOutcome','sdKeywords','sdIntent','sdTone',
     'sdPkgBasic','sdPkgStandard','sdPkgPremium'
@@ -2402,14 +2462,14 @@ window.showToast = function (msg) {
     const titleEl = $('reviewTitle');
     if (!bar || !listEl) return;
 
+    const advancedOn = document.body.classList.contains('show-advanced');
     const issues = [];
     const add = (id, msg, severity) => issues.push({ id, msg, severity: severity || 'warn' });
 
+    /* Always-visible field checks */
     if (!val('topic')) add('topic', 'Service topic is empty — the prompt will use a placeholder.', 'error');
     if (!val('mainHeadline')) add('mainHeadline', 'Main headline is empty — nothing will be rendered as the largest text.', 'error');
-
     if (isListy(val('secondary'))) add('secondary', 'Secondary tagline reads as a list (• · | or commas). The AI will drop it completely — write a real phrase to have it rendered.');
-    if (isListy(val('supporting'))) add('supporting', 'Supporting line reads as a list. The AI will drop it completely — write a real phrase to have it rendered.');
     if (isListy(val('trust'))) add('trust', 'Trust line reads as a list (e.g. "Word • Word • Word"). The AI will drop it — this is the usual cause of stray dot-separated text on the image.');
 
     const feats = lines('features');
@@ -2421,16 +2481,19 @@ window.showToast = function (msg) {
     if (!tls.length) add('tools', 'No tool icons — the cover will look sparse and the tool cluster will be missing.');
     else if (tls.length > 8) add('tools', 'More than 8 tool icons — only the first 8 are used.');
 
-    if (!val('sdAudience')) add('sdAudience', 'Target buyer is empty — listing, proposal and FAQ copy will read generic.');
-    if (!val('sdProblem')) add('sdProblem', 'Main problem is empty — the listing will have no hook.');
-    if (!val('sdOutcome')) add('sdOutcome', 'Promised outcome is empty — the listing will have no result to sell.');
-    if (!val('sdKeywords')) add('sdKeywords', 'No service keywords — SEO tags and titles will be guesswork.');
-    if (!lines('sdIntent').length) add('sdIntent', 'No buyer search phrases — search tags will be less accurate.');
-    if (!val('sdTone')) add('sdTone', 'Tone of voice is empty — copy will fall back to a default tone.');
+    /* Advanced field checks — only when the toggle is on */
+    if (advancedOn) {
+      if (!val('sdAudience')) add('sdAudience', 'Target buyer is empty — listing, proposal and FAQ copy will read generic.');
+      if (!val('sdProblem')) add('sdProblem', 'Main problem is empty — the listing will have no hook.');
+      if (!val('sdOutcome')) add('sdOutcome', 'Promised outcome is empty — the listing will have no result to sell.');
+      if (!val('sdKeywords')) add('sdKeywords', 'No service keywords — SEO tags and titles will be guesswork.');
+      if (!lines('sdIntent').length) add('sdIntent', 'No buyer search phrases — search tags will be less accurate.');
+      if (!val('sdTone')) add('sdTone', 'Tone of voice is empty — copy will fall back to a default tone.');
 
-    const pkgCount = ['sdPkgBasic','sdPkgStandard','sdPkgPremium'].filter((id) => val(id)).length;
-    if (pkgCount === 0) add('sdPkgBasic', 'No packages defined — pricing prompts will invent tiers from scratch.');
-    else if (pkgCount < 3) add('sdPkgStandard', 'Only ' + pkgCount + ' of 3 packages defined — marketplaces expect Basic, Standard and Premium.');
+      const pkgCount = ['sdPkgBasic','sdPkgStandard','sdPkgPremium'].filter((id) => val(id)).length;
+      if (pkgCount === 0) add('sdPkgBasic', 'No packages defined — pricing prompts will invent tiers from scratch.');
+      else if (pkgCount < 3) add('sdPkgStandard', 'Only ' + pkgCount + ' of 3 packages defined — marketplaces expect Basic, Standard and Premium.');
+    }
 
     /* Apply flags */
     clearFieldFlags();
@@ -2444,13 +2507,15 @@ window.showToast = function (msg) {
     listEl.innerHTML = '';
     if (!issues.length) {
       bar.classList.add('is-clean');
-      titleEl.textContent = 'Service data looks complete';
+      titleEl.textContent = advancedOn ? 'Service data looks complete' : 'Visible fields look complete';
       countEl.textContent = 'All good';
       const li = document.createElement('li');
       const span = document.createElement('span');
       span.className = 'review-link';
       span.style.cursor = 'default';
-      span.textContent = 'Every field checked on this tab has usable data. Generate whenever you are ready.';
+      span.textContent = advancedOn
+        ? 'Every field checked on this tab has usable data. Generate whenever you are ready.'
+        : 'Visible fields look good. Turn on "Show advanced fields" to review buyer positioning, packages and SEO.';
       li.appendChild(span);
       listEl.appendChild(li);
     } else {
