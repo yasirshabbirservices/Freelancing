@@ -78,13 +78,18 @@
   .header-ak-dot { width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: hsl(var(--arzokeys)); box-shadow: 0 0 8px hsl(var(--arzokeys) / 0.8); flex-shrink: 0; }
   .header-ak-label { white-space: nowrap; }
   .header-ak-hint { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.125rem 0.375rem; border-radius: 9999px; background: hsl(var(--arzokeys) / 0.2); color: hsl(var(--arzokeys)); margin-left: 0.125rem; }
+  .header-gh-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.4375rem 0.75rem; border-radius: 9999px; background: hsl(var(--card) / 0.5); border: 1px solid hsl(var(--border)); color: hsl(var(--muted-fg)); font-family: 'Space Grotesk', sans-serif; font-size: 0.8125rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background 180ms ease, transform 180ms ease, border-color 180ms ease, color 180ms ease; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
+  .header-gh-chip:hover { background: hsl(var(--card)); border-color: hsl(var(--primary) / 0.55); color: hsl(var(--fg)); transform: translateY(-1px); }
+  .header-gh-chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .header-gh-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+  .header-gh-label { white-space: nowrap; }
   .header-icon-btn { position: relative; appearance: none; border: 1px solid hsl(var(--border)); background: hsl(var(--card) / 0.5); color: hsl(var(--muted-fg)); width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: color 180ms ease, border-color 180ms ease, background 180ms ease, transform 180ms ease; -webkit-tap-highlight-color: transparent; flex-shrink: 0; }
   .header-icon-btn svg { width: 1.125rem; height: 1.125rem; }
   .header-icon-btn:hover, .header-icon-btn:focus-visible { color: hsl(var(--fg)); border-color: hsl(var(--primary) / 0.55); background: hsl(var(--card)); }
   .header-icon-btn:active { transform: scale(0.96); }
   .header-icon-btn::after { content: attr(data-tooltip); position: absolute; top: calc(100% + 0.5rem); right: 0; padding: 0.375rem 0.625rem; background: hsl(var(--card)); color: hsl(var(--fg)); border: 1px solid hsl(var(--border)); border-radius: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 500; white-space: nowrap; opacity: 0; pointer-events: none; transform: translateY(-0.25rem); transition: opacity 160ms ease, transform 160ms ease; z-index: 100; box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
   .header-icon-btn:hover::after, .header-icon-btn:focus-visible::after { opacity: 1; transform: translateY(0); }
-  @media (max-width: 40rem) { .header-ak-hint, .header-ak-label { display: none; } .header-ak-chip { padding: 0.5rem; } .header-ak-chip .header-ak-dot { margin: 0; } }
+  @media (max-width: 40rem) { .header-ak-hint, .header-ak-label, .header-gh-label { display: none; } .header-ak-chip, .header-gh-chip { padding: 0.5rem; } .header-ak-chip .header-ak-dot { margin: 0; } }
 
   /* SHELL */
   .shell { position: relative; z-index: 2; max-width: var(--shell-max); margin: 0 auto; padding: var(--gutter-y-top) var(--gutter-x) calc(var(--gutter-y-bottom) + env(safe-area-inset-bottom, 0px)); }
@@ -390,7 +395,7 @@
   @media (max-width: 23.75rem) { :root { --card-pad: 0.875rem; } .preview-toolbar { gap: 0.5rem; } .preview-toolbar-right { width: 100%; } .form-section-line { display: none; } .form-section-title { font-size: 0.9375rem; } .output-actions .btn { flex: 1 1 100%; } }
   @media (min-width: 100rem) { :root { --shell-max: 96rem; } }
   @media (forced-colors: active) {
-    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone { border: 1px solid CanvasText; }
+    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-gh-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone { border: 1px solid CanvasText; }
     .btn-glow { forced-color-adjust: none; }
     .tab.active { forced-color-adjust: none; }
     .section-nav-link[aria-current="true"] { forced-color-adjust: none; }
@@ -418,6 +423,12 @@
       <span class="brand-name">Prompt Forge</span>
     </a>
     <div class="header-actions">
+      <a class="header-gh-chip" href="https://github.com/yasirshabbirservices/Freelancing/issues" target="_blank" rel="noopener" aria-label="Report a bug or request a feature — opens GitHub Issues">
+        <svg class="header-gh-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+        <span class="header-gh-label">Issues</span>
+      </a>
       <a class="header-ak-chip" href="https://arzokeys.com/" target="_blank" rel="noopener" aria-label="ArzoKeys — free Chrome extension for managing license keys">
         <span class="header-ak-dot" aria-hidden="true"></span>
         <span class="header-ak-label">ArzoKeys</span>
