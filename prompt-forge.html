@@ -102,6 +102,67 @@
   .hero-sub { font-size: clamp(0.875rem, 0.83rem + 0.35vw, 1.125rem); line-height: 1.7; color: hsl(var(--muted-fg)); max-width: 41.25rem; margin: 0 auto; text-wrap: pretty; }
   .app-main { width: 100%; max-width: var(--app-width); margin: 0 auto; }
 
+  /* TIPS BAR */
+  .tips-bar {
+    max-width: 100%;
+    margin: 0 auto clamp(1rem, 3vw, 1.5rem);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.03));
+    border: 1px solid hsl(var(--primary) / 0.22);
+    overflow: hidden;
+    min-height: 2.5rem;
+    position: relative;
+  }
+  .tips-prefix {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--primary));
+    flex-shrink: 0;
+  }
+  .tips-icon { width: 0.875rem; height: 0.875rem; flex-shrink: 0; }
+  .tips-viewport {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 1.4em;
+    overflow: hidden;
+  }
+  .tips-item {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+    color: hsl(var(--muted-fg));
+    opacity: 0;
+    transform: translateY(0.4rem);
+    transition: opacity 380ms ease, transform 380ms ease;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tips-item.is-active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  @media (max-width: 34rem) {
+    .tips-prefix-text { display: none; }
+    .tips-bar { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .tips-item { transition: none; } }
+
   /* TABS */
   .tabs { display: flex; gap: 0.25rem; padding: 0.375rem; background: hsl(var(--card) / 0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid hsl(var(--fg) / 0.08); border-radius: 9999px; margin: 0 auto clamp(1.25rem, 4vw, 2rem); width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scroll-padding-inline: 0.375rem; }
   .tabs::-webkit-scrollbar { display: none; }
@@ -145,6 +206,7 @@
   .form-section-num { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem); color: hsl(var(--primary)); background: hsl(var(--primary) / 0.12); border: 1px solid hsl(var(--primary) / 0.3); width: clamp(1.5rem, 3.5vw, 1.75rem); height: clamp(1.5rem, 3.5vw, 1.75rem); border-radius: 0.5rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .form-section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1rem, 0.95rem + 0.4vw, 1.0625rem); letter-spacing: -0.01em; color: hsl(var(--fg)); line-height: 1.3; min-width: 0; }
   .form-section-line { flex: 1; height: 1px; background: linear-gradient(90deg, hsl(var(--border)) 0%, hsl(var(--border) / 0) 100%); margin-left: 0.5rem; min-width: 0.5rem; }
+  .form-section-intro { font-size: clamp(0.6875rem, 0.67rem + 0.15vw, 0.75rem); color: hsl(var(--muted-fg)); line-height: 1.55; margin: -0.5rem 0 1rem; text-wrap: pretty; }
   .field { margin-bottom: 1rem; }
   .field:last-child { margin-bottom: 0; }
   .field-label { display: block; font-size: clamp(0.75rem, 0.72rem + 0.2vw, 0.8125rem); font-weight: 600; color: hsl(var(--fg)); margin-bottom: 0.5rem; letter-spacing: 0.01em; line-height: 1.4; }
@@ -296,7 +358,7 @@
   .output-status.ready { color: hsl(var(--primary)); }
   .output-actions { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid hsl(var(--border)); }
   .output-pre { font-family: 'Space Grotesk', ui-monospace, 'SF Mono', Menlo, monospace; font-size: clamp(0.6875rem, 0.66rem + 0.2vw, 0.78125rem); line-height: 1.7; color: hsl(var(--fg)); background: hsl(var(--background) / 0.85); border: 1px solid hsl(var(--border)); border-radius: clamp(0.75rem, 2vw, 1rem); padding: clamp(0.875rem, 2.5vw, 1.25rem); max-height: min(40rem, 60vh); overflow: auto; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; margin: 0; -webkit-overflow-scrolling: touch; }
-  .output-pre:empty::before { content: "Switch to the Customize tab to fill in your service details, then come back here. Your shareable markdown prompt will appear."; color: hsl(var(--muted-fg) / 0.85); font-family: 'Space Grotesk', sans-serif; font-size: 0.875rem; font-style: italic; line-height: 1.7; }
+  .output-pre:empty::before { content: "Switch to the Service Setup tab to fill in your service details, then come back here. Your shareable markdown prompt will appear."; color: hsl(var(--muted-fg) / 0.85); font-family: 'Space Grotesk', sans-serif; font-size: 0.875rem; font-style: italic; line-height: 1.7; }
 
   /* FOOTER */
   .footer { margin-top: clamp(3rem, 10vw, 5rem); text-align: center; font-size: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem); color: hsl(var(--muted-fg)); line-height: 1.6; }
@@ -377,10 +439,27 @@
   </header>
 
   <div class="app-main">
+
+    <!-- TIPS TICKER -->
+    <div class="tips-bar" id="tipsBar" role="region" aria-label="Generation tips">
+      <span class="tips-prefix" aria-hidden="true">
+        <svg class="tips-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2 1 3.5 2 5h10c1-1.5 2-3 2-5a7 7 0 0 0-7-7z"/></svg>
+        <span class="tips-prefix-text">Tips</span>
+      </span>
+      <div class="tips-viewport">
+        <span class="tips-item is-active">Use reasoning / pro models — Gemini 2.5 Pro, GPT-5, Claude Opus. Fast/instant variants cut corners.</span>
+        <span class="tips-item">Paste into a fresh chat with no prior images — old context produces old mistakes.</span>
+        <span class="tips-item">Ask for one image per message. Regenerating in-thread tends to repeat earlier errors.</span>
+        <span class="tips-item">If extra text keeps appearing, reply: "Remove ALL text except the main headline and trust line."</span>
+        <span class="tips-item">Generate at 2× the target size, then downscale — typography stays crisp.</span>
+        <span class="tips-item">Save the prompt as .md. Reuse it for future services by editing only a few fields.</span>
+      </div>
+    </div>
+
     <nav class="tabs" role="tablist" aria-label="Generator steps" id="tabsNav">
       <button class="tab active" id="tab-paste" data-tab="paste" role="tab" aria-selected="true" aria-controls="panel-paste" tabindex="0"><span class="tab-num" aria-hidden="true">1</span> Paste Description</button>
-      <button class="tab" id="tab-customize" data-tab="customize" role="tab" aria-selected="false" aria-controls="panel-customize" tabindex="-1"><span class="tab-num" aria-hidden="true">2</span> Customize</button>
-      <button class="tab" id="tab-servicedata" data-tab="servicedata" role="tab" aria-selected="false" aria-controls="panel-servicedata" tabindex="-1"><span class="tab-num" aria-hidden="true">3</span> Service Data</button>
+      <button class="tab" id="tab-customize" data-tab="customize" role="tab" aria-selected="false" aria-controls="panel-customize" tabindex="-1"><span class="tab-num" aria-hidden="true">2</span> Service Setup</button>
+      <button class="tab" id="tab-profile" data-tab="profile" role="tab" aria-selected="false" aria-controls="panel-profile" tabindex="-1"><span class="tab-num" aria-hidden="true">3</span> Freelancer Profile</button>
       <button class="tab" id="tab-preview" data-tab="preview" role="tab" aria-selected="false" aria-controls="panel-preview" tabindex="-1"><span class="tab-num" aria-hidden="true">4</span> Cover Preview</button>
       <button class="tab" id="tab-markdown" data-tab="markdown" role="tab" aria-selected="false" aria-controls="panel-markdown" tabindex="-1"><span class="tab-num" aria-hidden="true">5</span> Image Prompt</button>
       <button class="tab" id="tab-textprompts" data-tab="textprompts" role="tab" aria-selected="false" aria-controls="panel-textprompts" tabindex="-1"><span class="tab-num" aria-hidden="true">6</span> Text Prompts</button>
@@ -392,7 +471,7 @@
       <div class="paste-wrap glass-card">
         <div class="paste-head">
           <h2 class="paste-title" id="pasteTitle">Paste your service description</h2>
-          <p class="paste-desc" id="pasteDesc">Drop in a raw description from any marketplace, portfolio, job post, or your own notes. The extractor pulls out the headline, features, tools, and a trust line — then fills the Customize tab for you.</p>
+          <p class="paste-desc" id="pasteDesc">Drop in a raw description from any marketplace, portfolio, job post, or your own notes. The extractor pulls out the headline, features, tools, and a trust line — then fills the Service Setup tab for you. Each new service starts here; your Freelancer Profile and branding stay the same across all of them.</p>
         </div>
         <label class="sr-only" for="pasteInput">Service description to extract from</label>
         <textarea class="textarea paste-textarea" id="pasteInput" aria-labelledby="pasteTitle" aria-describedby="pasteDesc" placeholder="Paste anything — a gig description, a proposal paragraph, or a few lines from your portfolio."></textarea>
@@ -417,9 +496,9 @@
       </div>
     </section>
 
-    <!-- PANEL 2 · CUSTOMIZE -->
+    <!-- PANEL 2 · SERVICE SETUP -->
     <section class="panel" id="panel-customize" role="tabpanel" aria-labelledby="tab-customize" tabindex="0">
-      <nav class="section-nav" aria-label="Customize sections">
+      <nav class="section-nav" aria-label="Service sections">
         <a href="#section-basics" class="section-nav-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
           Basics
@@ -428,17 +507,34 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           Features
         </a>
-        <a href="#section-branding" class="section-nav-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z"/></svg>
-          Branding
-        </a>
         <a href="#section-visual" class="section-nav-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           Visual
         </a>
+        <a href="#section-positioning" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          Positioning
+        </a>
+        <a href="#section-pricing" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 12 22l-9-9V3h10l7.59 7.59a2 2 0 0 1 0 2.82z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
+          Pricing
+        </a>
+        <a href="#section-process" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a2 2 0 0 1 2 2V14"/></svg>
+          Process
+        </a>
+        <a href="#section-service-seo" class="section-nav-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          SEO
+        </a>
       </nav>
 
       <div class="glass-card">
+        <div class="paste-head">
+          <h2 class="paste-title">This service's setup</h2>
+          <p class="paste-desc">Everything on this tab describes the <strong>one service you're launching right now</strong>. Buyer positioning, packages, requirements, and service keywords all live here — change them each time you launch a new service. Your identity, branding, rates and overall skills stay on the Freelancer Profile tab.</p>
+        </div>
+
         <div class="form-section" id="section-basics">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">1</span><h2 class="form-section-title">Service Basics</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <div class="field"><label class="field-label" for="topic">Service Topic <span class="opt">(required)</span></label><input class="input" id="topic" type="text" placeholder="e.g. Logo Design, SEO, Video Editing" autocomplete="off" /></div>
@@ -473,84 +569,86 @@
             <p class="field-hint">Any size from <strong>200 × 200</strong> up to <strong>8000 × 8000</strong> px. Padding is the clear margin kept on every side — the safe area is the remaining inner box (<span id="customSafePreview">1130 × 650</span>).</p>
           </div>
           <div class="field"><label class="field-label" for="mainHeadline">Main Headline <span class="opt">(largest text, 3–8 words)</span></label><input class="input" id="mainHeadline" type="text" placeholder="e.g. Build a Brand That Stands Out" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="secondary">Secondary Headline <span class="opt">(optional)</span></label><input class="input" id="secondary" type="text" placeholder="e.g. Figma • Illustrator • Photoshop • Canva" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="supporting">Supporting Text <span class="opt">(optional)</span></label><input class="input" id="supporting" type="text" placeholder="e.g. Logo • Guidelines • Typography • Social Kit" autocomplete="off" /></div>
+          <div class="field">
+            <label class="field-label" for="secondary">Secondary Tagline <span class="opt">(optional — a short phrase, NOT a tool list)</span></label>
+            <input class="input" id="secondary" type="text" placeholder="e.g. From Idea to Launch in 7 Days" autocomplete="off" />
+            <p class="field-hint">Only rendered if it reads as a genuine tagline. Tool / software names belong in the Tool &amp; Software Icons field below — they become icons, not text.</p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="supporting">Supporting Line <span class="opt">(optional — a short tagline, NOT a feature list)</span></label>
+            <input class="input" id="supporting" type="text" placeholder="e.g. Design • Build • Ship" autocomplete="off" />
+            <p class="field-hint">Only rendered if it reads as a tagline. Deliverables and features belong in the Floating Feature Items field below.</p>
+          </div>
         </div>
 
         <div class="form-section" id="section-features">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">2</span><h2 class="form-section-title">Features &amp; Tools</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="features">Floating Feature Items <span class="opt">(max 6, one per line)</span></label><textarea class="textarea" id="features" rows="4" aria-describedby="featuresHint" placeholder="Logo Design&#10;Brand Guidelines&#10;Typography&#10;Color Palette&#10;Icon Set&#10;Social Kit"></textarea><p class="field-hint" id="featuresHint">Each item renders as a small icon + text pair floating directly on the background. NOT a card, NOT a grid tile, NOT a chip.</p></div>
-          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — never text labels, never inside boxes, never duplicated.</p></div>
+          <div class="field"><label class="field-label" for="features">Floating Feature Items <span class="opt">(max 6, one per line)</span></label><textarea class="textarea" id="features" rows="4" aria-describedby="featuresHint" placeholder="Logo Design&#10;Brand Guidelines&#10;Typography&#10;Color Palette&#10;Icon Set&#10;Social Kit"></textarea><p class="field-hint" id="featuresHint">Each item renders as a small icon + text pair floating directly on the background. NOT a card, NOT a grid tile, NOT a chip. Keep each item to 1–3 words.</p></div>
+          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — <strong>icons only</strong>. Never as text, never inside boxes, never duplicated. Do NOT also list these names in the Secondary or Supporting fields.</p></div>
           <div class="field"><label class="field-label" for="trust">Trust Line <span class="opt">(optional)</span></label><input class="input" id="trust" type="text" placeholder="e.g. Distinct • Timeless • Memorable" autocomplete="off" /></div>
         </div>
 
-        <div class="form-section" id="section-branding">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Branding &amp; Design System</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="mode-switch" role="radiogroup" aria-label="Design system source">
-            <label class="mode-option is-active" id="modeOptionManual">
-              <input class="sr-only" type="radio" name="designMode" value="manual" checked />
-              <span class="mode-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z"/></svg></span>
-              <span class="mode-option-body"><span class="mode-option-title">Build branding here</span><span class="mode-option-sub">Choose colors, fonts and corner radius manually below.</span></span>
-            </label>
-            <label class="mode-option" id="modeOptionSpec">
-              <input class="sr-only" type="radio" name="designMode" value="spec" />
-              <span class="mode-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
-              <span class="mode-option-body"><span class="mode-option-title">Upload / Paste Spec</span><span class="mode-option-sub">Drop a brand guide, CSS tokens, or design notes — it becomes the authoritative brief.</span></span>
-            </label>
-          </div>
-          <div class="spec-block" id="specBlock" hidden>
-            <div class="field"><label class="field-label" for="specText">Paste your design spec <span class="opt">(optional if you upload a file)</span></label><textarea class="textarea" id="specText" rows="5" placeholder="Paste brand guide text, colour tokens, layout notes, a Figma description, tone-of-voice rules, reference links, JSON design tokens…"></textarea><p class="field-hint">This text is inserted verbatim into the generated prompt as the authoritative design brief.</p></div>
-            <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload design spec files" aria-describedby="dropHint">
-              <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              <p class="dz-title">Drop a spec file here, or <span class="dz-link">browse</span></p>
-              <p class="dz-hint" id="dropHint">Text files only — .txt .md .json .css .html .svg .csv .yml .js. Images are added as named visual references.</p>
-            </div>
-            <input class="sr-only" type="file" id="specFile" multiple tabindex="-1" accept=".txt,.md,.markdown,.json,.css,.scss,.less,.html,.htm,.svg,.csv,.yml,.yaml,.js,.jsx,.ts,.tsx,.xml,.log,text/*,application/json,image/*" />
-            <div class="spec-files" id="specFiles" hidden></div>
-            <div class="spec-actions"><button class="btn btn-ghost btn-sm" id="specClearBtn" type="button"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>Clear spec</button></div>
-          </div>
-          <div class="brand-block" id="brandBlock">
-            <div class="grid-2">
-              <div class="field"><label class="field-label" for="primaryHex">Primary / Accent Color</label><div class="color-row" role="group" aria-label="Primary accent colour"><div class="color-swatch" style="background:#00D68F"><input type="color" id="primary" value="#00d68f" aria-label="Primary accent colour picker" /></div><input class="input" id="primaryHex" type="text" value="#00D68F" spellcheck="false" autocomplete="off" aria-label="Primary accent colour hex value" /></div></div>
-              <div class="field"><label class="field-label" for="accentHex">Secondary / Highlight Color</label><div class="color-row" role="group" aria-label="Secondary highlight colour"><div class="color-swatch" style="background:#00FFAA"><input type="color" id="accent" value="#00ffaa" aria-label="Secondary highlight colour picker" /></div><input class="input" id="accentHex" type="text" value="#00FFAA" spellcheck="false" autocomplete="off" aria-label="Secondary highlight colour hex value" /></div></div>
-              <div class="field"><label class="field-label" for="bgHex">Background Color</label><div class="color-row" role="group" aria-label="Background colour"><div class="color-swatch" style="background:#0A100E"><input type="color" id="bg" value="#0a100e" aria-label="Background colour picker" /></div><input class="input" id="bgHex" type="text" value="#0A100E" spellcheck="false" autocomplete="off" aria-label="Background colour hex value" /></div></div>
-              <div class="field"><label class="field-label" for="textHex">Primary Text Color</label><div class="color-row" role="group" aria-label="Primary text colour"><div class="color-swatch" style="background:#F3F3F1"><input type="color" id="text" value="#f3f3f1" aria-label="Primary text colour picker" /></div><input class="input" id="textHex" type="text" value="#F3F3F1" spellcheck="false" autocomplete="off" aria-label="Primary text colour hex value" /></div></div>
-            </div>
-            <div class="grid-2" style="margin-top: 1rem;">
-              <div class="field"><label class="field-label" for="headingFont">Heading Font</label><select class="select" id="headingFont"><option>Syne</option><option>Space Grotesk</option><option>Inter</option><option>Poppins</option><option>Montserrat</option><option>Manrope</option><option>Sora</option><option>Outfit</option><option>DM Sans</option><option>Plus Jakarta Sans</option><option>Bricolage Grotesque</option><option>Playfair Display</option></select></div>
-              <div class="field"><label class="field-label" for="bodyFont">Body / UI Font</label><select class="select" id="bodyFont"><option>Space Grotesk</option><option>Syne</option><option>Inter</option><option>Poppins</option><option>Montserrat</option><option>Manrope</option><option>Sora</option><option>Outfit</option><option>DM Sans</option><option>Plus Jakarta Sans</option></select></div>
-            </div>
-            <div class="field" style="margin-top: 1rem;"><label class="field-label" for="radius">Soft Icon Corner Radius <span class="opt">(only for icon glyphs, never for content containers)</span></label><select class="select" id="radius"><option value="0px">0px — sharp</option><option value="8px">8px — subtle</option><option value="12px">12px — soft</option><option value="16px" selected>16px — default</option><option value="20px">20px — round</option><option value="24px">24px — generous</option><option value="9999px">9999px — pill</option></select></div>
-          </div>
-        </div>
-
         <div class="form-section" id="section-visual">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">4</span><h2 class="form-section-title">Visual Direction</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Visual Direction — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Composition notes for this specific service's cover. Colours, fonts and the shared design spec come from the Freelancer Profile tab.</p>
           <div class="field"><label class="field-label" for="visuals">Visual Elements / Composition Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="visuals" rows="3" placeholder="e.g. Floating vector shapes and color swatches arranged organically. Soft accent glow behind the headline."></textarea></div>
           <div class="field"><label class="field-label" for="avoid">Must-Avoid <span class="opt">(optional)</span></label><textarea class="textarea" id="avoid" rows="2" placeholder="e.g. Generic clipart, busy backgrounds, stock photos."></textarea></div>
           <div class="field"><label class="field-label" for="notes">Additional Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="notes" rows="2" placeholder="Anything else the AI should know."></textarea></div>
         </div>
+
+        <div class="form-section" id="section-positioning">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">4</span><h2 class="form-section-title">Buyer Positioning — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Who this specific service is for and what it delivers. Change these when you launch a different service — the AI uses them to write the listing, proposal and FAQ for <em>this</em> offer.</p>
+          <div class="field"><label class="field-label" for="sdAudience">Target Buyer <span class="opt">(for this service)</span></label><input class="input" id="sdAudience" type="text" placeholder="e.g. DTC founders doing $50k+/month" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdProblem">Main Problem This Service Solves</label><input class="input" id="sdProblem" type="text" placeholder="e.g. Their AI app breaks in production and leaks cost" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdOutcome">Promised Outcome</label><input class="input" id="sdOutcome" type="text" placeholder="e.g. A stable, deployed app with monitoring in 5 days" autocomplete="off" /></div>
+        </div>
+
+        <div class="form-section" id="section-pricing">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">5</span><h2 class="form-section-title">Packages &amp; Pricing — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Packages belong to the service you're launching, not to your profile. The AI cross-checks these against your baseline hourly rate and minimum project budget on the Freelancer Profile tab.</p>
+          <div class="field"><label class="field-label" for="sdPkgBasic">Basic Package <span class="opt">(name | price | delivery days | revisions | what is included)</span></label><input class="input" id="sdPkgBasic" type="text" placeholder="Starter | 75 | 3 | 1 | Single fix, tested, documented" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdPkgStandard">Standard Package <span class="opt">(same format)</span></label><input class="input" id="sdPkgStandard" type="text" placeholder="Growth | 199 | 5 | 2 | Full audit + fixes + deployment" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdPkgPremium">Premium Package <span class="opt">(same format)</span></label><input class="input" id="sdPkgPremium" type="text" placeholder="Scale | 449 | 7 | 3 | End-to-end build, monitoring, 14-day support" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdAddons">Add-ons / Extras <span class="opt">(one per line: name | price | delivery)</span></label><textarea class="textarea" id="sdAddons" rows="3" placeholder="Extra fast 24h delivery | 49 | 1&#10;Monthly maintenance | 149 | 30"></textarea></div>
+          <div class="field"><label class="field-label" for="sdDeliverables">Deliverables <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdDeliverables" rows="4" placeholder="Working deployed app&#10;Source code + README&#10;Loom walkthrough"></textarea></div>
+        </div>
+
+        <div class="form-section" id="section-process">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">6</span><h2 class="form-section-title">Requirements &amp; Process — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <div class="field"><label class="field-label" for="sdRequirements">What You Need From The Buyer <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdRequirements" rows="3" placeholder="Repository or project access&#10;Description of the bug or goal&#10;Any API keys needed"></textarea></div>
+          <div class="field"><label class="field-label" for="sdProcess">Your Process Steps <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdProcess" rows="4" placeholder="Discovery call or brief&#10;Audit and plan&#10;Build and test&#10;Deploy and hand over"></textarea></div>
+          <div class="field"><label class="field-label" for="sdFaqSeeds">Questions Buyers Always Ask <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdFaqSeeds" rows="3" placeholder="Do you work with existing code?&#10;What if it breaks later?&#10;Can you sign an NDA?"></textarea></div>
+        </div>
+
+        <div class="form-section" id="section-service-seo">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">7</span><h2 class="form-section-title">SEO &amp; Search Intent — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Keywords and buyer search phrases for <strong>this service only</strong>. Your overall skills and profile-level search intent live on the Freelancer Profile tab.</p>
+          <div class="field"><label class="field-label" for="sdKeywords">Primary Keywords <span class="opt">(comma separated)</span></label><input class="input" id="sdKeywords" type="text" placeholder="ai agent developer, rag chatbot, langchain expert" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="sdIntent">What Buyers Type To Find This Service <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdIntent" rows="3" placeholder="fix my ai app&#10;build rag chatbot&#10;deploy langchain agent"></textarea></div>
+          <div class="field"><label class="field-label" for="sdTone">Tone of Voice <span class="opt">(for this listing)</span></label><input class="input" id="sdTone" type="text" placeholder="e.g. Confident, direct, no fluff" autocomplete="off" /></div>
+        </div>
       </div>
     </section>
 
-    <!-- PANEL 3 · SERVICE DATA -->
-    <section class="panel" id="panel-servicedata" role="tabpanel" aria-labelledby="tab-servicedata" tabindex="0">
-      <nav class="section-nav" aria-label="Service data sections">
-        <a href="#section-profile" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
-        <a href="#section-positioning" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Positioning</a>
-        <a href="#section-pricing" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 12 22l-9-9V3h10l7.59 7.59a2 2 0 0 1 0 2.82z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Pricing</a>
-        <a href="#section-process" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5a2 2 0 0 1 2 2V14"/></svg>Process</a>
-        <a href="#section-seo" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>SEO</a>
+    <!-- PANEL 3 · FREELANCER PROFILE -->
+    <section class="panel" id="panel-profile" role="tabpanel" aria-labelledby="tab-profile" tabindex="0">
+      <nav class="section-nav" aria-label="Profile sections">
+        <a href="#section-identity" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Identity</a>
+        <a href="#section-branding" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z"/></svg>Branding</a>
+        <a href="#section-bio" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Bio &amp; Proof</a>
+        <a href="#section-rates" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Rates</a>
+        <a href="#section-profile-seo" class="section-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Skills &amp; SEO</a>
       </nav>
 
       <div class="glass-card">
         <div class="paste-head">
-          <h2 class="paste-title">Your full service data</h2>
-          <p class="paste-desc">Fill this once — or upload your CV / LinkedIn PDF and let it auto-fill. Every text prompt on the next tabs is built from these fields plus the Customize tab, so ChatGPT, Claude, or Gemini gets complete context instead of guesses.</p>
+          <h2 class="paste-title">Your freelancer profile</h2>
+          <p class="paste-desc">This stays the same across every service you launch. Upload a CV or LinkedIn PDF once, set your branding, baseline rates, and overall skills — every prompt on the Text Prompts and Launch Pack tabs picks this up automatically.</p>
         </div>
 
-        <div class="form-section" id="section-profile">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">1</span><h2 class="form-section-title">Freelancer Profile</h2><span class="form-section-line" aria-hidden="true"></span></div>
+        <div class="form-section" id="section-identity">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">1</span><h2 class="form-section-title">Identity &amp; Contact</h2><span class="form-section-line" aria-hidden="true"></span></div>
 
           <div class="mode-switch" role="radiogroup" aria-label="How would you like to fill your profile?">
             <label class="mode-option is-active" id="modeOptionProfileManual">
@@ -592,7 +690,6 @@
             <p class="field-hint" id="cvStatus" role="status" aria-live="polite">No CV attached yet.</p>
           </div>
 
-          <!-- IDENTITY -->
           <div class="grid-2" style="margin-top: 1.25rem;">
             <div class="field">
               <label class="field-label" for="sdName">Your Name / Studio</label>
@@ -608,7 +705,6 @@
             <input class="input" id="sdHeadline" type="text" placeholder="e.g. Full-Stack Dev | AI Integrations | WordPress | N8N Automation" autocomplete="off" />
           </div>
 
-          <!-- PROFESSIONAL DETAILS -->
           <div class="grid-2">
             <div class="field">
               <label class="field-label" for="sdExperience">Experience Level &amp; Years</label>
@@ -630,7 +726,6 @@
             </div>
           </div>
 
-          <!-- ONLINE PRESENCE -->
           <div class="grid-2">
             <div class="field">
               <label class="field-label" for="sdLinkedIn">LinkedIn <span class="opt">(optional)</span></label>
@@ -641,8 +736,52 @@
               <input class="input" id="sdWebsite" type="text" placeholder="yourdomain.com" autocomplete="url" />
             </div>
           </div>
+        </div>
 
-          <!-- CONTENT -->
+        <!-- BRANDING & DESIGN SYSTEM (profile-level) -->
+        <div class="form-section" id="section-branding">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">2</span><h2 class="form-section-title">Branding &amp; Design System</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Your visual identity as a freelancer — used on every service cover, listing image and design-tool prompt you generate. Set it once and it applies everywhere.</p>
+          <div class="mode-switch" role="radiogroup" aria-label="Design system source">
+            <label class="mode-option is-active" id="modeOptionManual">
+              <input class="sr-only" type="radio" name="designMode" value="manual" checked />
+              <span class="mode-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h1.99c3.05 0 5.56-2.5 5.56-5.55C21.97 6.01 17.46 2 12 2z"/></svg></span>
+              <span class="mode-option-body"><span class="mode-option-title">Build branding here</span><span class="mode-option-sub">Choose colors, fonts and corner radius manually below.</span></span>
+            </label>
+            <label class="mode-option" id="modeOptionSpec">
+              <input class="sr-only" type="radio" name="designMode" value="spec" />
+              <span class="mode-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
+              <span class="mode-option-body"><span class="mode-option-title">Upload / Paste Spec</span><span class="mode-option-sub">Drop a brand guide, CSS tokens, or design notes — it becomes the authoritative brief.</span></span>
+            </label>
+          </div>
+          <div class="spec-block" id="specBlock" hidden>
+            <div class="field"><label class="field-label" for="specText">Paste your design spec <span class="opt">(optional if you upload a file)</span></label><textarea class="textarea" id="specText" rows="5" placeholder="Paste brand guide text, colour tokens, layout notes, a Figma description, tone-of-voice rules, reference links, JSON design tokens…"></textarea><p class="field-hint">This text is inserted verbatim into the generated prompt as the authoritative design brief.</p></div>
+            <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload design spec files" aria-describedby="dropHint">
+              <svg class="dz-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <p class="dz-title">Drop a spec file here, or <span class="dz-link">browse</span></p>
+              <p class="dz-hint" id="dropHint">Text files only — .txt .md .json .css .html .svg .csv .yml .js. Images are added as named visual references.</p>
+            </div>
+            <input class="sr-only" type="file" id="specFile" multiple tabindex="-1" accept=".txt,.md,.markdown,.json,.css,.scss,.less,.html,.htm,.svg,.csv,.yml,.yaml,.js,.jsx,.ts,.tsx,.xml,.log,text/*,application/json,image/*" />
+            <div class="spec-files" id="specFiles" hidden></div>
+            <div class="spec-actions"><button class="btn btn-ghost btn-sm" id="specClearBtn" type="button"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>Clear spec</button></div>
+          </div>
+          <div class="brand-block" id="brandBlock">
+            <div class="grid-2">
+              <div class="field"><label class="field-label" for="primaryHex">Primary / Accent Color</label><div class="color-row" role="group" aria-label="Primary accent colour"><div class="color-swatch" style="background:#00D68F"><input type="color" id="primary" value="#00d68f" aria-label="Primary accent colour picker" /></div><input class="input" id="primaryHex" type="text" value="#00D68F" spellcheck="false" autocomplete="off" aria-label="Primary accent colour hex value" /></div></div>
+              <div class="field"><label class="field-label" for="accentHex">Secondary / Highlight Color</label><div class="color-row" role="group" aria-label="Secondary highlight colour"><div class="color-swatch" style="background:#00FFAA"><input type="color" id="accent" value="#00ffaa" aria-label="Secondary highlight colour picker" /></div><input class="input" id="accentHex" type="text" value="#00FFAA" spellcheck="false" autocomplete="off" aria-label="Secondary highlight colour hex value" /></div></div>
+              <div class="field"><label class="field-label" for="bgHex">Background Color</label><div class="color-row" role="group" aria-label="Background colour"><div class="color-swatch" style="background:#0A100E"><input type="color" id="bg" value="#0a100e" aria-label="Background colour picker" /></div><input class="input" id="bgHex" type="text" value="#0A100E" spellcheck="false" autocomplete="off" aria-label="Background colour hex value" /></div></div>
+              <div class="field"><label class="field-label" for="textHex">Primary Text Color</label><div class="color-row" role="group" aria-label="Primary text colour"><div class="color-swatch" style="background:#F3F3F1"><input type="color" id="text" value="#f3f3f1" aria-label="Primary text colour picker" /></div><input class="input" id="textHex" type="text" value="#F3F3F1" spellcheck="false" autocomplete="off" aria-label="Primary text colour hex value" /></div></div>
+            </div>
+            <div class="grid-2" style="margin-top: 1rem;">
+              <div class="field"><label class="field-label" for="headingFont">Heading Font</label><select class="select" id="headingFont"><option>Syne</option><option>Space Grotesk</option><option>Inter</option><option>Poppins</option><option>Montserrat</option><option>Manrope</option><option>Sora</option><option>Outfit</option><option>DM Sans</option><option>Plus Jakarta Sans</option><option>Bricolage Grotesque</option><option>Playfair Display</option></select></div>
+              <div class="field"><label class="field-label" for="bodyFont">Body / UI Font</label><select class="select" id="bodyFont"><option>Space Grotesk</option><option>Syne</option><option>Inter</option><option>Poppins</option><option>Montserrat</option><option>Manrope</option><option>Sora</option><option>Outfit</option><option>DM Sans</option><option>Plus Jakarta Sans</option></select></div>
+            </div>
+            <div class="field" style="margin-top: 1rem;"><label class="field-label" for="radius">Soft Icon Corner Radius <span class="opt">(only for icon glyphs, never for content containers)</span></label><select class="select" id="radius"><option value="0px">0px — sharp</option><option value="8px">8px — subtle</option><option value="12px">12px — soft</option><option value="16px" selected>16px — default</option><option value="20px">20px — round</option><option value="24px">24px — generous</option><option value="9999px">9999px — pill</option></select></div>
+          </div>
+        </div>
+
+        <div class="form-section" id="section-bio">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Bio, Proof &amp; Differentiators</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <div class="field">
             <label class="field-label" for="sdBio">Short Bio <span class="opt">(used for profile &amp; About sections)</span></label>
             <textarea class="textarea" id="sdBio" rows="3" placeholder="Two or three sentences about who you help and the results you deliver."></textarea>
@@ -651,37 +790,77 @@
             <label class="field-label" for="sdProof">Proof &amp; Credibility <span class="opt">(one per line)</span></label>
             <textarea class="textarea" id="sdProof" rows="3" placeholder="200+ projects delivered&#10;4.9 average rating&#10;Worked with 3 funded startups"></textarea>
           </div>
+          <div class="field">
+            <label class="field-label" for="sdDiff">Why You (Differentiators) <span class="opt">(one per line)</span></label>
+            <textarea class="textarea" id="sdDiff" rows="3" placeholder="Ship in days, not weeks&#10;Senior engineer, no juniors&#10;Fixed price, no surprises"></textarea>
+          </div>
         </div>
 
-        <div class="form-section" id="section-positioning">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">2</span><h2 class="form-section-title">Buyer Positioning</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="sdAudience">Target Buyer</label><input class="input" id="sdAudience" type="text" placeholder="e.g. DTC founders doing $50k+/month" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdProblem">Main Problem You Solve</label><input class="input" id="sdProblem" type="text" placeholder="e.g. Their AI app breaks in production and leaks cost" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdOutcome">Promised Outcome</label><input class="input" id="sdOutcome" type="text" placeholder="e.g. A stable, deployed app with monitoring in 5 days" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdDiff">Why You (Differentiators) <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdDiff" rows="3" placeholder="Ship in days, not weeks&#10;Senior engineer, no juniors&#10;Fixed price, no surprises"></textarea></div>
+        <div class="form-section" id="section-rates">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">4</span><h2 class="form-section-title">Rates &amp; Pricing Preferences</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Optional, but recommended. These are your <strong>baseline</strong> rates across all services. When the AI writes per-service packages on the Service Setup tab, it uses these as a floor so it never prices you below your own time.</p>
+          <div class="grid-2">
+            <div class="field">
+              <label class="field-label" for="sdRateCurrency">Currency</label>
+              <select class="select" id="sdRateCurrency">
+                <option value="USD" selected>USD — US Dollar</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="GBP">GBP — British Pound</option>
+                <option value="AUD">AUD — Australian Dollar</option>
+                <option value="CAD">CAD — Canadian Dollar</option>
+                <option value="AED">AED — UAE Dirham</option>
+                <option value="SAR">SAR — Saudi Riyal</option>
+                <option value="INR">INR — Indian Rupee</option>
+                <option value="PKR">PKR — Pakistani Rupee</option>
+                <option value="BDT">BDT — Bangladeshi Taka</option>
+                <option value="NGN">NGN — Nigerian Naira</option>
+                <option value="ZAR">ZAR — South African Rand</option>
+                <option value="BRL">BRL — Brazilian Real</option>
+                <option value="MXN">MXN — Mexican Peso</option>
+                <option value="PHP">PHP — Philippine Peso</option>
+                <option value="IDR">IDR — Indonesian Rupiah</option>
+                <option value="MYR">MYR — Malaysian Ringgit</option>
+                <option value="SGD">SGD — Singapore Dollar</option>
+                <option value="JPY">JPY — Japanese Yen</option>
+                <option value="CNY">CNY — Chinese Yuan</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="sdRateProjectMin">Minimum Project Budget <span class="opt">(optional)</span></label>
+              <input class="input" id="sdRateProjectMin" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 250" />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label class="field-label" for="sdRateHourly">Hourly Rate — From <span class="opt">(optional)</span></label>
+              <input class="input" id="sdRateHourly" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 35" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="sdRateHourlyMax">Hourly Rate — Up To <span class="opt">(optional)</span></label>
+              <input class="input" id="sdRateHourlyMax" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 65" />
+            </div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="sdRateNote">Rate Notes <span class="opt">(optional)</span></label>
+            <input class="input" id="sdRateNote" type="text" placeholder="e.g. Minimum 5-hour blocks · Retainer discount available" autocomplete="off" />
+          </div>
         </div>
 
-        <div class="form-section" id="section-pricing">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Packages &amp; Pricing</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="sdPkgBasic">Basic Package <span class="opt">(name | price | delivery days | revisions | what is included)</span></label><input class="input" id="sdPkgBasic" type="text" placeholder="Starter | 75 | 3 | 1 | Single fix, tested, documented" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdPkgStandard">Standard Package <span class="opt">(same format)</span></label><input class="input" id="sdPkgStandard" type="text" placeholder="Growth | 199 | 5 | 2 | Full audit + fixes + deployment" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdPkgPremium">Premium Package <span class="opt">(same format)</span></label><input class="input" id="sdPkgPremium" type="text" placeholder="Scale | 449 | 7 | 3 | End-to-end build, monitoring, 14-day support" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdAddons">Add-ons / Extras <span class="opt">(one per line: name | price | delivery)</span></label><textarea class="textarea" id="sdAddons" rows="3" placeholder="Extra fast 24h delivery | 49 | 1&#10;Monthly maintenance | 149 | 30"></textarea></div>
-          <div class="field"><label class="field-label" for="sdDeliverables">Deliverables <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdDeliverables" rows="4" placeholder="Working deployed app&#10;Source code + README&#10;Loom walkthrough"></textarea></div>
-        </div>
-
-        <div class="form-section" id="section-process">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">4</span><h2 class="form-section-title">Buyer Requirements &amp; Process</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="sdRequirements">What You Need From The Buyer <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdRequirements" rows="3" placeholder="Repository or project access&#10;Description of the bug or goal&#10;Any API keys needed"></textarea></div>
-          <div class="field"><label class="field-label" for="sdProcess">Your Process Steps <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdProcess" rows="4" placeholder="Discovery call or brief&#10;Audit and plan&#10;Build and test&#10;Deploy and hand over"></textarea></div>
-          <div class="field"><label class="field-label" for="sdFaqSeeds">Questions Buyers Always Ask <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdFaqSeeds" rows="3" placeholder="Do you work with existing code?&#10;What if it breaks later?&#10;Can you sign an NDA?"></textarea></div>
-        </div>
-
-        <div class="form-section" id="section-seo">
-          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">5</span><h2 class="form-section-title">SEO &amp; Search Intent</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="sdKeywords">Primary Keywords <span class="opt">(comma separated)</span></label><input class="input" id="sdKeywords" type="text" placeholder="ai agent developer, rag chatbot, langchain expert" autocomplete="off" /></div>
-          <div class="field"><label class="field-label" for="sdIntent">What Buyers Type To Find You <span class="opt">(one per line)</span></label><textarea class="textarea" id="sdIntent" rows="3" placeholder="fix my ai app&#10;build rag chatbot&#10;deploy langchain agent"></textarea></div>
-          <div class="field"><label class="field-label" for="sdTone">Tone of Voice</label><input class="input" id="sdTone" type="text" placeholder="e.g. Confident, direct, no fluff" autocomplete="off" /></div>
+        <div class="form-section" id="section-profile-seo">
+          <div class="form-section-head"><span class="form-section-num" aria-hidden="true">5</span><h2 class="form-section-title">Profile Skills &amp; Overall Search Intent</h2><span class="form-section-line" aria-hidden="true"></span></div>
+          <p class="form-section-intro">Your full toolkit across <strong>all</strong> services — not tied to the one you're launching. The AI uses this for profile bios, proposals, and cross-service positioning. Per-service keywords live on the Service Setup tab.</p>
+          <div class="field">
+            <label class="field-label" for="sdProfileSkills">All Skills <span class="opt">(comma separated — your complete toolkit)</span></label>
+            <input class="input" id="sdProfileSkills" type="text" placeholder="React, Node.js, WordPress, SEO, N8N Automation, Figma" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="sdProfileKeywords">Profile Keywords <span class="opt">(comma separated — how buyers find YOU overall)</span></label>
+            <input class="input" id="sdProfileKeywords" type="text" placeholder="full stack developer, ai automation engineer, wordpress expert" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="sdProfileIntent">What Buyers Type To Find You Overall <span class="opt">(one per line)</span></label>
+            <textarea class="textarea" id="sdProfileIntent" rows="3" placeholder="hire full stack developer&#10;automate my business with ai&#10;fix my wordpress site"></textarea>
+          </div>
         </div>
       </div>
     </section>
@@ -703,8 +882,8 @@
             <div class="preview-safe" id="previewSafe" aria-hidden="true"></div>
             <div class="pc-inner">
               <div class="pc-headline" id="pcHeadline">Logo &amp; Brand Identity Design</div>
-              <div class="pc-secondary" id="pcSecondary">Figma • Illustrator • Photoshop • Canva</div>
-              <div class="pc-supporting" id="pcSupporting">Logo • Guidelines • Typography • Colors</div>
+              <div class="pc-secondary" id="pcSecondary">Where Strategy Meets Craft</div>
+              <div class="pc-supporting" id="pcSupporting">Designed to Last</div>
               <div class="pc-tools" id="pcTools"></div>
               <div class="pc-features" id="pcFeatures"></div>
               <div class="pc-trust" id="pcTrust">Distinct • Timeless • Memorable</div>
@@ -749,7 +928,7 @@
       <div class="glass-card">
         <div class="paste-head">
           <h2 class="paste-title">Text prompts for any AI bot</h2>
-          <p class="paste-desc">Tick everything you want written — one prompt per item is generated below, ready to paste into ChatGPT, Claude, Gemini, or any other assistant. Each prompt carries your service data, platform rules, and tone.</p>
+          <p class="paste-desc">Tick everything you want written — one prompt per item is generated below, ready to paste into ChatGPT, Claude, Gemini, or any other assistant. Each prompt carries your service data, your freelancer profile, platform rules, and tone.</p>
         </div>
         <div class="form-section">
           <fieldset class="field check-fieldset">
@@ -811,7 +990,7 @@
           <h2 class="output-title">Complete launch pack</h2>
           <span class="output-status ready"><span class="dot" aria-hidden="true"></span><span id="packStatus">Ready</span></span>
         </div>
-        <p class="paste-desc" style="margin-bottom:1rem;">Everything in one document: your service brief (including any attached CV / LinkedIn PDF), platform rules, the cover image prompt, and the text prompts you ticked on the Text Prompts tab (all of them if none are ticked). Paste it into one AI chat and work through it section by section.</p>
+        <p class="paste-desc" style="margin-bottom:1rem;">Everything in one document: your freelancer profile (including any attached CV / LinkedIn PDF), this service's brief and platform rules, the cover image prompt, and the text prompts you ticked on the Text Prompts tab (all of them if none are ticked). Paste it into one AI chat and work through it section by section.</p>
         <div class="output-actions">
           <button class="btn btn-glow btn-sm" id="packCopyBtn" type="button">
             <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -875,6 +1054,25 @@ window.showToast = function (msg) {
   clearTimeout(window._toastTimer);
   window._toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
 };
+
+/* ============================================================
+   TIPS TICKER
+   ============================================================ */
+(function () {
+  'use strict';
+  const bar = document.getElementById('tipsBar');
+  if (!bar) return;
+  const items = bar.querySelectorAll('.tips-item');
+  if (items.length < 2) return;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  let idx = 0;
+  setInterval(() => {
+    items[idx].classList.remove('is-active');
+    idx = (idx + 1) % items.length;
+    items[idx].classList.add('is-active');
+  }, 5200);
+})();
 
 /* ============================================================
    PERSISTENCE
@@ -1347,9 +1545,16 @@ window.showToast = function (msg) {
     headline = headline.replace(/^I(?:'ll| will| can| am| help you| help| build| create| fix| deploy| optimize| design| develop| write| edit| manage| grow| run| craft| deliver| provide| offer| do| handle| produce| make| launch| scale| rank| transform| specialize in)\s+/i, '').replace(/^I\s+/i, '');
     result.mainHeadline = headline.charAt(0).toUpperCase() + headline.slice(1);
     result.topic = result.mainHeadline.replace(/[.!?]$/, '');
-    if (result.tools.length) result.secondary = result.tools.slice(0, 5).join(' • ');
+    /* NOTE: We intentionally do NOT auto-fill secondary from tools.
+       Tool names belong in the Tool / Software Icons field and will be rendered as icons — not as a text line. */
     const supportMatch = text.match(/(?:includes|services|offer|deliver)[:\s]+([^\n.]+)/i);
-    if (supportMatch && supportMatch[1].length < 120) result.supporting = supportMatch[1].trim();
+    if (supportMatch && supportMatch[1].length < 120) {
+      const candidate = supportMatch[1].trim();
+      /* Only accept it as a tagline if it reads like a tagline, not a list. */
+      const listSignals = (candidate.match(/[•·|,]/g) || []).length;
+      const wordCount = candidate.split(/\s+/).length;
+      if (listSignals <= 1 && wordCount <= 10) result.supporting = candidate;
+    }
     const VISUAL_HINTS = [
       { re: /logo|brand identity|graphic design|vector|icon design|illustration/i, hint: 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.' },
       { re: /ui\/ux|ui design|ux design|app design|product design|wireframe|prototype/i, hint: 'Floating UI screens and wireframe elements scattered organically. Soft ambient glow behind the composition. No container boxes.' },
@@ -1379,6 +1584,10 @@ window.showToast = function (msg) {
     const set = (id, val) => { if (val) $(id).value = val; };
     set('topic', data.topic);
     set('mainHeadline', data.mainHeadline);
+    /* Reset the tagline fields FIRST, then set them only if the extraction found
+       tagline-like content. Empty is better than a leftover tool list. */
+    $('secondary').value = '';
+    $('supporting').value = '';
     set('secondary', data.secondary);
     set('supporting', data.supporting);
     set('trust', data.trust);
@@ -1395,7 +1604,7 @@ window.showToast = function (msg) {
     if (!text.trim()) { showToast('Paste a description first'); $('pasteInput').focus(); return; }
     applyExtraction(extractFromText(text));
     activateTab('customize', true);
-    showToast('Fields auto-filled');
+    showToast('Service fields auto-filled');
   });
   $('pasteClearBtn').addEventListener('click', () => { $('pasteInput').value = ''; $('pasteInput').focus(); window.__arzoScheduleSave && window.__arzoScheduleSave(); });
   document.querySelectorAll('.paste-chip').forEach((chip) => {
@@ -1608,6 +1817,15 @@ window.showToast = function (msg) {
       '**6. TOOL LOGOS MUST BE DISTINCT AND ACCURATE.**',
       "Render the ACTUAL official logo of each specific tool, in its official brand colors. Never substitute a parent brand's mark, never reuse one logo for two different tools, and never render a generic placeholder shape.",
       '',
+      '**7. ONLY RENDER TEXT THAT ADDS MEANING. DROP EVERYTHING ELSE.**',
+      'The brief below DESCRIBES the design. It is not a script where every field must become literal text. Apply these rules ruthlessly:',
+      '- **Tool / software list → icons only.** Never also render the tool names as a separate text line. The icons already say it.',
+      '- **Secondary tagline → render ONLY if it is a genuine tagline.** If it reads like a list of tools, technologies, features or deliverables — separated by ·, •, commas or dashes — **DROP IT entirely.** Render nothing for this field.',
+      '- **Supporting line → same rule.** Drop it if it is a list. Render nothing for this field.',
+      '- **Feature items → render as icon + short label** (they are designed to be on the image). But if a feature duplicates a tool icon or the headline, drop the duplicate.',
+      '- **Never invent text.** If a field is empty or omitted, render nothing for it. Do not fill the gap with generic filler like "Logo • Guidelines • Typography" unless that exact text is given below.',
+      '- **When in doubt, render ONLY the main headline + trust line.** Empty space beats clutter.',
+      '',
       'If you are about to draw any rectangle or any dimension label — STOP. Delete it and place the element directly on the background instead.',
       '', '---', '',
       '## CANVAS',
@@ -1621,9 +1839,9 @@ window.showToast = function (msg) {
       'Arrange the elements as free-floating typography and iconography on one shared background:',
       '',
       '1. **Main headline** — the largest text, centered horizontally in the upper third. Sits directly on the background. Font weight 700–800, tight tracking, geometric display face. Must render complete and unbroken.',
-      '2. **Secondary headline** — one step smaller, centered, directly beneath the main headline on the background.',
-      '3. **Supporting text** — small centered line beneath the secondary headline, muted color.',
-      '4. **Tool / software logo marks** — free-floating official brand icons arranged in an **organic cluster or gentle arc** in the middle area. Varying visual rhythm. **Never aligned in a row of equal tiles. Never inside rounded boxes. Never inside square frames. Never duplicated.** They float directly on the background.',
+      '2. **Secondary tagline** — one step smaller, centered, directly beneath the main headline on the background. **Skip entirely if the field below reads as a list.**',
+      '3. **Supporting line** — small centered line beneath the secondary tagline, muted color. **Skip entirely if the field below reads as a list.**',
+      '4. **Tool / software logo marks** — free-floating official brand icons arranged in an **organic cluster or gentle arc** in the middle area. Varying visual rhythm. **Never aligned in a row of equal tiles. Never inside rounded boxes. Never inside square frames. Never duplicated. Never accompanied by tool-name text.** They float directly on the background.',
       '5. **Feature items** — each feature is just an **icon + short text label** placed directly on the background. Spread them across the lower area with generous spacing. **Do NOT wrap them in chips, tiles, pills, or grid cells.** They read as floating annotations, not menu items.',
       '6. **Trust line** — small centered text at the bottom, directly on the background.',
       '',
@@ -1631,12 +1849,13 @@ window.showToast = function (msg) {
       '', '---', '',
       '## CONTENT',
       '',
-      '### Main Headline (largest, strongest hierarchy)',
+      '### Main Headline — MANDATORY, always render',
       '"' + mainHeadline + '"',
       '',
-      secondary ? '### Secondary Headline\n"' + secondary + '"\n' : '',
-      supporting ? '### Supporting Text\n"' + supporting + '"\n' : '',
-      '### Feature Items — render as floating icon + text pairs, NOT cards, NOT chips, NOT grid tiles',
+      secondary ? '### Secondary Tagline — render ONLY if it reads as a genuine tagline\n**Candidate text:** "' + secondary + '"\n**Decision rule:** if this candidate reads like a list of tools, features, technologies or deliverables — separated by ·, •, commas or dashes — DROP IT. Render nothing for this field. Just a headline is better than a headline plus a stray tool list.' : '',
+      supporting ? '### Supporting Line — render ONLY if it reads as a genuine tagline\n**Candidate text:** "' + supporting + '"\n**Decision rule:** if this candidate reads like a list, DROP IT. Render nothing for this field.' : '',
+      '',
+      '### Feature Items — render as floating icon + short label pairs, NOT cards, NOT chips, NOT grid tiles. If a feature duplicates a tool icon or the headline, drop it.',
       featureBlock,
       '',
       '### Tool / Software Icons — official brand logo marks only, free-floating, NEVER as text, NEVER inside a container',
@@ -1646,11 +1865,11 @@ window.showToast = function (msg) {
       '- Each icon must be the **actual, distinct, official logo** of that specific tool, rendered in its official brand colors.',
       "- Never substitute a parent brand's mark and never reuse one logo for two different tools.",
       '- Each icon appears **exactly once**. Never repeat a logo.',
-      '- Never render the tool name as text next to the icon.',
+      '- **Never render the tool name as text — not next to the icon, not in a separate line, nowhere.** The icons alone carry the message.',
       '- Never place icons inside boxes, tiles, chips, pills, or frames.',
       '- Icons float freely in an organic cluster — never in a perfectly aligned row of equal tiles.',
       '',
-      trust ? '### Trust Line\n"' + trust + '"\n' : '',
+      trust ? '### Trust Line — render as small centered text at the bottom\n"' + trust + '"\n' : '',
       designDetails,
       '',
       '## VISUAL DIRECTION',
@@ -1665,9 +1884,12 @@ window.showToast = function (msg) {
       '- Any container behind a group of icons or text',
       '- **Any text, number, label, or annotation describing canvas size, safe area, padding, dimensions, or technical specs inside the image**',
       '- **Any dashed guide lines, crop marks, ruler marks, or coordinate labels**',
+      '- **Any separate text line that lists tool / technology names — the icons already cover this**',
+      '- **Secondary or supporting text rendered as a list of tools, features, technologies, or deliverables**',
       '- Duplicated headlines, subtitles, icons, or background graphics',
       '- Repeated logos — each tool logo appears exactly once',
       '- Truncated or cut-off headline text',
+      '- Invented text — anything not explicitly listed under CONTENT above',
       '- Tool / software names rendered as text (official brand icons only)',
       '- Pure black (#000), pure white (#fff), generic stock photography, people, cartoon graphics, excessive 3D, visual clutter, distorted typography, tiny unreadable text',
       avoidCustom,
@@ -1679,9 +1901,11 @@ window.showToast = function (msg) {
       '- [ ] **ZERO rectangles containing other elements.** No cards, tiles, chips, pills, panels, boxes, frames.',
       '- [ ] **ZERO borders, strokes, outlines, dividers.**',
       '- [ ] Background is ONE continuous surface edge-to-edge.',
-      '- [ ] Main headline, secondary, and supporting text float directly on the background.',
       '- [ ] Main headline renders **complete and unbroken** — no truncated words.',
-      '- [ ] Tool logos float freely — not aligned in a row of equal tiles, not duplicated.',
+      '- [ ] **Secondary / supporting text was DROPPED if it read as a list — not rendered as text.**',
+      '- [ ] **NO text line lists tool / technology names — the icons alone carry that information.**',
+      '- [ ] **NO invented text.** Every visible text string appears explicitly in the CONTENT block above.',
+      '- [ ] Tool logos float freely — not aligned in a row of equal tiles, not duplicated, not accompanied by text.',
       '- [ ] Tool logos use the **actual distinct official brand mark** of each specific tool.',
       '- [ ] Feature items float freely — not wrapped in cards or grid cells.',
       '- [ ] All typography and icons are **center-aligned**.',
@@ -1689,7 +1913,7 @@ window.showToast = function (msg) {
       '- [ ] **No text, icon, or graphic is repeated.**',
       '',
       '## OUTPUT',
-      'Generate the final **' + preset.label + '** image now at **' + preset.w + ' × ' + preset.h + ' px**. Single image. No extra text, no annotations, no spec overlays, no dimension labels.'
+      'Generate the final **' + preset.label + '** image now at **' + preset.w + ' × ' + preset.h + ' px**. Single image. No extra text, no annotations, no spec overlays, no dimension labels. If a field above was dropped, do NOT fill the space — leave clean background.'
     ].filter(Boolean).join('\n');
     return md;
   }
@@ -1755,8 +1979,8 @@ window.showToast = function (msg) {
   function initDefaults() {
     $('topic').value = 'Logo & Brand Identity Design';
     $('mainHeadline').value = 'Logo & Brand Identity Design';
-    $('secondary').value = 'Figma • Illustrator • Photoshop • Canva';
-    $('supporting').value = 'Logo • Guidelines • Typography • Color Palette';
+    $('secondary').value = 'Where Strategy Meets Craft';
+    $('supporting').value = 'Designed to Last';
     $('features').value = 'Logo Design\nBrand Guidelines\nTypography\nColor Palette\nIcon Set\nSocial Kit';
     $('tools').value = 'Figma\nIllustrator\nPhotoshop\nCanva';
     $('trust').value = 'Distinct • Timeless • Memorable';
@@ -1786,7 +2010,7 @@ window.showToast = function (msg) {
 
 <script>
 /* ============================================================
-   SERVICE DATA + CV UPLOAD + PDF.js + LINKEDIN-AWARE PARSER
+   SERVICE DATA + FREELANCER PROFILE + CV UPLOAD + PDF.js
    ============================================================ */
 (function () {
   'use strict';
@@ -1794,6 +2018,7 @@ window.showToast = function (msg) {
   const $ = (id) => document.getElementById(id);
   const val = (id) => { const el = $(id); return el ? el.value.trim() : ''; };
   const lines = (id) => val(id).split('\n').map(s => s.trim()).filter(Boolean);
+  const splitComma = (s) => String(s || '').split(',').map(x => x.trim()).filter(Boolean);
   const list = (arr) => arr.map(s => '- ' + s).join('\n');
 
   /* ============================================================
@@ -1962,6 +2187,8 @@ window.showToast = function (msg) {
   /* ============================================================
      PDF TEXT EXTRACTION (PDF.js primary, manual fallback)
      ============================================================ */
+  const MAX_CV_CHARS = 60000;
+
   async function extractPdfText(arrayBuffer) {
     try {
       const text = await extractPdfTextViaPdfJs(arrayBuffer);
@@ -1979,7 +2206,6 @@ window.showToast = function (msg) {
 
   const CV_TEXT_EXTS = ['txt','md','markdown','json','html','htm','yml','yaml','csv','log','rtf'];
   const CV_REF_EXTS = ['doc','docx','pages','odt'];
-  const MAX_CV_CHARS = 60000;
 
   let cvFiles = [];
   let cvSeq = 0;
@@ -2202,11 +2428,11 @@ window.showToast = function (msg) {
       out.bio = buf.join(' ').replace(/\s+/g, ' ').replace(/\s+([.,;:!?])/g, '$1').trim().slice(0, 900);
     }
 
-    /* Languages — LinkedIn-format line */
+    /* Languages */
     const langLine = lines.find(l => /\(Native or Bilingual\)|\(Full Professional\)|\(Professional Working\)|\(Limited Working\)|\(Elementary\)/i.test(l) && l.length < 250);
     if (langLine) out.languages = langLine.replace(/\s+/g, ' ').trim();
 
-    /* Availability — "Open to freelance projects, long-term contracts & remote full-time roles." */
+    /* Availability */
     const availMatch = text.match(/Open to [^.\n]{10,220}/i);
     if (availMatch) out.availability = availMatch[0].trim().replace(/\s+/g, ' ');
 
@@ -2254,7 +2480,7 @@ window.showToast = function (msg) {
     });
     out.tools = matched.slice(0, 10);
 
-    /* Skills from title-case phrases */
+    /* Skills */
     const skills = [];
     for (let i = 0; i < Math.min(lines.length, 40); i++) {
       const l = lines[i];
@@ -2400,7 +2626,7 @@ window.showToast = function (msg) {
   }
 
   /* ============================================================
-     APPLY CV DATA → FIELDS
+     APPLY CV DATA → PROFILE FIELDS
      ============================================================ */
   function applyCvData(d) {
     let filled = 0;
@@ -2424,9 +2650,9 @@ window.showToast = function (msg) {
     set('sdBio', d.bio);
     if (d.proof && d.proof.length && !val('sdProof')) { $('sdProof').value = d.proof.join('\n'); filled++; }
     if (d.diff && d.diff.length && !val('sdDiff')) { $('sdDiff').value = d.diff.join('\n'); filled++; }
-    if (d.skills && d.skills.length && !val('sdKeywords')) { $('sdKeywords').value = d.skills.slice(0, 8).join(', '); filled++; }
-    if (d.tools && d.tools.length && !val('tools')) { $('tools').value = d.tools.join('\n'); filled++; }
-    if (d.intent && d.intent.length && !val('sdIntent')) { $('sdIntent').value = d.intent.join('\n'); filled++; }
+    if (d.skills && d.skills.length && !val('sdProfileSkills')) { $('sdProfileSkills').value = d.skills.join(', '); filled++; }
+    if (d.skills && d.skills.length && !val('sdProfileKeywords')) { $('sdProfileKeywords').value = d.skills.slice(0, 8).join(', '); filled++; }
+    if (d.intent && d.intent.length && !val('sdProfileIntent')) { $('sdProfileIntent').value = d.intent.join('\n'); filled++; }
     if (d.tone && !val('sdTone')) { $('sdTone').value = d.tone; filled++; }
     return filled;
   }
@@ -2450,7 +2676,7 @@ window.showToast = function (msg) {
     window.__arzoScheduleSave && window.__arzoScheduleSave();
     if (notify) {
       const tag = data.docType === 'linkedin' ? 'LinkedIn profile' : 'CV';
-      showToast(filled ? tag + ' parsed · filled ' + filled + ' field' + (filled > 1 ? 's' : '') : tag + ' parsed · nothing new to fill');
+      showToast(filled ? tag + ' parsed · filled ' + filled + ' profile field' + (filled > 1 ? 's' : '') : tag + ' parsed · nothing new to fill');
     }
   }
 
@@ -2484,43 +2710,76 @@ window.showToast = function (msg) {
   /* ============================================================
      SERVICE BRIEF
      ============================================================ */
+  function rateLine() {
+    const cur = val('sdRateCurrency') || 'USD';
+    const lo = val('sdRateHourly');
+    const hi = val('sdRateHourlyMax');
+    if (lo && hi) return cur + ' ' + lo + '–' + hi + ' / hour';
+    if (lo) return 'from ' + cur + ' ' + lo + ' / hour';
+    if (hi) return 'up to ' + cur + ' ' + hi + ' / hour';
+    return '';
+  }
+
   function brief() {
     const out = [];
-    out.push('## SERVICE BRIEF');
-    const add = (label, v) => { if (v) out.push('- **' + label + ':** ' + v); };
-    add('Platform', platform());
-    add('Service topic', val('topic'));
-    add('Freelancer', [val('sdName'), val('sdTitle')].filter(Boolean).join(' — '));
-    add('Headline', val('sdHeadline'));
-    add('Experience', val('sdExperience'));
-    add('Location', val('sdLocation'));
-    add('Languages', val('sdLanguages'));
-    add('Availability', val('sdAvailability'));
-    add('LinkedIn', val('sdLinkedIn'));
-    add('Website', val('sdWebsite'));
-    add('Bio', val('sdBio'));
-    add('Target buyer', val('sdAudience'));
-    add('Problem solved', val('sdProblem'));
-    add('Promised outcome', val('sdOutcome'));
-    add('Tone of voice', val('sdTone') || 'Confident and professional');
-    add('Working headline', val('mainHeadline'));
-    add('Secondary line', val('secondary'));
-    add('Primary keywords', val('sdKeywords'));
-    const blocks = [
-      ['Differentiators', lines('sdDiff')],
+
+    out.push('## FREELANCER PROFILE');
+    const addP = (label, v) => { if (v) out.push('- **' + label + ':** ' + v); };
+    addP('Name / studio', val('sdName'));
+    addP('Professional title', val('sdTitle'));
+    addP('Headline', val('sdHeadline'));
+    addP('Experience', val('sdExperience'));
+    addP('Location', val('sdLocation'));
+    addP('Languages', val('sdLanguages'));
+    addP('Availability', val('sdAvailability'));
+    addP('LinkedIn', val('sdLinkedIn'));
+    addP('Website', val('sdWebsite'));
+    const rate = rateLine();
+    if (rate) addP('Hourly rate (' + (val('sdRateCurrency') || 'USD') + ')', rate.replace(/^[A-Z]{3}\s/, ''));
+    const pmin = val('sdRateProjectMin');
+    if (pmin) addP('Minimum project budget', (val('sdRateCurrency') || 'USD') + ' ' + pmin);
+    addP('Rate notes', val('sdRateNote'));
+    addP('Bio', val('sdBio'));
+
+    const profileBlocks = [
       ['Proof and credibility', lines('sdProof')],
-      ['Deliverables', lines('sdDeliverables')],
-      ['Add-ons', lines('sdAddons')],
-      ['Process steps', lines('sdProcess')],
-      ['Buyer must provide', lines('sdRequirements')],
-      ['Questions buyers ask', lines('sdFaqSeeds')],
-      ['Search intent phrases', lines('sdIntent')],
-      ['Tools and stack', lines('tools')],
-      ['Feature highlights', lines('features')]
+      ['Why me (differentiators)', lines('sdDiff')],
+      ['All skills (full toolkit)', splitComma(val('sdProfileSkills'))],
+      ['Profile keywords', splitComma(val('sdProfileKeywords'))],
+      ['Profile search intent', lines('sdProfileIntent')]
     ];
-    blocks.forEach(([label, arr]) => { if (arr.length) out.push('\n### ' + label + '\n' + list(arr)); });
-    const pkgs = [pkg('sdPkgBasic', 'Basic'), pkg('sdPkgStandard', 'Standard'), pkg('sdPkgPremium', 'Premium')].filter(Boolean);
-    if (pkgs.length) out.push('\n### Packages\n' + pkgs.join('\n'));
+    profileBlocks.forEach(([label, arr]) => { if (arr.length) out.push('\n### ' + label + '\n' + list(arr)); });
+
+    const primaryHex = val('primaryHex');
+    const accentHex = val('accentHex');
+    const bgHex = val('bgHex');
+    const textHex = val('textHex');
+    const headingFont = val('headingFont');
+    const bodyFont = val('bodyFont');
+    const radius = val('radius');
+    const designMode = (document.querySelector('input[name="designMode"]:checked') || {}).value || 'manual';
+    const specText = val('specText');
+    const specFiles = window.__arzoSpecFiles || [];
+    if (primaryHex || accentHex || bgHex || textHex || headingFont || bodyFont || radius || specText || specFiles.length || designMode === 'spec') {
+      out.push('\n### Branding & design system (profile-wide)');
+      if (designMode === 'spec' && (specText || specFiles.length)) {
+        out.push('The user supplied a **design specification** that is authoritative over the notes below. Where anything conflicts, the spec wins.');
+        if (specText) out.push('\n**Pasted spec:**\n' + specText);
+        specFiles.forEach((f) => {
+          if (f.isImage) out.push('\n- Reference image: `' + f.name + '`');
+          else if (f.content) out.push('\n**Attached spec file: ' + f.name + '**\n' + f.content);
+        });
+      } else {
+        if (primaryHex) out.push('- Primary / accent color: `' + primaryHex + '`');
+        if (accentHex) out.push('- Secondary / highlight color: `' + accentHex + '`');
+        if (bgHex) out.push('- Background color: `' + bgHex + '`');
+        if (textHex) out.push('- Primary text color: `' + textHex + '`');
+        if (headingFont) out.push('- Heading font: **' + headingFont + '**');
+        if (bodyFont) out.push('- Body / UI font: **' + bodyFont + '**');
+        if (radius) out.push('- Soft icon corner radius: **' + radius + '**');
+      }
+    }
+
     const cv = window.__arzoCvFiles || [];
     if (cv.length) {
       out.push('\n### Attached CV / profile references');
@@ -2530,6 +2789,37 @@ window.showToast = function (msg) {
         else out.push('\n- `' + f.name + '` (attached by the user — treat as authoritative background)');
       });
     }
+
+    out.push('');
+    out.push('## THIS SERVICE (the one being launched now)');
+    const addS = (label, v) => { if (v) out.push('- **' + label + ':** ' + v); };
+    addS('Platform', platform());
+    addS('Service topic', val('topic'));
+    addS('Working headline', val('mainHeadline'));
+    addS('Secondary tagline', val('secondary'));
+    addS('Supporting line', val('supporting'));
+    addS('Target buyer', val('sdAudience'));
+    addS('Problem solved', val('sdProblem'));
+    addS('Promised outcome', val('sdOutcome'));
+    addS('Tone of voice', val('sdTone') || 'Confident and professional');
+    addS('Trust line', val('trust'));
+
+    const serviceBlocks = [
+      ['Service keywords', splitComma(val('sdKeywords'))],
+      ['Service search intent', lines('sdIntent')],
+      ['Deliverables', lines('sdDeliverables')],
+      ['Add-ons', lines('sdAddons')],
+      ['Process steps', lines('sdProcess')],
+      ['Buyer must provide', lines('sdRequirements')],
+      ['Questions buyers ask', lines('sdFaqSeeds')],
+      ['Tools and stack', lines('tools')],
+      ['Feature highlights', lines('features')]
+    ];
+    serviceBlocks.forEach(([label, arr]) => { if (arr.length) out.push('\n### ' + label + '\n' + list(arr)); });
+
+    const pkgs = [pkg('sdPkgBasic', 'Basic'), pkg('sdPkgStandard', 'Standard'), pkg('sdPkgPremium', 'Premium')].filter(Boolean);
+    if (pkgs.length) out.push('\n### Packages\n' + pkgs.join('\n'));
+
     return out.join('\n');
   }
 
@@ -2544,15 +2834,15 @@ window.showToast = function (msg) {
   const BUILDERS = {
     listing: () => wrap('Full listing copy', 'Write the complete listing for the platform above: one search-optimised title, one full description, and a short one-line summary.', '1. **Title** — single line, obeying the platform character and prefix rules.\n2. **One-line summary** — under 140 characters.\n3. **Description** — short paragraphs with a hook, the outcome, what is included, the process, and a closing call to action.'),
     variations: () => wrap('Three listing variations', 'Write three genuinely different versions of the title and description. Variation 1: direct and results-led. Variation 2: story-led, starting from the buyer\'s pain. Variation 3: bold and punchy with short lines and strong calls to action.', 'For each variation: `### Variation N — <angle>` then **Title**, then **Description**. Do not reuse sentences between variations.'),
-    pricing: () => wrap('Pricing packages and add-ons', 'Turn my package notes into three complete, buyer-ready tiers plus add-ons. Fix any pricing that is illogical and explain the change in one line at the end.', 'A markdown table with columns: Tier | Price | Delivery | Revisions | What you get. Then `### Add-ons` as a bullet list with price and delivery. Then `### Notes` with any pricing advice.'),
+    pricing: () => wrap('Pricing packages and add-ons', 'Turn my package notes into three complete, buyer-ready tiers plus add-ons. Sanity-check every tier against my hourly rate and minimum project budget in the profile above — if a tier would price the work below my own time, raise it and say so. Also state whether fixed-price or hourly makes more sense for each tier.', 'A markdown table with columns: Tier | Price | Delivery | Revisions | What you get. Then `### Add-ons` as a bullet list with price and delivery. Then `### Notes` with any pricing advice and the assumed hour count per tier.'),
     faq: () => wrap('FAQ and objection handling', 'Write the listing FAQ, covering the questions buyers always ask plus the three objections most likely to stop a purchase.', '5-7 entries as `**Q:** question` / `**A:** answer`, each answer 2-4 sentences, reassuring and specific.'),
-    tags: () => wrap('Search tags and SEO keywords', 'Produce the search tags and keyword set that match how buyers actually search for this service.', '1. **Tags** — exactly 5, lowercase, 1-3 words, comma separated.\n2. **Secondary keywords** — 10 phrases.\n3. **Where to place them** — 3 short bullets on title, first paragraph and package names.'),
+    tags: () => wrap('Search tags and SEO keywords', 'Produce the search tags and keyword set that match how buyers actually search for this service. Use the service keywords and search intent above as the source of truth. Also suggest which profile-level keywords overlap so I can reinforce them.', '1. **Tags** — exactly 5, lowercase, 1-3 words, comma separated.\n2. **Secondary keywords** — 10 phrases.\n3. **Profile overlap** — 3 profile keywords worth reinforcing.\n4. **Where to place them** — 3 short bullets on title, first paragraph and package names.'),
     requirements: () => wrap('Buyer requirements and onboarding', 'Write the requirements questions the buyer answers after ordering, so I can start without back-and-forth.', '6-8 numbered questions, each with a one-line reason it is asked and whether it is required or optional.'),
     messages: () => wrap('Order messages', 'Write the three messages I send around every order: an order welcome, a delivery message, and a polite review request.', '`### Welcome message`, `### Delivery message`, `### Review request` — each under 120 words, warm and professional, no emojis.'),
-    proposal: () => wrap('Proposal / cover letter', 'Write a proposal I can adapt per job post: open with the buyer\'s problem, prove I have solved it, outline the plan, state price and timeline, and close with one question.', 'Under 250 words, plain paragraphs, no bullet spam. Then `### Swap-in notes` listing the 3 lines I should customise per job.'),
-    profile: () => wrap('Profile bio and headline', 'Write my marketplace profile headline and bio, positioning me for the target buyer above.', '1. **Headline** — under 70 characters.\n2. **Short bio** — under 300 characters.\n3. **Full bio** — 3 short paragraphs.\n4. **Skills** — 10 keywords, comma separated.'),
+    proposal: () => wrap('Proposal / cover letter', 'Write a proposal I can adapt per job post: open with the buyer\'s problem, prove I have solved it, outline the plan, state price and timeline, and close with one question. Price using my hourly rate and minimum project budget from the profile above.', 'Under 250 words, plain paragraphs, no bullet spam. Then `### Swap-in notes` listing the 3 lines I should customise per job.'),
+    profile: () => wrap('Profile bio and headline', 'Write my marketplace profile headline and bio, positioning me for the target buyer above but reflecting my full skill set — not just this one service.', '1. **Headline** — under 70 characters.\n2. **Short bio** — under 300 characters.\n3. **Full bio** — 3 short paragraphs.\n4. **Skills** — 10 keywords, comma separated.'),
     rewrite: () => wrap('Rewrite a single field', 'Improve the text below without changing its meaning or inventing facts. Keep it inside the platform rules.\n\nCurrent text:\n"""\n' + (val('rewriteTarget') || '(paste your text in the field above)') + '\n"""', '1. **Rewritten version**.\n2. **Two alternatives**.\n3. **What changed and why** — 3 bullets.'),
-    layers: () => wrap('Thumbnail layer spec', 'Design the cover thumbnail as a structured layer list I can build in a canvas editor. Respect the platform canvas size and clear margin exactly — nothing important may sit inside the margin.', 'A JSON array of layers. Each layer: {"type":"text|chip|icon|shape|logo","content":"","x":0,"y":0,"width":0,"height":0,"fontSize":0,"weight":"","color":"#hex","align":"","note":""}. Coordinates in pixels from the top-left of the canvas. After the JSON, add `### Why this layout` with 3 bullets.')
+    layers: () => wrap('Thumbnail layer spec', 'Design the cover thumbnail as a structured layer list I can build in a canvas editor. Respect the platform canvas size and clear margin exactly — nothing important may sit inside the margin. Follow the branding & design system above for colours and fonts. Do NOT generate a text line that lists tool names — those are icons only.', 'A JSON array of layers. Each layer: {"type":"text|chip|icon|shape|logo","content":"","x":0,"y":0,"width":0,"height":0,"fontSize":0,"weight":"","color":"#hex","align":"","note":""}. Coordinates in pixels from the top-left of the canvas. After the JSON, add `### Why this layout` with 3 bullets.')
   };
   const LABELS = { listing: 'Full listing copy', variations: 'Three listing variations', pricing: 'Pricing packages', faq: 'FAQ and objections', tags: 'Search tags and SEO', requirements: 'Buyer requirements', messages: 'Order messages', proposal: 'Proposal / cover letter', profile: 'Profile bio and headline', rewrite: 'Single-field rewrite', layers: 'Thumbnail layer spec' };
 
