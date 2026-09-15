@@ -29,7 +29,7 @@ Built by [Yasir Shabbir](https://yasirshabbir.com)
 - [The Seven Tabs](#-the-seven-tabs)
 - [Canvas & Platform Presets](#-canvas--platform-presets)
 - [Branding & Design System](#-branding--design-system)
-- [Service Data & CV Parsing](#-service-data--cv-parsing)
+- [Service Setup & Freelancer Profile](#-service-setup--freelancer-profile)
 - [Generated Prompts](#-generated-prompts)
 - [The Launch Pack](#-the-launch-pack)
 - [Privacy & Offline Use](#-privacy--offline-use)
@@ -84,7 +84,7 @@ Most AI prompt generators give you a vague blob of text and wish you luck. Promp
 Paste a paragraph, click **Extract & Auto-fill**, and Prompt Forge heuristically parses:
 - Main headline (with "I will…" stripping)
 - Features from a 200+ keyword library
-- Tools from a 150+ tool dictionary
+- Tools from a ~140-entry tool dictionary
 - Trust line from the last pipe-separated line
 - Visual direction hint from 16 service archetypes
 
@@ -95,7 +95,7 @@ Paste a paragraph, click **Extract & Auto-fill**, and Prompt Forge heuristically
 A real **canvas-accurate** preview that scales to fit your viewport:
 - Correct aspect ratio per platform
 - Safe-area guides (toggle-free, always visible as a dashed outline)
-- Tool icons rendered in their **official brand colors** (150+ mapped)
+- Tool icons rendered in their **official brand colors** (~140 mapped)
 - Feature items as icon + text pairs, never cards
 - Headline in your chosen heading font
 
@@ -199,12 +199,12 @@ Drop the single HTML file onto GitHub Pages, Netlify, Vercel, Cloudflare Pages, 
 | # | Tab | What it does |
 | :-: | --- | --- |
 | **1** | **Paste Description** | Paste raw text, click **Extract & Auto-fill**, or pick one of six sample chips (Graphic Design, Web/App Dev, SEO/Marketing, Video/Motion, Copywriting, Social Media). |
-| **2** | **Customize** | Service basics, canvas preset, headline structure, features, tools, branding, fonts, radius, visual direction, must-avoid, and notes. |
-| **3** | **Service Data** | Full freelancer profile — identity, positioning, pricing tiers, process, requirements, SEO keywords. Optionally auto-filled from a CV/LinkedIn upload. |
+| **2** | **Service Setup** | Per-service fields only: service topic, platform / canvas preset, headline structure, floating features, tool icons, visual direction, buyer positioning, packages & pricing, requirements & process, and SEO for **this** service. Every new launch starts here. |
+| **3** | **Freelancer Profile** | Profile-wide fields that stay the same across every service you launch: identity & contact, branding & design system, bio / proof / differentiators, baseline rates, and overall skills & SEO. Optionally auto-filled from a CV / LinkedIn upload. |
 | **4** | **Cover Preview** | Live composition preview at native canvas scale, with a dashed safe-area outline and meta chips for canvas + safe-area dimensions. |
 | **5** | **Image Prompt** | The full, hardened markdown prompt for your cover image. Copy or download as `.md`. |
 | **6** | **Text Prompts** | Tick the prompt types you want. One combined markdown document is generated below. Copy or download as `.md`. |
-| **7** | **Launch Pack** | Everything in one document: service brief, platform rules, image prompt, and every ticked text prompt. Copy or download as `.md`. |
+| **7** | **Launch Pack** | Everything in one document: freelancer profile, this service's brief, platform rules, image prompt, and every ticked text prompt. Copy or download as `.md`. |
 
 Each tab is keyboard-navigable (`←` `→` `Home` `End` `Enter` `Space`) and honors `prefers-reduced-motion`.
 
@@ -229,9 +229,13 @@ Pick **Custom** and you get:
 - Eight quick-size chips: `1280×800`, `1280×720`, `1920×1080`, `1080×1080`, `1080×1350`, `1200×628`, `1500×1000`, `2000×2000`
 - A live safe-area readout (`customSafePreview`)
 
+> **Platform rules** are also baked in for **Fiverr**, **Upwork**, **LinkedIn**, **Contra**, and **Other** — each platform injects its own title/description/tag/FAQ rules into every generated text prompt and launch pack.
+
 ---
 
 ## 🎨 Branding & Design System
+
+> **Where it lives:** Branding is set on the **Freelancer Profile** tab (Tab 3) because it's your identity as a freelancer — it applies to every service cover you generate. Set it once and every future service inherits it automatically.
 
 ### Manual mode
 
@@ -264,21 +268,40 @@ The spec is inserted **verbatim** into every prompt and marked as the **authorit
 
 ---
 
-## 📄 Service Data & CV Parsing
+## 🧾 Service Setup & Freelancer Profile
 
-### The Service Data tab
+Prompt Forge deliberately splits your data into **two levels**:
 
-Five collapsible sections, each with a sticky section nav:
+- **Service Setup (Tab 2)** — describes **one service** you're launching right now. Change these every time you launch something new.
+- **Freelancer Profile (Tab 3)** — describes **you** as a freelancer. Stays the same across every service.
 
-1. **Freelancer Profile** — name, title, headline, experience, location, languages, availability, LinkedIn, website, bio, proof points
-2. **Buyer Positioning** — target buyer, problem solved, promised outcome, differentiators
-3. **Packages & Pricing** — Basic / Standard / Premium (pipe-separated format) + add-ons + deliverables
-4. **Buyer Requirements & Process** — requirements, process steps, FAQ seeds
-5. **SEO & Search Intent** — primary keywords, buyer search phrases, tone of voice
+Every generated prompt and the launch pack merge both levels together automatically.
+
+### The Service Setup tab (Tab 2)
+
+Seven sections, each with a sticky section nav:
+
+1. **Service Basics** — service topic, platform / canvas preset, main headline, secondary tagline, supporting line
+2. **Features & Tools** — floating feature items, tool / software icons, trust line
+3. **Visual Direction — This Service** — composition notes, must-avoid, additional notes
+4. **Buyer Positioning — This Service** — target buyer, main problem solved, promised outcome
+5. **Packages & Pricing — This Service** — Basic / Standard / Premium (pipe-separated `name | price | days | revisions | what's included`) + add-ons + deliverables
+6. **Requirements & Process — This Service** — what the buyer must provide, process steps, FAQ seeds
+7. **SEO & Search Intent — This Service** — primary keywords, buyer search phrases, tone of voice for this listing
+
+### The Freelancer Profile tab (Tab 3)
+
+Five sections, each with a sticky section nav:
+
+1. **Identity & Contact** — name / studio, professional title, headline, experience level & years, location, languages, availability, LinkedIn, website — plus the **CV / LinkedIn upload** block (see below)
+2. **Branding & Design System** — manual color / font / radius **or** Upload / Paste Spec mode
+3. **Bio, Proof & Differentiators** — short bio, proof & credibility bullets, why-you differentiators
+4. **Rates & Pricing Preferences** — currency (20 options), minimum project budget, hourly rate range, rate notes
+5. **Profile Skills & Overall Search Intent** — complete toolkit across all services, profile keywords, overall buyer search phrases
 
 ### CV / LinkedIn upload
 
-Toggle **Upload CV / LinkedIn PDF** and drop a file. The parser:
+Toggle **Upload CV / LinkedIn PDF** on the Freelancer Profile tab and drop a file. The parser:
 
 | Step | What happens |
 | --- | --- |
@@ -355,9 +378,12 @@ Platform: <Fiverr | Upwork | ...>
 
 ---
 
-## SERVICE BRIEF
-   ... every field from Customize + Service Data
+## FREELANCER PROFILE
+   ... identity, branding & design system, bio, rates,
    ... plus any attached CV / LinkedIn text
+
+## THIS SERVICE (the one being launched now)
+   ... every field from Service Setup
 
 ## PLATFORM RULES
    ... exact title/description/tag rules for the chosen platform
@@ -453,10 +479,11 @@ All theming flows from CSS custom properties at `:root`:
 | Module | Responsibility |
 | --- | --- |
 | **Global utilities** | `showToast()` |
+| **Tips ticker** | Rotating tips bar above the tab list |
 | **Persistence** | `localStorage` collect / restore / debounced save |
 | **Reset All** | Confirm + wipe + reload |
 | **Main studio** | Canvas presets, color sync, mode switches, spec files, tabs, section nav, extraction, preview, image prompt, output actions |
-| **Service Data** | Platform rules, PDF.js loader, manual PDF extractor, garbage detection, LinkedIn parser, generic parser, brief builder, text-prompt builders, launch pack builder |
+| **Service data** | Platform rules, PDF.js loader, manual PDF extractor, garbage detection, LinkedIn parser, generic parser, brief builder, text-prompt builders, launch pack builder |
 
 ### State persistence
 
@@ -532,7 +559,7 @@ const CANVAS_PRESETS = {
 };
 ```
 
-Then add an `<option>` to the `#platform` select.
+Then add an `<option>` to the `#platform` select. If you also want platform-specific title/tag/FAQ rules, add a matching key to `PLATFORM_RULES`.
 
 ### Add a tool to the brand color map
 
@@ -599,13 +626,14 @@ prompt-forge.html
 ├── <body>
 │   ├── Skip link
 │   ├── Decorative blobs + noise overlay
-│   ├── <header>  — brand, ArzoKeys chip, reset button
+│   ├── <header>  — brand, GitHub Issues chip, ArzoKeys chip, reset button
 │   ├── <main>
 │   │   ├── Hero
+│   │   ├── Tips ticker
 │   │   ├── Tab bar (7 tabs)
-│   │   ├── Panel 1 — Paste
-│   │   ├── Panel 2 — Customize
-│   │   ├── Panel 3 — Service Data
+│   │   ├── Panel 1 — Paste Description
+│   │   ├── Panel 2 — Service Setup
+│   │   ├── Panel 3 — Freelancer Profile
 │   │   ├── Panel 4 — Cover Preview
 │   │   ├── Panel 5 — Image Prompt
 │   │   ├── Panel 6 — Text Prompts
@@ -614,7 +642,7 @@ prompt-forge.html
 │   │   └── Footer
 │   └── Toast
 └── <script> ×3
-    ├── Persistence + reset
+    ├── Global utilities + tips ticker + persistence + reset
     ├── Main studio (canvas, preview, image prompt)
     └── Service data (CV, parsers, text prompts, launch pack)
 ```
@@ -648,6 +676,17 @@ No model follows any prompt perfectly. But Prompt Forge stacks the deck heavily 
 <summary><strong>Can I use it for non-design services?</strong></summary>
 
 Yes. The tool is built for **any service provider** — developers, marketers, writers, video editors, consultants, accountants, virtual assistants. The extraction library, feature library, tool library, and visual-direction hints all cover dozens of service categories.
+
+</details>
+
+<details>
+<summary><strong>What's the difference between Service Setup and Freelancer Profile?</strong></summary>
+
+**Service Setup** (Tab 2) describes the **one service** you're launching right now — its buyer, headline, features, packages, requirements, and keywords. Change these whenever you launch a new offer.
+
+**Freelancer Profile** (Tab 3) describes **you** — your identity, branding, bio, proof, baseline rates, and overall skills. Set it once; every service you launch inherits it.
+
+Every generated prompt and the launch pack merge both together automatically.
 
 </details>
 
