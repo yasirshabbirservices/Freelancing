@@ -24,6 +24,7 @@
     --border: 160 15% 18%;
     --fg: 60 10% 95%;
     --destructive: 0 84% 60%;
+    --warn: 38 92% 55%;
     --arzokeys: 25 100% 50%;
     --arzokeys-soft: 25 100% 55%;
     --arzokeys-fg: 0 0% 100%;
@@ -121,6 +122,7 @@
     overflow: hidden;
     min-height: 2.5rem;
     position: relative;
+    cursor: default;
   }
   .tips-prefix {
     display: inline-flex;
@@ -162,6 +164,8 @@
     transform: translateY(0);
     pointer-events: auto;
   }
+  .tips-item strong { color: hsl(var(--primary)); font-weight: 700; }
+  .tips-paused .tips-prefix { color: hsl(var(--accent)); }
   @media (max-width: 34rem) {
     .tips-prefix-text { display: none; }
     .tips-bar { padding: 0.5rem 0.75rem; gap: 0.5rem; }
@@ -171,19 +175,22 @@
   /* TABS */
   .tabs { display: flex; gap: 0.25rem; padding: 0.375rem; background: hsl(var(--card) / 0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid hsl(var(--fg) / 0.08); border-radius: 9999px; margin: 0 auto clamp(1.25rem, 4vw, 2rem); width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scroll-padding-inline: 0.375rem; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tab { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem); font-weight: 600; color: hsl(var(--muted-fg)); background: transparent; border: 1px solid transparent; padding: clamp(0.5rem, 1.6vw, 0.625rem) clamp(0.75rem, 3vw, 1.125rem); border-radius: 9999px; cursor: pointer; white-space: nowrap; scroll-snap-align: start; transition: color 200ms ease, background 200ms ease, border-color 200ms ease, box-shadow 200ms ease; user-select: none; -webkit-tap-highlight-color: transparent; min-height: 2.5rem; flex: 0 0 auto; }
+  .tab { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem); font-weight: 600; color: hsl(var(--muted-fg)); background: transparent; border: 1px solid transparent; padding: clamp(0.5rem, 1.6vw, 0.625rem) clamp(0.75rem, 3vw, 1.125rem); border-radius: 9999px; cursor: pointer; white-space: nowrap; scroll-snap-align: start; transition: color 200ms ease, background 200ms ease, border-color 200ms ease, box-shadow 200ms ease; user-select: none; -webkit-tap-highlight-color: transparent; min-height: 2.5rem; flex: 0 0 auto; }
   .tab:hover { color: hsl(var(--fg)); }
   .tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
   .tab.active { color: hsl(var(--primary-fg)); background: hsl(var(--primary)); box-shadow: 0 0 24px hsl(var(--primary) / 0.45); }
   .tab.active:focus-visible { box-shadow: 0 0 24px hsl(var(--primary) / 0.45), var(--focus-ring); }
   .tab-num { display: inline-flex; align-items: center; justify-content: center; width: 1.125rem; height: 1.125rem; font-size: 0.6875rem; font-weight: 700; border-radius: 9999px; background: hsl(var(--fg) / 0.15); flex-shrink: 0; }
   .tab.active .tab-num { background: hsl(var(--primary-fg) / 0.2); }
+  .tab.has-issues::after { content: ""; position: absolute; top: 0.3125rem; right: 0.4375rem; width: 0.4375rem; height: 0.4375rem; border-radius: 9999px; background: hsl(var(--warn)); box-shadow: 0 0 8px hsl(var(--warn) / 0.9); pointer-events: none; }
+  .tab.active.has-issues::after { background: hsl(var(--primary-fg)); box-shadow: 0 0 8px hsl(var(--primary-fg) / 0.8); }
   @media (max-width: 40rem) { .tab-num { display: none; } }
   @media (max-width: 30rem) {
     .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.375rem; border-radius: 1.25rem; overflow-x: visible; scroll-snap-type: none; padding: 0.375rem; }
     .tab { width: 100%; justify-content: center; padding: 0.625rem 0.25rem; border-radius: 0.75rem; white-space: normal; text-align: center; min-height: 2.75rem; line-height: 1.2; flex: none; scroll-snap-align: unset; }
     .tab-num { display: inline-flex; width: 1rem; height: 1rem; font-size: 0.625rem; }
     .tab.active { box-shadow: 0 0 15px hsl(var(--primary) / 0.4); }
+    .tab.has-issues::after { top: 0.25rem; right: 0.375rem; }
   }
 
   /* PANELS */
@@ -217,6 +224,7 @@
   .field-label { display: block; font-size: clamp(0.75rem, 0.72rem + 0.2vw, 0.8125rem); font-weight: 600; color: hsl(var(--fg)); margin-bottom: 0.5rem; letter-spacing: 0.01em; line-height: 1.4; }
   .field-label .opt { font-weight: 400; color: hsl(var(--muted-fg)); font-size: 0.75rem; margin-left: 0.25rem; }
   .field-hint { font-size: clamp(0.6875rem, 0.67rem + 0.15vw, 0.75rem); color: hsl(var(--muted-fg)); margin-top: 0.375rem; line-height: 1.5; text-wrap: pretty; }
+  .field-hint strong { color: hsl(var(--fg) / 0.85); }
   .input, .textarea, .select { width: 100%; min-height: var(--control-h); font-family: 'Space Grotesk', sans-serif; font-size: 1rem; line-height: 1.5; color: hsl(var(--fg)); background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--field-radius); padding: 0.75rem clamp(0.75rem, 2vw, 1rem); transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease; appearance: none; -webkit-appearance: none; outline: none; }
   .textarea { resize: vertical; min-height: 5.5rem; line-height: 1.6; }
   .select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23819890' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
@@ -227,6 +235,30 @@
   .input[type="number"] { -moz-appearance: textfield; }
   .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
   @media (min-width: 40rem) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+  /* FIELD VALIDATION */
+  .input.has-warn, .textarea.has-warn, .select.has-warn { border-color: hsl(var(--warn) / 0.6); background: hsl(var(--warn) / 0.05); }
+  .input.has-warn:focus, .textarea.has-warn:focus, .select.has-warn:focus { border-color: hsl(var(--warn) / 0.9); box-shadow: 0 0 0 3px hsl(var(--warn) / 0.18); }
+  .input.has-error, .textarea.has-error, .select.has-error { border-color: hsl(var(--destructive) / 0.7); background: hsl(var(--destructive) / 0.06); }
+  .input.has-error:focus, .textarea.has-error:focus, .select.has-error:focus { border-color: hsl(var(--destructive)); box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.2); }
+
+  .review-bar { margin: 0 0 clamp(1rem, 3vw, 1.5rem); padding: clamp(0.75rem, 2.4vw, 1rem); border-radius: 0.875rem; border: 1px solid hsl(var(--warn) / 0.45); background: hsl(var(--warn) / 0.07); }
+  .review-bar.is-clean { border-color: hsl(var(--primary) / 0.4); background: hsl(var(--primary) / 0.07); }
+  .review-bar-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .review-bar-icon { width: 1.125rem; height: 1.125rem; color: hsl(var(--warn)); flex-shrink: 0; display: inline-flex; }
+  .review-bar.is-clean .review-bar-icon { color: hsl(var(--primary)); }
+  .review-bar-icon svg { width: 100%; height: 100%; }
+  .review-bar-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem); letter-spacing: -0.005em; color: hsl(var(--fg)); }
+  .review-bar-count { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.125rem 0.5rem; border-radius: 9999px; background: hsl(var(--warn) / 0.18); color: hsl(var(--warn)); white-space: nowrap; }
+  .review-bar.is-clean .review-bar-count { background: hsl(var(--primary) / 0.16); color: hsl(var(--primary)); }
+  .review-list { list-style: none; margin: 0.625rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+  .review-list li { display: flex; }
+  .review-link { appearance: none; border: 0; background: transparent; padding: 0.125rem 0.25rem; color: hsl(var(--muted-fg)); font-family: inherit; font-size: clamp(0.6875rem, 0.66rem + 0.15vw, 0.78125rem); line-height: 1.5; text-align: left; cursor: pointer; display: inline-flex; gap: 0.4375rem; align-items: flex-start; border-radius: 0.375rem; transition: color 160ms ease; }
+  .review-link:hover, .review-link:focus-visible { color: hsl(var(--fg)); outline: none; }
+  .review-link:focus-visible { box-shadow: var(--focus-ring); }
+  .review-link::before { content: "•"; color: hsl(var(--warn)); font-weight: 700; flex-shrink: 0; }
+  .review-link.is-error::before { color: hsl(var(--destructive)); }
+  .review-link.is-error { color: hsl(var(--destructive) / 0.92); }
 
   /* COLOUR ROW */
   .color-row { display: grid; grid-template-columns: clamp(2.5rem, 10vw, 3.25rem) minmax(0, 1fr); gap: 0.625rem; align-items: stretch; }
@@ -320,6 +352,7 @@
   .paste-head { text-align: center; margin-bottom: clamp(1rem, 3vw, 1.5rem); }
   .paste-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.25rem, 1.05rem + 1.1vw, 1.875rem); letter-spacing: -0.02em; margin-bottom: 0.625rem; line-height: 1.2; text-wrap: balance; }
   .paste-desc { font-size: clamp(0.875rem, 0.85rem + 0.2vw, 0.9375rem); color: hsl(var(--muted-fg)); line-height: 1.7; max-width: 38.75rem; margin: 0 auto; text-wrap: pretty; }
+  .paste-desc strong { color: hsl(var(--fg)); }
   .paste-textarea { min-height: clamp(12rem, 40vh, 16.25rem); font-size: clamp(0.8125rem, 0.8rem + 0.15vw, 0.875rem); line-height: 1.7; }
   .paste-actions { display: flex; flex-wrap: wrap; gap: 0.625rem; margin-top: 1rem; justify-content: center; }
   .paste-actions .btn { flex: 0 1 auto; }
@@ -395,7 +428,7 @@
   @media (max-width: 23.75rem) { :root { --card-pad: 0.875rem; } .preview-toolbar { gap: 0.5rem; } .preview-toolbar-right { width: 100%; } .form-section-line { display: none; } .form-section-title { font-size: 0.9375rem; } .output-actions .btn { flex: 1 1 100%; } }
   @media (min-width: 100rem) { :root { --shell-max: 96rem; } }
   @media (forced-colors: active) {
-    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-gh-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone { border: 1px solid CanvasText; }
+    .glass-card, .input, .textarea, .select, .preview-frame, .output-pre, .promo-card, .header-ak-chip, .header-gh-chip, .header-icon-btn, .check-option, .mode-option, .drop-zone, .review-bar { border: 1px solid CanvasText; }
     .btn-glow { forced-color-adjust: none; }
     .tab.active { forced-color-adjust: none; }
     .section-nav-link[aria-current="true"] { forced-color-adjust: none; }
@@ -452,16 +485,18 @@
   <div class="app-main">
 
     <!-- TIPS TICKER -->
-    <div class="tips-bar" id="tipsBar" role="region" aria-label="Generation tips">
+    <div class="tips-bar" id="tipsBar" role="region" aria-label="Generation tips — hover or focus to pause">
       <span class="tips-prefix" aria-hidden="true">
         <svg class="tips-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2 1 3.5 2 5h10c1-1.5 2-3 2-5a7 7 0 0 0-7-7z"/></svg>
         <span class="tips-prefix-text">Tips</span>
       </span>
       <div class="tips-viewport">
-        <span class="tips-item is-active">Use reasoning / pro models — Gemini 2.5 Pro, GPT-5, Claude Opus. Fast/instant variants cut corners.</span>
-        <span class="tips-item">Paste into a fresh chat with no prior images — old context produces old mistakes.</span>
-        <span class="tips-item">Ask for one image per message. Regenerating in-thread tends to repeat earlier errors.</span>
-        <span class="tips-item">If extra text keeps appearing, reply: "Remove ALL text except the main headline and trust line."</span>
+        <span class="tips-item is-active"><strong>Step 2 check:</strong> after auto-fill, open Service Setup and verify every field. Auto-fill is a rough draft — not a finished brief.</span>
+        <span class="tips-item">Use reasoning / pro models — Gemini 2.5 Pro, GPT-5, Claude Opus. Fast/instant variants cut corners.</span>
+        <span class="tips-item">Taglines split by <strong>• · |</strong> or commas (like <em>Word • Word • Word</em>) are deliberately dropped from the image. Write a real phrase if you want it rendered.</span>
+        <span class="tips-item">For consistent images: re-paste the FULL prompt in a <strong>new chat</strong> every time. Regenerating in the same thread drifts.</span>
+        <span class="tips-item">Ask for one image per message. The STYLE LOCK block in the prompt keeps palette, fonts and layout identical across runs.</span>
+        <span class="tips-item">If extra text keeps appearing, reply: "Remove ALL text except the main headline."</span>
         <span class="tips-item">Generate at 2× the target size, then downscale — typography stays crisp.</span>
         <span class="tips-item">Save the prompt as .md. Reuse it for future services by editing only a few fields.</span>
       </div>
@@ -482,7 +517,7 @@
       <div class="paste-wrap glass-card">
         <div class="paste-head">
           <h2 class="paste-title" id="pasteTitle">Paste your service description</h2>
-          <p class="paste-desc" id="pasteDesc">Drop in a raw description from any marketplace, portfolio, job post, or your own notes. The extractor pulls out the headline, features, tools, and a trust line — then fills the Service Setup tab for you. Each new service starts here; your Freelancer Profile and branding stay the same across all of them.</p>
+          <p class="paste-desc" id="pasteDesc">Drop in a raw description from any marketplace, portfolio, job post, or your own notes. The extractor pulls out the headline, features, tools, and a trust line — then fills the Service Setup tab for you. <strong>Auto-fill is a starting point, not a finished brief</strong> — always open Service Setup afterwards and correct anything that looks wrong. Each new service starts here; your Freelancer Profile and branding stay the same across all of them.</p>
         </div>
         <label class="sr-only" for="pasteInput">Service description to extract from</label>
         <textarea class="textarea paste-textarea" id="pasteInput" aria-labelledby="pasteTitle" aria-describedby="pasteDesc" placeholder="Paste anything — a gig description, a proposal paragraph, or a few lines from your portfolio."></textarea>
@@ -546,6 +581,18 @@
           <p class="paste-desc">Everything on this tab describes the <strong>one service you're launching right now</strong>. Buyer positioning, packages, requirements, and service keywords all live here — change them each time you launch a new service. Your identity, branding, rates and overall skills stay on the Freelancer Profile tab.</p>
         </div>
 
+        <!-- LIVE REVIEW -->
+        <div class="review-bar" id="reviewBar" role="status" aria-live="polite">
+          <div class="review-bar-head">
+            <span class="review-bar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+            <strong class="review-bar-title" id="reviewTitle">Check these fields before generating</strong>
+            <span class="review-bar-count" id="reviewCount">0</span>
+          </div>
+          <ul class="review-list" id="reviewList"></ul>
+        </div>
+
         <div class="form-section" id="section-basics">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">1</span><h2 class="form-section-title">Service Basics</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <div class="field"><label class="field-label" for="topic">Service Topic <span class="opt">(required)</span></label><input class="input" id="topic" type="text" placeholder="e.g. Logo Design, SEO, Video Editing" autocomplete="off" /></div>
@@ -583,20 +630,20 @@
           <div class="field">
             <label class="field-label" for="secondary">Secondary Tagline <span class="opt">(optional — a short phrase, NOT a tool list)</span></label>
             <input class="input" id="secondary" type="text" placeholder="e.g. From Idea to Launch in 7 Days" autocomplete="off" />
-            <p class="field-hint">Only rendered if it reads as a genuine tagline. Tool / software names belong in the Tool &amp; Software Icons field below — they become icons, not text.</p>
+            <p class="field-hint">Only rendered if it reads as a genuine tagline. <strong>If you separate words with • · | or commas, the prompt tells the AI to drop it entirely.</strong> Tool / software names belong in the Tool &amp; Software Icons field below — they become icons, not text.</p>
           </div>
           <div class="field">
             <label class="field-label" for="supporting">Supporting Line <span class="opt">(optional — a short tagline, NOT a feature list)</span></label>
             <input class="input" id="supporting" type="text" placeholder="e.g. Design • Build • Ship" autocomplete="off" />
-            <p class="field-hint">Only rendered if it reads as a tagline. Deliverables and features belong in the Floating Feature Items field below.</p>
+            <p class="field-hint">Only rendered if it reads as a tagline. <strong>List-like values are dropped automatically.</strong> Deliverables and features belong in the Floating Feature Items field below.</p>
           </div>
         </div>
 
         <div class="form-section" id="section-features">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">2</span><h2 class="form-section-title">Features &amp; Tools</h2><span class="form-section-line" aria-hidden="true"></span></div>
-          <div class="field"><label class="field-label" for="features">Floating Feature Items <span class="opt">(max 6, one per line)</span></label><textarea class="textarea" id="features" rows="4" aria-describedby="featuresHint" placeholder="Logo Design&#10;Brand Guidelines&#10;Typography&#10;Color Palette&#10;Icon Set&#10;Social Kit"></textarea><p class="field-hint" id="featuresHint">Each item renders as a small icon + text pair floating directly on the background. NOT a card, NOT a grid tile, NOT a chip. Keep each item to 1–3 words.</p></div>
-          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — <strong>icons only</strong>. Never as text, never inside boxes, never duplicated. Do NOT also list these names in the Secondary or Supporting fields.</p></div>
-          <div class="field"><label class="field-label" for="trust">Trust Line <span class="opt">(optional)</span></label><input class="input" id="trust" type="text" placeholder="e.g. Distinct • Timeless • Memorable" autocomplete="off" /></div>
+          <div class="field"><label class="field-label" for="features">Floating Feature Items <span class="opt">(max 6, one per line)</span></label><textarea class="textarea" id="features" rows="4" aria-describedby="featuresHint" placeholder="Logo Design&#10;Brand Guidelines&#10;Typography&#10;Color Palette&#10;Icon Set&#10;Social Kit"></textarea><p class="field-hint" id="featuresHint">Each item renders as a small icon + text pair floating directly on the background. NOT a card, NOT a grid tile, NOT a chip. Keep each item to 1–3 words. Only the first 6 are used.</p></div>
+          <div class="field"><label class="field-label" for="tools">Tool / Software Icons <span class="opt">(one per line, official logo marks only)</span></label><textarea class="textarea" id="tools" rows="4" aria-describedby="toolsHint" placeholder="Figma&#10;Illustrator&#10;Photoshop&#10;Canva"></textarea><p class="field-hint" id="toolsHint">Rendered as free-floating official brand marks — <strong>icons only</strong>. Never as text, never inside boxes, never duplicated. Do NOT also list these names in the Secondary or Supporting fields. Only the first 8 are used.</p></div>
+          <div class="field"><label class="field-label" for="trust">Trust Line <span class="opt">(optional — a phrase, not a bullet list)</span></label><input class="input" id="trust" type="text" placeholder="e.g. Built to be remembered" autocomplete="off" /><p class="field-hint">Rendered as small centred text at the bottom. <strong>If it reads as a separated list (Word • Word • Word), the prompt instructs the AI to drop it completely</strong> — that is the usual cause of stray "Word . Word . Word" text appearing on the image. Write a real phrase if you want it rendered.</p></div>
         </div>
 
         <div class="form-section" id="section-visual">
@@ -897,7 +944,7 @@
               <div class="pc-supporting" id="pcSupporting">Designed to Last</div>
               <div class="pc-tools" id="pcTools"></div>
               <div class="pc-features" id="pcFeatures"></div>
-              <div class="pc-trust" id="pcTrust">Distinct • Timeless • Memorable</div>
+              <div class="pc-trust" id="pcTrust">Built to be remembered</div>
             </div>
           </div>
         </div>
@@ -1067,7 +1114,7 @@ window.showToast = function (msg) {
 };
 
 /* ============================================================
-   TIPS TICKER
+   TIPS TICKER — pauses on hover / focus so it can be read
    ============================================================ */
 (function () {
   'use strict';
@@ -1075,14 +1122,49 @@ window.showToast = function (msg) {
   if (!bar) return;
   const items = bar.querySelectorAll('.tips-item');
   if (items.length < 2) return;
+
+  let idx = 0;
+  let paused = false;
+  let resumeTimer = null;
+
+  function pause() {
+    paused = true;
+    bar.classList.add('tips-paused');
+    clearTimeout(resumeTimer);
+  }
+  function resume() {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      paused = false;
+      bar.classList.remove('tips-paused');
+    }, 120);
+  }
+  function hold() {
+    paused = true;
+    bar.classList.add('tips-paused');
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      paused = false;
+      bar.classList.remove('tips-paused');
+    }, 4000);
+  }
+
+  bar.addEventListener('mouseenter', pause);
+  bar.addEventListener('mouseleave', resume);
+  bar.addEventListener('focusin', pause);
+  bar.addEventListener('focusout', resume);
+  bar.addEventListener('touchstart', hold, { passive: true });
+  bar.addEventListener('pointerdown', hold, { passive: true });
+
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
-  let idx = 0;
+
   setInterval(() => {
+    if (paused) return;
     items[idx].classList.remove('is-active');
     idx = (idx + 1) % items.length;
     items[idx].classList.add('is-active');
-  }, 5200);
+  }, 5600);
 })();
 
 /* ============================================================
@@ -1179,6 +1261,23 @@ window.showToast = function (msg) {
   const getLines = (id) => getVal(id).split('\n').map(s => s.trim()).filter(Boolean);
   const prefersReducedMotion = () =>
     window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============================================================
+     LIST-LIKE DETECTION
+     Used to decide whether a tagline / trust line should be
+     rendered by the AI at all. "Word • Word • Word" is a list,
+     not a tagline — so the prompt tells the AI to DROP it.
+     ============================================================ */
+  function isListy(str) {
+    const s = String(str || '').trim();
+    if (!s) return false;
+    const seps = (s.match(/[•·|]|(?:,\s)|(?:\s[-–—]\s)/g) || []).length;
+    const words = s.split(/\s+/).filter(Boolean).length;
+    if (seps >= 2) return true;
+    if (seps >= 1 && words <= 6) return true;
+    return false;
+  }
+  window.__arzoIsListy = isListy;
 
   /* File-safe slug from Service Topic, with sensible fallbacks */
   function fileSlug() {
@@ -1528,23 +1627,65 @@ window.showToast = function (msg) {
     "I manage your social media from strategy to daily posting. I create content calendars, design posts and stories in Canva, write captions, schedule across Instagram, Facebook, LinkedIn, and TikTok with Buffer or Hootsuite, engage your audience, and report on growth. Consistent. On-brand. Growth-focused."
   ];
 
+  /* ---------- IMPROVED SERVICE CATEGORY RULES ---------- */
+  const SERVICE_RULES = [
+    { re: /\b(logo|brand identity|branding|visual identity|brand guidelines|rebrand)\b/i, topic: 'Logo & Brand Identity Design', keywords: 'logo design, brand identity, custom logo design, brand guidelines, minimal logo' },
+    { re: /\b(ui\s*\/?\s*ux|ui design|ux design|app design|product design|wireframe|prototype|design system)\b/i, topic: 'UI/UX Design', keywords: 'ui ux designer, app design, figma designer, product design, design system' },
+    { re: /\b(wordpress|woocommerce|elementor|divi|wp rocket)\b/i, topic: 'WordPress Development', keywords: 'wordpress developer, woocommerce expert, elementor designer, wordpress speed optimization' },
+    { re: /\b(shopify|e-?commerce|online store|dropshipping store)\b/i, topic: 'Shopify & E-commerce Development', keywords: 'shopify expert, ecommerce store setup, woocommerce developer, online store design' },
+    { re: /\b(react|next\.?js|node\.?js|full[\s-]?stack|web app|saas|mvp|rest api)\b/i, topic: 'Full-Stack Web Development', keywords: 'full stack developer, react developer, nextjs developer, web app development, saas mvp' },
+    { re: /\b(react native|flutter|mobile app|ios app|android app|swift|kotlin)\b/i, topic: 'Mobile App Development', keywords: 'mobile app developer, react native developer, flutter developer, ios android app' },
+    { re: /\b(seo|search engine optimization|keyword research|backlink|serp|rank(?:ing)?)\b/i, topic: 'SEO Optimization', keywords: 'seo expert, technical seo, keyword research, link building, local seo' },
+    { re: /\b(google ads|facebook ads|meta ads|ppc|paid ads|ad campaign|adwords)\b/i, topic: 'Paid Ads & PPC Management', keywords: 'google ads expert, facebook ads manager, ppc campaign, paid advertising, meta ads' },
+    { re: /\b(social media|instagram|tiktok|community management|content calendar|social strategy)\b/i, topic: 'Social Media Management', keywords: 'social media manager, instagram marketing, content calendar, community management' },
+    { re: /\b(video edit(?:ing)?|premiere|after effects|reels|youtube edit|motion graphics|animation|color grading)\b/i, topic: 'Video Editing & Motion Graphics', keywords: 'video editor, motion graphics designer, reels editing, youtube video editing' },
+    { re: /\b(copywrit(?:er|ing)|content writ(?:er|ing)|blog writ(?:er|ing)|article writ|ghostwrit|website copy)\b/i, topic: 'Copywriting & Content Writing', keywords: 'copywriter, content writer, blog writing, website copywriting, seo content writer' },
+    { re: /\b(email marketing|newsletter|mailchimp|klaviyo|email sequence|email automation)\b/i, topic: 'Email Marketing & Automation', keywords: 'email marketing, klaviyo expert, newsletter design, email automation, email sequences' },
+    { re: /\b(ai autom|n8n|zapier|make\.com|workflow autom|chatbot|ai agent|openai|langchain|rag|gpt-?4)\b/i, topic: 'AI Automation & Integrations', keywords: 'ai automation, n8n expert, chatbot development, ai agent developer, openai integration' },
+    { re: /\b(photo edit|photoshop|retouch|background remov|product photo|photo manipulation)\b/i, topic: 'Photo Editing & Retouching', keywords: 'photo editing, photoshop retouching, background removal, product photo editing' },
+    { re: /\b(illustrat|digital art|character design|concept art|drawing|vector art)\b/i, topic: 'Illustration & Digital Art', keywords: 'illustrator, digital art, character design, custom illustration, vector art' },
+    { re: /\b(presentation|pitch deck|slides|powerpoint|keynote|investor deck)\b/i, topic: 'Presentation & Pitch Deck Design', keywords: 'pitch deck design, presentation designer, powerpoint slides, investor deck' },
+    { re: /\b(3d model|3d render|blender|cinema 4d|product render|3d visuali)\b/i, topic: '3D Modeling & Rendering', keywords: '3d modeling, product rendering, blender artist, 3d visualization' },
+    { re: /\b(bookkeep|accounting|quickbooks|xero|financial report)\b/i, topic: 'Bookkeeping & Accounting', keywords: 'bookkeeper, quickbooks expert, xero accountant, financial reporting' },
+    { re: /\b(virtual assistant|data entry|admin support|executive assistant)\b/i, topic: 'Virtual Assistant Services', keywords: 'virtual assistant, data entry, admin support, executive assistant' },
+    { re: /\b(voice ?over|voiceover|narration|dubbing)\b/i, topic: 'Voice Over & Narration', keywords: 'voice over artist, narration, voiceover recording, dubbing' },
+    { re: /\b(translat|localiz|localis)\b/i, topic: 'Translation & Localization', keywords: 'translator, localization services, document translation' },
+    { re: /\b(transcri|subtitle|caption)\b/i, topic: 'Transcription & Subtitling', keywords: 'transcription services, subtitles, captioning, srt files' },
+    { re: /\b(crm|hubspot|salesforce|gohighlevel|sales funnel|lead gen)\b/i, topic: 'CRM & Funnel Setup', keywords: 'crm setup, gohighlevel expert, sales funnel builder, lead generation' },
+    { re: /\b(conversion rate|conversion optimi|cro\b|a\/b test)\b/i, topic: 'Conversion Rate Optimization', keywords: 'conversion optimization, cro expert, landing page optimization, a/b testing' }
+  ];
+
   function escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function titleCase(s) {
+    return String(s || '').replace(/\b([a-z])/g, (m) => m.toUpperCase());
+  }
 
   function extractFromText(text) {
     if (!text || !text.trim()) return null;
     const lower = text.toLowerCase();
     const result = {};
-    const foundTools = KNOWN_TOOLS.filter(t => new RegExp('\\b' + escapeRegExp(t) + '\\b', 'i').test(text));
+
+    /* --- Tools & features (unchanged core, broader match) --- */
+    const foundTools = KNOWN_TOOLS.filter(t => new RegExp('(?:^|[^a-z0-9])' + escapeRegExp(t) + '(?:$|[^a-z0-9])', 'i').test(text));
     result.tools = foundTools.slice(0, 8);
+
     const foundFeatures = KNOWN_FEATURES.filter(f => lower.includes(f.toLowerCase()));
     result.features = foundFeatures.slice(0, 6);
-    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
-    const lastLine = lines[lines.length - 1] || '';
-    if (lastLine.length < 80 && /[•·|—–]/.test(lastLine)) result.trust = lastLine;
-    else {
-      const m = text.match(/\b([A-Z][a-z]+\.\s+){1,3}[A-Z][a-z]+\.?\b/);
-      if (m) result.trust = m[0].replace(/\.\s*/g, ' • ').replace(/\.$/, '');
+
+    /* --- Service category (topic + keywords) --- */
+    let matched = null;
+    for (const rule of SERVICE_RULES) { if (rule.re.test(text)) { matched = rule; break; } }
+    if (!matched && foundFeatures.length) {
+      const primary = foundFeatures[0];
+      result.topic = titleCase(primary);
+      result.sdKeywords = foundFeatures.slice(0, 5).map(f => f.toLowerCase()).join(', ');
+    } else if (matched) {
+      result.topic = matched.topic;
+      result.sdKeywords = matched.keywords;
     }
+
+    /* --- Headline --- */
+    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
     const firstSentence = text.split(/[.!?\n]/)[0].trim();
     let headline = firstSentence;
     const words = headline.split(/\s+/);
@@ -1553,19 +1694,67 @@ window.showToast = function (msg) {
       if (breakMatch) headline = breakMatch[1].trim();
       else headline = words.slice(0, 8).join(' ');
     }
-    headline = headline.replace(/^I(?:'ll| will| can| am| help you| help| build| create| fix| deploy| optimize| design| develop| write| edit| manage| grow| run| craft| deliver| provide| offer| do| handle| produce| make| launch| scale| rank| transform| specialize in)\s+/i, '').replace(/^I\s+/i, '');
-    result.mainHeadline = headline.charAt(0).toUpperCase() + headline.slice(1);
-    result.topic = result.mainHeadline.replace(/[.!?]$/, '');
-    /* NOTE: We intentionally do NOT auto-fill secondary from tools.
-       Tool names belong in the Tool / Software Icons field and will be rendered as icons — not as a text line. */
-    const supportMatch = text.match(/(?:includes|services|offer|deliver)[:\s]+([^\n.]+)/i);
-    if (supportMatch && supportMatch[1].length < 120) {
-      const candidate = supportMatch[1].trim();
-      /* Only accept it as a tagline if it reads like a tagline, not a list. */
-      const listSignals = (candidate.match(/[•·|,]/g) || []).length;
-      const wordCount = candidate.split(/\s+/).length;
-      if (listSignals <= 1 && wordCount <= 10) result.supporting = candidate;
+    headline = headline
+      .replace(/^I(?:'ll| will| can| am| help you| help| build| create| fix| deploy| optimize| design| develop| write| edit| manage| grow| run| craft| deliver| provide| offer| do| handle| produce| make| launch| scale| rank| transform| specialize in)\s+/i, '')
+      .replace(/^I\s+/i, '')
+      .replace(/^(?:we|our team)\s+/i, '')
+      .trim();
+    if (headline) result.mainHeadline = headline.charAt(0).toUpperCase() + headline.slice(1);
+    if (!result.topic && result.mainHeadline) result.topic = result.mainHeadline.replace(/[.!?]$/, '');
+
+    /* --- Trust line --- */
+    const lastLine = lines[lines.length - 1] || '';
+    const trustCandidate = lastLine.length < 90 && /[•·|]/.test(lastLine) ? lastLine
+      : (/^(?:distinct|timeless|memorable|reliable|fast|clean|professional)/i.test(lastLine) && lastLine.length < 90 ? lastLine : '');
+    if (trustCandidate) result.trust = trustCandidate;
+
+    /* --- Deliverables --- */
+    const delivMatch = text.match(/(?:you(?:'ll| will)?\s*(?:get|receive)|includes?|deliverables?(?:\s+include)?|deliver(?:s|ing)?|i\s+deliver)[:\s]+([^\n]{10,320})/i);
+    if (delivMatch) {
+      const items = delivMatch[1]
+        .split(/,|;|\band\b|\n/)
+        .map(s => s.replace(/^[\s\-–—•·*]+/, '').trim())
+        .filter(s => s.length > 2 && s.length < 60 && !/[.!?]$/.test(s));
+      if (items.length >= 2) result.sdDeliverables = items.slice(0, 8);
     }
+
+    /* --- Audience --- */
+    const AUDIENCE_RES = [
+      /\bfor\s+((?:small|medium|large|early[\s-]stage|funded|bootstrapped|solo|saas|e-?commerce|dtc|b2b|b2c)[\s\w'-]{2,44})/i,
+      /\b(?:help|helps|helping)\s+((?:startups?|founders?|businesses|brands?|creators|agencies|coaches|consultants|stores?|shops?|marketers|developers|teams?|entrepreneurs)[\s\w'-]{0,44})/i,
+      /\b(?:ideal|perfect|built)\s+for\s+([^.,;\n]{4,64})/i
+    ];
+    for (const re of AUDIENCE_RES) {
+      const m = text.match(re);
+      if (m && m[1]) { result.sdAudience = m[1].trim().replace(/\s+/g, ' '); break; }
+    }
+
+    /* --- Problem --- */
+    const probM = text.match(/\b(?:struggling with|tired of|fed up with|need help with|problems? with|frustrated by|sick of)\s+([^.,;\n]{5,90})/i);
+    if (probM) result.sdProblem = probM[1].trim();
+    else if (result.sdAudience) result.sdProblem = 'Buyers in this niche need reliable, on-time delivery without managing it themselves';
+
+    /* --- Outcome --- */
+    const outM = text.match(/\b(?:so you can|so that you|to help you|resulting in|which means|you(?:'ll| will) get|get a)\s+([^.,;\n]{5,90})/i);
+    if (outM) result.sdOutcome = outM[1].trim();
+
+    /* --- Tone --- */
+    if (/\b(premium|high[\s-]end|luxury|elegant|sophisticated)\b/i.test(text)) result.sdTone = 'Confident, premium, no fluff';
+    else if (/\b(friendly|approachable|warm|easy[\s-]going)\b/i.test(text)) result.sdTone = 'Friendly, approachable, plain-spoken';
+    else if (/\b(fast|quick|rapid|24[\s-]?hour|same[\s-]?day)\b/i.test(text)) result.sdTone = 'Fast, direct, results-first';
+    else result.sdTone = 'Confident, direct, no fluff';
+
+    /* --- Search intent --- */
+    const intents = [];
+    if (result.topic) {
+      const t = result.topic.toLowerCase();
+      intents.push('hire ' + t);
+      intents.push(t + ' expert');
+    }
+    if (result.sdAudience) intents.push('help my ' + result.sdAudience.toLowerCase());
+    if (intents.length) result.sdIntent = intents.slice(0, 5);
+
+    /* --- Visual hint --- */
     const VISUAL_HINTS = [
       { re: /logo|brand identity|graphic design|vector|icon design|illustration/i, hint: 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.' },
       { re: /ui\/ux|ui design|ux design|app design|product design|wireframe|prototype/i, hint: 'Floating UI screens and wireframe elements scattered organically. Soft ambient glow behind the composition. No container boxes.' },
@@ -1587,27 +1776,55 @@ window.showToast = function (msg) {
     let visualHint = 'Soft ambient glow. Thin accent data-flow curves. Blurred atmospheric blobs. Nothing grouped inside any container.';
     for (const v of VISUAL_HINTS) { if (v.re.test(text)) { visualHint = v.hint; break; } }
     result.visuals = visualHint;
+
     return result;
   }
 
   function applyExtraction(data) {
-    if (!data) return;
-    const set = (id, val) => { if (val) $(id).value = val; };
+    if (!data) return 0;
+    let filled = 0;
+    const set = (id, val) => {
+      if (!val) return;
+      const el = $(id);
+      if (!el) return;
+      el.value = val;
+      filled++;
+    };
+    const setList = (id, arr) => {
+      if (!arr || !arr.length) return;
+      const el = $(id);
+      if (!el) return;
+      el.value = arr.join('\n');
+      filled++;
+    };
+
     set('topic', data.topic);
     set('mainHeadline', data.mainHeadline);
-    /* Reset the tagline fields FIRST, then set them only if the extraction found
-       tagline-like content. Empty is better than a leftover tool list. */
-    $('secondary').value = '';
-    $('supporting').value = '';
+
+    /* Taglines: always reset first so a stale tool-list never survives. */
+    ['secondary','supporting','trust'].forEach((id) => { if ($(id)) $(id).value = ''; });
     set('secondary', data.secondary);
     set('supporting', data.supporting);
     set('trust', data.trust);
-    if (data.features && data.features.length) $('features').value = data.features.join('\n');
-    if (data.tools && data.tools.length) $('tools').value = data.tools.join('\n');
+
+    setList('features', data.features);
+    setList('tools', data.tools);
     set('visuals', data.visuals);
+
+    /* Per-service buyer positioning + SEO */
+    set('sdAudience', data.sdAudience);
+    set('sdProblem', data.sdProblem);
+    set('sdOutcome', data.sdOutcome);
+    set('sdKeywords', data.sdKeywords);
+    set('sdTone', data.sdTone);
+    setList('sdIntent', data.sdIntent);
+    setList('sdDeliverables', data.sdDeliverables);
+
     updatePreview();
     generatePromptIfNeeded();
     window.__arzoScheduleSave && window.__arzoScheduleSave();
+    if (window.__arzoReview) window.__arzoReview();
+    return filled;
   }
 
   $('extractBtn').addEventListener('click', () => {
@@ -1615,7 +1832,7 @@ window.showToast = function (msg) {
     if (!text.trim()) { showToast('Paste a description first'); $('pasteInput').focus(); return; }
     applyExtraction(extractFromText(text));
     activateTab('customize', true);
-    showToast('Service fields auto-filled');
+    showToast('Auto-filled — now verify every field in Service Setup');
   });
   $('pasteClearBtn').addEventListener('click', () => { $('pasteInput').value = ''; $('pasteInput').focus(); window.__arzoScheduleSave && window.__arzoScheduleSave(); });
   document.querySelectorAll('.paste-chip').forEach((chip) => {
@@ -1643,10 +1860,10 @@ window.showToast = function (msg) {
 
   /* PREVIEW */
   function hexToRgba(hex, alpha) {
-    const h = hex.replace('#', '');
+    const h = String(hex || '#00D68F').replace('#', '');
     const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
     const r = parseInt(full.slice(0, 2), 16), g = parseInt(full.slice(2, 4), 16), b = parseInt(full.slice(4, 6), 16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    return 'rgba(' + (r || 0) + ',' + (g || 0) + ',' + (b || 0) + ',' + alpha + ')';
   }
   const previewFrame = $('previewFrame'), previewCanvas = $('previewCanvas'), previewSafe = $('previewSafe');
 
@@ -1772,6 +1989,36 @@ window.showToast = function (msg) {
     return out.join('\n');
   }
 
+  /* ---- STYLE LOCK: keeps every generated image visually identical ---- */
+  function buildStyleLock() {
+    const preset = getPlatformPreset();
+    const primary = getVal('primaryHex') || '#00D68F';
+    const bg = getVal('bgHex') || '#0A100E';
+    const textColor = getVal('textHex') || '#F3F3F1';
+    const headingFont = getVal('headingFont') || 'Syne';
+    const bodyFont = getVal('bodyFont') || 'Space Grotesk';
+    const radius = getVal('radius') || '16px';
+    return [
+      '## 🎨 STYLE LOCK — IDENTICAL RESULT ON EVERY RUN',
+      '',
+      'This brief describes **one fixed visual system**. Every image produced from it — now, in a later message, or in a completely separate chat — must match the fingerprint below exactly. Only the CONTENT changes. The look never does.',
+      '',
+      '**Style fingerprint — reproduce exactly:**',
+      '- Canvas: exactly **' + preset.w + ' × ' + preset.h + ' px**, one single image.',
+      '- Background: flat `' + bg + '` with exactly two soft radial accent washes — `' + hexToRgba(primary, 0.10) + '` ellipse centred at 30% / 20%, and `' + hexToRgba(primary, 0.08) + '` ellipse centred at 80% / 90%. No other gradients, no textures, no noise, no vignette.',
+      '- Accent colour: `' + primary + '`. Used only for ambient glow, thin data-flow curves, feature check icons and the trust line. Never as a large flat fill.',
+      '- Headline: **' + headingFont + '** weight 800, tracking −0.03em, colour `' + textColor + '`.',
+      '- Body / UI text: **' + bodyFont + '** weight 500.',
+      '- Tool icons: soft corner radius **' + radius + '**, official brand colours preserved exactly, no border, no tile, no chip, no badge behind them.',
+      '- Lighting: soft emitted glow only. No hard drop shadows, no bevels, no 3D extrusion, no glass reflections.',
+      '- Composition anchors as a percentage of canvas height: headline block 12–30%, secondary tagline ≈ 34%, supporting line ≈ 40%, tool cluster centre ≈ 56%, feature row ≈ 72%, trust line ≈ 90%. Everything horizontally centred.',
+      '',
+      '**When you are asked for a second or third image for this same service:** keep every value above identical, and change ONLY the single element the user names. Do not re-interpret the palette, typography, background, lighting, spacing or icon treatment. If you genuinely cannot keep the fingerprint identical, say so instead of improvising.',
+      '',
+      '**If your tool accepts a seed value:** reuse the same seed for every image generated from this brief.'
+    ].join('\n');
+  }
+
   function buildPrompt() {
     const preset = getPlatformPreset();
     const topic = getVal('topic') || 'Your Service';
@@ -1793,6 +2040,12 @@ window.showToast = function (msg) {
     const notes = getVal('notes');
     const mode = getDesignMode();
     const isCustom = getVal('platform') === 'Custom';
+
+    /* Pre-computed decisions — the AI is told the verdict, not asked to judge. */
+    const secondaryListy = isListy(secondary);
+    const supportingListy = isListy(supporting);
+    const trustListy = isListy(trust);
+
     const sizeLine = isCustom
       ? '- Output: **one single image**, exactly **' + preset.w + ' × ' + preset.h + ' px**, ' + preset.ratio + ' aspect ratio (custom size chosen by the user).'
       : '- Output: **one single image**, exactly **' + preset.w + ' × ' + preset.h + ' px**, ' + preset.ratio + ' aspect ratio.';
@@ -1801,13 +2054,76 @@ window.showToast = function (msg) {
     const avoidCustom = avoid ? avoid.split('\n').map(s => s.trim()).filter(Boolean).map(s => '- ' + s).join('\n') : '';
     const notesBlock = notes ? '\n## ADDITIONAL NOTES\n' + notes + '\n' : '';
     const specSection = buildSpecSection();
+    const styleLock = buildStyleLock();
+
     const brandingSection = ['## BRANDING','- Primary / Accent color: `' + primary + '`','- Secondary / Highlight color: `' + accent + '`','- Background color: `' + bg + '`','- Primary text color: `' + textColor + '`','- Heading font: **' + headingFont + '** (bold, geometric, wide, premium)','- Body / UI font: **' + bodyFont + '** (clean, technical, readable)','- Soft icon corner radius (for the icon glyphs only, not for content containers): **' + radius + '**','- Official brand colors of every tool / platform icon must be preserved exactly — never tint them to match the background.'].join('\n');
     const designDetails = (mode === 'spec' && specSection) ? specSection : brandingSection;
+
+    /* Content blocks — verdicts baked in. */
+    const contentBlocks = [];
+    contentBlocks.push('### Main Headline — MANDATORY, always render');
+    contentBlocks.push('"' + mainHeadline + '"');
+    contentBlocks.push('');
+
+    if (secondary) {
+      if (secondaryListy) {
+        contentBlocks.push('### Secondary Tagline — ⛔ REJECTED, RENDER NOTHING');
+        contentBlocks.push('**Candidate text:** "' + secondary + '"');
+        contentBlocks.push('**Verdict: DROP IT.** This string is a list of separate items, not a tagline. Render NOTHING for this field. Do not paraphrase it. Do not shorten it. Do not render the individual words with dots, bullets, pipes or commas between them. Do not render it in any form. Leave clean background where this line would have been.');
+      } else {
+        contentBlocks.push('### Secondary Tagline — render as ONE clean line');
+        contentBlocks.push('"' + secondary + '"');
+      }
+      contentBlocks.push('');
+    }
+
+    if (supporting) {
+      if (supportingListy) {
+        contentBlocks.push('### Supporting Line — ⛔ REJECTED, RENDER NOTHING');
+        contentBlocks.push('**Candidate text:** "' + supporting + '"');
+        contentBlocks.push('**Verdict: DROP IT.** This string is a list, not a tagline. Render NOTHING for this field. Do not paraphrase, split, shorten or bullet it. Leave clean background.');
+      } else {
+        contentBlocks.push('### Supporting Line — render as ONE clean line');
+        contentBlocks.push('"' + supporting + '"');
+      }
+      contentBlocks.push('');
+    }
+
+    contentBlocks.push('### Feature Items — render as floating icon + short label pairs, NOT cards, NOT chips, NOT grid tiles. If a feature duplicates a tool icon or the headline, drop it.');
+    contentBlocks.push(featureBlock);
+    contentBlocks.push('');
+    contentBlocks.push('### Tool / Software Icons — official brand logo marks only, free-floating, NEVER as text, NEVER inside a container');
+    contentBlocks.push(toolBlock);
+    contentBlocks.push('');
+    contentBlocks.push('**Tool icon rules — enforce strictly:**');
+    contentBlocks.push('- Each icon must be the **actual, distinct, official logo** of that specific tool, rendered in its official brand colors.');
+    contentBlocks.push("- Never substitute a parent brand's mark and never reuse one logo for two different tools.");
+    contentBlocks.push('- Each icon appears **exactly once**. Never repeat a logo.');
+    contentBlocks.push('- **Never render the tool name as text — not next to the icon, not in a separate line, nowhere.** The icons alone carry the message.');
+    contentBlocks.push('- Never place icons inside boxes, tiles, chips, pills, or frames.');
+    contentBlocks.push('- Icons float freely in an organic cluster — never in a perfectly aligned row of equal tiles.');
+    contentBlocks.push('');
+
+    if (trust) {
+      if (trustListy) {
+        contentBlocks.push('### Trust Line — ⛔ REJECTED, RENDER NOTHING');
+        contentBlocks.push('**Candidate text:** "' + trust + '"');
+        contentBlocks.push('**Verdict: DROP IT.** This string is a bullet-separated list of words, not a trust line. Render NOTHING at the bottom of the image for this field. Do NOT render the words. Do NOT render them with dots, bullets, pipes, slashes or commas between them. Do NOT render "Word . Word . Word" in any form. Leave clean background at the bottom.');
+      } else {
+        contentBlocks.push('### Trust Line — render as one small centred line at the bottom');
+        contentBlocks.push('"' + trust + '"');
+        contentBlocks.push('Render it as a single flowing phrase. Never split it into separate words with separator characters.');
+      }
+      contentBlocks.push('');
+    }
+
     const md = [
       '# IMAGE GENERATION PROMPT — ' + topic.toUpperCase(),
       '',
       '> You are a senior art director. Generate the image directly from the specification below. Do not ask questions. Do not return a text prompt — return the final image.',
-      '', '---', '',
+      '',
+      '---',
+      '',
       '## 🛑 ABSOLUTE RULES — READ BEFORE ANYTHING ELSE',
       '',
       '**1. RENDER NOTHING ABOUT THIS SPEC.**',
@@ -1831,14 +2147,24 @@ window.showToast = function (msg) {
       '**7. ONLY RENDER TEXT THAT ADDS MEANING. DROP EVERYTHING ELSE.**',
       'The brief below DESCRIBES the design. It is not a script where every field must become literal text. Apply these rules ruthlessly:',
       '- **Tool / software list → icons only.** Never also render the tool names as a separate text line. The icons already say it.',
-      '- **Secondary tagline → render ONLY if it is a genuine tagline.** If it reads like a list of tools, technologies, features or deliverables — separated by ·, •, commas or dashes — **DROP IT entirely.** Render nothing for this field.',
-      '- **Supporting line → same rule.** Drop it if it is a list. Render nothing for this field.',
+      '- **Secondary tagline → render ONLY if it is a genuine tagline.** If the field is marked ⛔ REJECTED, render nothing for it.',
+      '- **Supporting line → same rule.** Drop it if the field is marked ⛔ REJECTED.',
+      '- **Trust line → same rule.** Drop it if the field is marked ⛔ REJECTED.',
       '- **Feature items → render as icon + short label** (they are designed to be on the image). But if a feature duplicates a tool icon or the headline, drop the duplicate.',
-      '- **Never invent text.** If a field is empty or omitted, render nothing for it. Do not fill the gap with generic filler like "Logo • Guidelines • Typography" unless that exact text is given below.',
-      '- **When in doubt, render ONLY the main headline + trust line.** Empty space beats clutter.',
+      '- **Never invent text.** If a field is empty or marked REJECTED, render nothing for it. Do not fill the gap with generic filler like "Logo • Guidelines • Typography" unless that exact text is given below.',
+      '- **When in doubt, render ONLY the main headline.** Empty space beats clutter.',
       '',
-      'If you are about to draw any rectangle or any dimension label — STOP. Delete it and place the element directly on the background instead.',
-      '', '---', '',
+      '**8. NEVER RENDER A SEPARATOR LIST.**',
+      'A line of words separated by dots, bullets, pipes, slashes or commas — for example "Word . Word . Word" or "Word • Word • Word" — is never a design element. It is a list, and it must never appear as text on the image. If you feel the urge to render such a line, delete it instead.',
+      '',
+      'If you are about to draw any rectangle, any dimension label, or any separator list — STOP. Delete it and place the element directly on the background instead.',
+      '',
+      '---',
+      '',
+      styleLock,
+      '',
+      '---',
+      '',
       '## CANVAS',
       sizeLine,
       '- The entire design floats on **one continuous background** edge-to-edge.',
@@ -1850,37 +2176,19 @@ window.showToast = function (msg) {
       'Arrange the elements as free-floating typography and iconography on one shared background:',
       '',
       '1. **Main headline** — the largest text, centered horizontally in the upper third. Sits directly on the background. Font weight 700–800, tight tracking, geometric display face. Must render complete and unbroken.',
-      '2. **Secondary tagline** — one step smaller, centered, directly beneath the main headline on the background. **Skip entirely if the field below reads as a list.**',
-      '3. **Supporting line** — small centered line beneath the secondary tagline, muted color. **Skip entirely if the field below reads as a list.**',
+      '2. **Secondary tagline** — one step smaller, centered, directly beneath the main headline on the background. **Skip entirely if the field above is marked ⛔ REJECTED.**',
+      '3. **Supporting line** — small centered line beneath the secondary tagline, muted color. **Skip entirely if the field above is marked ⛔ REJECTED.**',
       '4. **Tool / software logo marks** — free-floating official brand icons arranged in an **organic cluster or gentle arc** in the middle area. Varying visual rhythm. **Never aligned in a row of equal tiles. Never inside rounded boxes. Never inside square frames. Never duplicated. Never accompanied by tool-name text.** They float directly on the background.',
       '5. **Feature items** — each feature is just an **icon + short text label** placed directly on the background. Spread them across the lower area with generous spacing. **Do NOT wrap them in chips, tiles, pills, or grid cells.** They read as floating annotations, not menu items.',
-      '6. **Trust line** — small centered text at the bottom, directly on the background.',
+      '6. **Trust line** — small centered text at the bottom, directly on the background. **Skip entirely if the field above is marked ⛔ REJECTED.**',
       '',
       'Depth comes from: soft accent ambient glow, subtle blurred atmospheric blobs behind the composition, thin accent data-flow curves, and restrained glass-like surfaces ONLY where the visual genuinely needs a floating UI panel (never to group text).',
-      '', '---', '',
+      '',
+      '---',
+      '',
       '## CONTENT',
       '',
-      '### Main Headline — MANDATORY, always render',
-      '"' + mainHeadline + '"',
-      '',
-      secondary ? '### Secondary Tagline — render ONLY if it reads as a genuine tagline\n**Candidate text:** "' + secondary + '"\n**Decision rule:** if this candidate reads like a list of tools, features, technologies or deliverables — separated by ·, •, commas or dashes — DROP IT. Render nothing for this field. Just a headline is better than a headline plus a stray tool list.' : '',
-      supporting ? '### Supporting Line — render ONLY if it reads as a genuine tagline\n**Candidate text:** "' + supporting + '"\n**Decision rule:** if this candidate reads like a list, DROP IT. Render nothing for this field.' : '',
-      '',
-      '### Feature Items — render as floating icon + short label pairs, NOT cards, NOT chips, NOT grid tiles. If a feature duplicates a tool icon or the headline, drop it.',
-      featureBlock,
-      '',
-      '### Tool / Software Icons — official brand logo marks only, free-floating, NEVER as text, NEVER inside a container',
-      toolBlock,
-      '',
-      '**Tool icon rules — enforce strictly:**',
-      '- Each icon must be the **actual, distinct, official logo** of that specific tool, rendered in its official brand colors.',
-      "- Never substitute a parent brand's mark and never reuse one logo for two different tools.",
-      '- Each icon appears **exactly once**. Never repeat a logo.',
-      '- **Never render the tool name as text — not next to the icon, not in a separate line, nowhere.** The icons alone carry the message.',
-      '- Never place icons inside boxes, tiles, chips, pills, or frames.',
-      '- Icons float freely in an organic cluster — never in a perfectly aligned row of equal tiles.',
-      '',
-      trust ? '### Trust Line — render as small centered text at the bottom\n"' + trust + '"\n' : '',
+      contentBlocks.join('\n'),
       designDetails,
       '',
       '## VISUAL DIRECTION',
@@ -1895,8 +2203,9 @@ window.showToast = function (msg) {
       '- Any container behind a group of icons or text',
       '- **Any text, number, label, or annotation describing canvas size, safe area, padding, dimensions, or technical specs inside the image**',
       '- **Any dashed guide lines, crop marks, ruler marks, or coordinate labels**',
+      '- **Any line of dot-, bullet-, pipe-, slash- or comma-separated words — e.g. "Word . Word . Word"**',
       '- **Any separate text line that lists tool / technology names — the icons already cover this**',
-      '- **Secondary or supporting text rendered as a list of tools, features, technologies, or deliverables**',
+      '- **Rendering any field this brief marked ⛔ REJECTED — in any form, split, paraphrased or shortened**',
       '- Duplicated headlines, subtitles, icons, or background graphics',
       '- Repeated logos — each tool logo appears exactly once',
       '- Truncated or cut-off headline text',
@@ -1911,20 +2220,22 @@ window.showToast = function (msg) {
       '- [ ] **ZERO dimension labels, "safe area" text, dashed guides, crop marks, or spec annotations anywhere in the image.**',
       '- [ ] **ZERO rectangles containing other elements.** No cards, tiles, chips, pills, panels, boxes, frames.',
       '- [ ] **ZERO borders, strokes, outlines, dividers.**',
+      '- [ ] **ZERO separator lists — no line of dot-, bullet- or pipe-separated words anywhere.**',
       '- [ ] Background is ONE continuous surface edge-to-edge.',
       '- [ ] Main headline renders **complete and unbroken** — no truncated words.',
-      '- [ ] **Secondary / supporting text was DROPPED if it read as a list — not rendered as text.**',
+      '- [ ] **Every field marked ⛔ REJECTED was dropped — nothing rendered for it at all.**',
       '- [ ] **NO text line lists tool / technology names — the icons alone carry that information.**',
       '- [ ] **NO invented text.** Every visible text string appears explicitly in the CONTENT block above.',
       '- [ ] Tool logos float freely — not aligned in a row of equal tiles, not duplicated, not accompanied by text.',
       '- [ ] Tool logos use the **actual distinct official brand mark** of each specific tool.',
       '- [ ] Feature items float freely — not wrapped in cards or grid cells.',
+      '- [ ] The palette, background, fonts, glow and composition anchors match the STYLE LOCK fingerprint exactly.',
       '- [ ] All typography and icons are **center-aligned**.',
       '- [ ] Legible at **320 px** width without zooming.',
       '- [ ] **No text, icon, or graphic is repeated.**',
       '',
       '## OUTPUT',
-      'Generate the final **' + preset.label + '** image now at **' + preset.w + ' × ' + preset.h + ' px**. Single image. No extra text, no annotations, no spec overlays, no dimension labels. If a field above was dropped, do NOT fill the space — leave clean background.'
+      'Generate the final **' + preset.label + '** image now at **' + preset.w + ' × ' + preset.h + ' px**. Single image. No extra text, no annotations, no spec overlays, no dimension labels, no separator lists. If a field was marked REJECTED, do NOT fill the space — leave clean background.'
     ].filter(Boolean).join('\n');
     return md;
   }
@@ -1978,7 +2289,11 @@ window.showToast = function (msg) {
   let liveRaf = null;
   function scheduleLiveUpdate() {
     if (liveRaf) cancelAnimationFrame(liveRaf);
-    liveRaf = requestAnimationFrame(() => { updatePreview(); if (generatedOnce) regenerate(); });
+    liveRaf = requestAnimationFrame(() => {
+      updatePreview();
+      if (generatedOnce) regenerate();
+      if (window.__arzoReview) window.__arzoReview();
+    });
   }
   document.querySelectorAll('input, textarea, select').forEach((el) => {
     el.addEventListener('input', scheduleLiveUpdate);
@@ -1994,7 +2309,7 @@ window.showToast = function (msg) {
     $('supporting').value = 'Designed to Last';
     $('features').value = 'Logo Design\nBrand Guidelines\nTypography\nColor Palette\nIcon Set\nSocial Kit';
     $('tools').value = 'Figma\nIllustrator\nPhotoshop\nCanva';
-    $('trust').value = 'Distinct • Timeless • Memorable';
+    $('trust').value = 'Built to be remembered';
     $('visuals').value = 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.';
     $('avoid').value = 'Generic clipart, stock photography, busy backgrounds, distorted typography.';
   }
@@ -2009,13 +2324,17 @@ window.showToast = function (msg) {
     updateCustomSafePreview();
     updatePreview();
     fitPreviewCanvas();
+    if (window.__arzoReview) window.__arzoReview();
     if (document.fonts && document.fonts.ready) { document.fonts.ready.then(() => { fitPreviewCanvas(); }); }
     window.addEventListener('load', () => { fitPreviewCanvas(); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 
-  window.__arzoHelpers = { getVal, getLines, updatePreview, generatePromptIfNeeded, regenerate, getPlatformPreset, scheduleLiveUpdate, fileSlug };
+  window.__arzoHelpers = {
+    getVal, getLines, updatePreview, generatePromptIfNeeded, regenerate,
+    getPlatformPreset, scheduleLiveUpdate, fileSlug, isListy
+  };
 })();
 </script>
 
@@ -2031,6 +2350,7 @@ window.showToast = function (msg) {
   const lines = (id) => val(id).split('\n').map(s => s.trim()).filter(Boolean);
   const splitComma = (s) => String(s || '').split(',').map(x => x.trim()).filter(Boolean);
   const list = (arr) => arr.map(s => '- ' + s).join('\n');
+  const isListy = (s) => (window.__arzoIsListy ? window.__arzoIsListy(s) : false);
 
   /* ============================================================
      PLATFORM RULES
@@ -2057,6 +2377,120 @@ window.showToast = function (msg) {
     const [name, price, days, revs, incl] = parts;
     return '- **' + label + '** — ' + (name || label) + (price ? ' · $' + price : '') + (days ? ' · ' + days + ' day delivery' : '') + (revs ? ' · ' + revs + ' revision(s)' : '') + (incl ? ' · Includes: ' + incl : '');
   }
+
+  /* ============================================================
+     LIVE SERVICE REVIEW  —  flags bad / missing input data
+     ============================================================ */
+  const REVIEW_FIELD_IDS = [
+    'topic','mainHeadline','secondary','supporting','trust',
+    'features','tools',
+    'sdAudience','sdProblem','sdOutcome','sdKeywords','sdIntent','sdTone',
+    'sdPkgBasic','sdPkgStandard','sdPkgPremium'
+  ];
+
+  function clearFieldFlags() {
+    REVIEW_FIELD_IDS.forEach((id) => {
+      const el = $(id);
+      if (el) el.classList.remove('has-warn', 'has-error');
+    });
+  }
+
+  function updateServiceReview() {
+    const bar = $('reviewBar');
+    const listEl = $('reviewList');
+    const countEl = $('reviewCount');
+    const titleEl = $('reviewTitle');
+    if (!bar || !listEl) return;
+
+    const issues = [];
+    const add = (id, msg, severity) => issues.push({ id, msg, severity: severity || 'warn' });
+
+    if (!val('topic')) add('topic', 'Service topic is empty — the prompt will use a placeholder.', 'error');
+    if (!val('mainHeadline')) add('mainHeadline', 'Main headline is empty — nothing will be rendered as the largest text.', 'error');
+
+    if (isListy(val('secondary'))) add('secondary', 'Secondary tagline reads as a list (• · | or commas). The AI will drop it completely — write a real phrase to have it rendered.');
+    if (isListy(val('supporting'))) add('supporting', 'Supporting line reads as a list. The AI will drop it completely — write a real phrase to have it rendered.');
+    if (isListy(val('trust'))) add('trust', 'Trust line reads as a list (e.g. "Word • Word • Word"). The AI will drop it — this is the usual cause of stray dot-separated text on the image.');
+
+    const feats = lines('features');
+    if (!feats.length) add('features', 'No floating feature items — the cover will look empty in the lower half.');
+    else if (feats.length > 6) add('features', 'More than 6 feature items — only the first 6 are used.');
+    else if (feats.some((f) => f.split(/\s+/).length > 4)) add('features', 'Some feature items are longer than 4 words — keep them to 1–3 words for clean rendering.');
+
+    const tls = lines('tools');
+    if (!tls.length) add('tools', 'No tool icons — the cover will look sparse and the tool cluster will be missing.');
+    else if (tls.length > 8) add('tools', 'More than 8 tool icons — only the first 8 are used.');
+
+    if (!val('sdAudience')) add('sdAudience', 'Target buyer is empty — listing, proposal and FAQ copy will read generic.');
+    if (!val('sdProblem')) add('sdProblem', 'Main problem is empty — the listing will have no hook.');
+    if (!val('sdOutcome')) add('sdOutcome', 'Promised outcome is empty — the listing will have no result to sell.');
+    if (!val('sdKeywords')) add('sdKeywords', 'No service keywords — SEO tags and titles will be guesswork.');
+    if (!lines('sdIntent').length) add('sdIntent', 'No buyer search phrases — search tags will be less accurate.');
+    if (!val('sdTone')) add('sdTone', 'Tone of voice is empty — copy will fall back to a default tone.');
+
+    const pkgCount = ['sdPkgBasic','sdPkgStandard','sdPkgPremium'].filter((id) => val(id)).length;
+    if (pkgCount === 0) add('sdPkgBasic', 'No packages defined — pricing prompts will invent tiers from scratch.');
+    else if (pkgCount < 3) add('sdPkgStandard', 'Only ' + pkgCount + ' of 3 packages defined — marketplaces expect Basic, Standard and Premium.');
+
+    /* Apply flags */
+    clearFieldFlags();
+    issues.forEach((it) => {
+      const el = $(it.id);
+      if (!el) return;
+      el.classList.add(it.severity === 'error' ? 'has-error' : 'has-warn');
+    });
+
+    /* Render the bar */
+    listEl.innerHTML = '';
+    if (!issues.length) {
+      bar.classList.add('is-clean');
+      titleEl.textContent = 'Service data looks complete';
+      countEl.textContent = 'All good';
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.className = 'review-link';
+      span.style.cursor = 'default';
+      span.textContent = 'Every field checked on this tab has usable data. Generate whenever you are ready.';
+      li.appendChild(span);
+      listEl.appendChild(li);
+    } else {
+      bar.classList.remove('is-clean');
+      const errCount = issues.filter(i => i.severity === 'error').length;
+      titleEl.textContent = errCount ? 'Fix these before generating' : 'Check these fields before generating';
+      countEl.textContent = issues.length + ' item' + (issues.length > 1 ? 's' : '');
+      issues.slice(0, 10).forEach((it) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'review-link' + (it.severity === 'error' ? ' is-error' : '');
+        btn.dataset.target = it.id;
+        btn.textContent = it.msg;
+        btn.addEventListener('click', () => {
+          const target = $(it.id);
+          if (!target) return;
+          const behavior = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth';
+          target.scrollIntoView({ behavior, block: 'center' });
+          setTimeout(() => target.focus({ preventScroll: true }), 180);
+        });
+        li.appendChild(btn);
+        listEl.appendChild(li);
+      });
+      if (issues.length > 10) {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.className = 'review-link';
+        span.style.cursor = 'default';
+        span.textContent = '+' + (issues.length - 10) + ' more…';
+        li.appendChild(span);
+        listEl.appendChild(li);
+      }
+    }
+
+    /* Tab badge */
+    const tab = document.getElementById('tab-customize');
+    if (tab) tab.classList.toggle('has-issues', issues.length > 0);
+  }
+  window.__arzoReview = updateServiceReview;
 
   /* ============================================================
      PDF.js LAZY LOADER
@@ -2853,7 +3287,7 @@ window.showToast = function (msg) {
     proposal: () => wrap('Proposal / cover letter', 'Write a proposal I can adapt per job post: open with the buyer\'s problem, prove I have solved it, outline the plan, state price and timeline, and close with one question. Price using my hourly rate and minimum project budget from the profile above.', 'Under 250 words, plain paragraphs, no bullet spam. Then `### Swap-in notes` listing the 3 lines I should customise per job.'),
     profile: () => wrap('Profile bio and headline', 'Write my marketplace profile headline and bio, positioning me for the target buyer above but reflecting my full skill set — not just this one service.', '1. **Headline** — under 70 characters.\n2. **Short bio** — under 300 characters.\n3. **Full bio** — 3 short paragraphs.\n4. **Skills** — 10 keywords, comma separated.'),
     rewrite: () => wrap('Rewrite a single field', 'Improve the text below without changing its meaning or inventing facts. Keep it inside the platform rules.\n\nCurrent text:\n"""\n' + (val('rewriteTarget') || '(paste your text in the field above)') + '\n"""', '1. **Rewritten version**.\n2. **Two alternatives**.\n3. **What changed and why** — 3 bullets.'),
-    layers: () => wrap('Thumbnail layer spec', 'Design the cover thumbnail as a structured layer list I can build in a canvas editor. Respect the platform canvas size and clear margin exactly — nothing important may sit inside the margin. Follow the branding & design system above for colours and fonts. Do NOT generate a text line that lists tool names — those are icons only.', 'A JSON array of layers. Each layer: {"type":"text|chip|icon|shape|logo","content":"","x":0,"y":0,"width":0,"height":0,"fontSize":0,"weight":"","color":"#hex","align":"","note":""}. Coordinates in pixels from the top-left of the canvas. After the JSON, add `### Why this layout` with 3 bullets.')
+    layers: () => wrap('Thumbnail layer spec', 'Design the cover thumbnail as a structured layer list I can build in a canvas editor. Respect the platform canvas size and clear margin exactly — nothing important may sit inside the margin. Follow the branding & design system above for colours and fonts. Do NOT generate a text line that lists tool names — those are icons only. Do NOT emit a separator list of words anywhere.', 'A JSON array of layers. Each layer: {"type":"text|chip|icon|shape|logo","content":"","x":0,"y":0,"width":0,"height":0,"fontSize":0,"weight":"","color":"#hex","align":"","note":""}. Coordinates in pixels from the top-left of the canvas. After the JSON, add `### Why this layout` with 3 bullets.')
   };
   const LABELS = { listing: 'Full listing copy', variations: 'Three listing variations', pricing: 'Pricing packages', faq: 'FAQ and objections', tags: 'Search tags and SEO', requirements: 'Buyer requirements', messages: 'Order messages', proposal: 'Proposal / cover letter', profile: 'Profile bio and headline', rewrite: 'Single-field rewrite', layers: 'Thumbnail layer spec' };
 
@@ -2954,6 +3388,7 @@ window.showToast = function (msg) {
     syncKindStyles();
     renderCvFiles();
     renderTextPrompt();
+    updateServiceReview();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
