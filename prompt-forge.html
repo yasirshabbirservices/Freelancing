@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="color-scheme" content="dark" />
 <meta name="theme-color" content="#0A100E" />
-<meta name="description" content="Prompt Forge — paste a service description, tune your branding, preview the cover, and generate every AI prompt you need to launch: image, listing, pricing, FAQ, and a full launch pack." />
-<title>Prompt Forge — Service Launch Studio</title>
+<meta name="description" content="ArzoLaunch — paste a service description, tune your branding, preview the cover, and generate every AI prompt you need to launch: image, listing, pricing, FAQ, and a full launch pack." />
+<title>ArzoLaunch — Service Launch Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -480,14 +480,14 @@
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="#generator" aria-label="Prompt Forge — back to top">
+    <a class="brand" href="#generator" aria-label="ArzoLaunch — back to top">
       <span class="brand-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/>
           <path d="M17.8 11.8 19 13"/><path d="M17.8 6.2 19 5"/><path d="M3 21l9-9"/><path d="M12.2 6.2 11 5"/>
         </svg>
       </span>
-      <span class="brand-name">Prompt Forge</span>
+      <span class="brand-name">ArzoLaunch</span>
     </a>
     <div class="header-actions">
       <a class="header-gh-chip" href="https://github.com/yasirshabbirservices/Freelancing/issues" target="_blank" rel="noopener" aria-label="Report a bug or request a feature — opens GitHub Issues">
@@ -2146,16 +2146,18 @@ window.showToast = function (msg) {
       contentBlocks.push('');
     }
 
-    contentBlocks.push('### Feature Items — render as floating icon + short label pairs, NOT cards, NOT chips, NOT grid tiles. If a feature duplicates a tool icon or the headline, drop it.');
+    contentBlocks.push('### Feature Items — render as floating icon + short label pairs, NOT cards, NOT chips, NOT grid tiles. Exactly ' + features.length + ' feature item(s) — no more, no fewer. If a feature duplicates a tool icon, the headline, or another feature, drop the duplicate instead of rendering it twice.');
     contentBlocks.push(featureBlock);
     contentBlocks.push('');
-    contentBlocks.push('### Tool / Software Icons — official brand logo marks only, free-floating, NEVER as text, NEVER inside a container');
+    contentBlocks.push('### Tool / Software Icons — a CLOSED, EXACT list of ' + tools.length + ' icon(s). This is the complete set — nothing may be added, nothing may be dropped.');
     contentBlocks.push(toolBlock);
     contentBlocks.push('');
-    contentBlocks.push('**Tool icon rules — enforce strictly:**');
-    contentBlocks.push('- Each icon must be the **actual, distinct, official logo** of that specific tool, rendered in its official brand colors.');
+    contentBlocks.push('**Tool icon rules — enforce strictly, these are the #1 source of failed renders:**');
+    contentBlocks.push('- Render **exactly ' + tools.length + ' icon(s)** — the ones listed above, and ONLY those. This is a closed list: do not add a tool, platform, or logo that is not explicitly named above, even if it feels related, common, or "expected" for this kind of service. If you do not recognize a name above, render a simple neutral geometric glyph in the accent color instead of guessing or substituting a different real brand\'s logo.');
+    contentBlocks.push('- Each icon must be the **actual, distinct, official logo** of that specific named tool, rendered in its official brand colors — never a lookalike, never a generic "app icon", never a placeholder shape standing in for a real brand.');
     contentBlocks.push("- Never substitute a parent brand's mark and never reuse one logo for two different tools.");
-    contentBlocks.push('- Each icon appears **exactly once**. Never repeat a logo.');
+    contentBlocks.push('- **Each icon appears exactly ONCE in the entire image — count them before finishing.** If the list above has ' + tools.length + ' entries, the image must contain exactly ' + tools.length + ' tool icons total. Never repeat a logo to fill space or balance the composition.');
+    contentBlocks.push('- **Never invent, guess, or hallucinate a tool that is not listed above** — no matter how common or expected it might seem for this type of service. An empty or short list stays empty or short; do not pad it.');
     contentBlocks.push('- **Never render the tool name as text — not next to the icon, not in a separate line, nowhere.** The icons alone carry the message.');
     contentBlocks.push('- Never place icons inside boxes, tiles, chips, pills, or frames.');
     contentBlocks.push('- Icons float freely in an organic cluster — never in a perfectly aligned row of equal tiles.');
@@ -2192,14 +2194,14 @@ window.showToast = function (msg) {
       '**3. NO BORDERS OR DIVIDERS.**',
       'Zero strokes, zero outlines, zero hairlines, zero separators, zero frames.',
       '',
-      '**4. NO DUPLICATES.**',
-      'Each element appears exactly ONCE. Each headline once. Each tool logo once. Never repeat a logo, headline, subtitle, or icon.',
+      '**4. NO DUPLICATES — COUNT BEFORE YOU FINISH.**',
+      'Every element appears exactly ONCE, with zero exceptions. One headline. One instance of each named tool logo. One instance of each feature icon. Before returning the image, mentally count every logo and icon you have drawn — if any name or shape appears twice, delete the extra copy. Never repeat a logo, headline, subtitle, icon, or decorative shape to fill empty space or "balance" the composition — use plain background there instead.',
       '',
       '**5. RENDER THE HEADLINE COMPLETE.**',
       'Never truncate, cut off, split awkwardly, or omit words from the main headline. If it needs two lines, use two clean lines with balanced word breaks. Never leave a word dangling or half-rendered.',
       '',
-      '**6. TOOL LOGOS MUST BE DISTINCT AND ACCURATE.**',
-      "Render the ACTUAL official logo of each specific tool, in its official brand colors. Never substitute a parent brand's mark, never reuse one logo for two different tools, and never render a generic placeholder shape.",
+      '**6. TOOL LOGOS ARE A CLOSED LIST — DISTINCT, ACCURATE, NOTHING ADDED.**',
+      "Render the ACTUAL official logo of each specific tool named in the brief, in its official brand colors, and ONLY those tools. The tool list below is complete and final — never add a tool, platform, or software logo that is not explicitly named there, even if it seems typical, expected, or \"goes well\" with the others. Never substitute a parent brand's mark, never reuse one logo for two different tools, and never render a generic placeholder shape standing in for a real brand. If a name is unfamiliar, use a plain neutral glyph rather than guessing at a real logo or swapping in an unrelated one.",
       '',
       '**7. ONLY RENDER TEXT THAT ADDS MEANING. DROP EVERYTHING ELSE.**',
       'The brief below DESCRIBES the design. It is not a script where every field must become literal text. Apply these rules ruthlessly:',
@@ -2214,7 +2216,10 @@ window.showToast = function (msg) {
       '**8. NEVER RENDER A SEPARATOR LIST.**',
       'A line of words separated by dots, bullets, pipes, slashes or commas — for example "Word . Word . Word" or "Word • Word • Word" — is never a design element. It is a list, and it must never appear as text on the image. If you feel the urge to render such a line, delete it instead.',
       '',
-      'If you are about to draw any rectangle, any dimension label, or any separator list — STOP. Delete it and place the element directly on the background instead.',
+      '**9. NEVER INVENT, GUESS, OR PAD WITH ELEMENTS NOT IN THE BRIEF.**',
+      'Only render the tools, icons, logos, features, and text explicitly listed below — nothing else. Do not add an extra tool logo, a generic app icon, a random symbol, or a decorative element "because it fits the theme" or "because the composition looks empty." A sparse, minimal image that matches the brief exactly is correct; a busier image padded with invented or unrelated elements is wrong. When unsure whether something belongs, leave it out.',
+      '',
+      'If you are about to draw any rectangle, any dimension label, any separator list, a second copy of a logo, or any tool/icon/element that is not explicitly listed below — STOP. Delete it and place the element directly on the background instead, or leave that space empty.',
       '',
       '---',
       '',
@@ -2265,8 +2270,10 @@ window.showToast = function (msg) {
       '- **Any line of dot-, bullet-, pipe-, slash- or comma-separated words — e.g. "Word . Word . Word"**',
       '- **Any separate text line that lists tool / technology names — the icons already cover this**',
       '- **Rendering any field this brief marked ⛔ REJECTED — in any form, split, paraphrased or shortened**',
-      '- Duplicated headlines, subtitles, icons, or background graphics',
-      '- Repeated logos — each tool logo appears exactly once',
+      '- **Duplicated headlines, subtitles, icons, feature glyphs, or background graphics — anything drawn twice**',
+      '- **Repeated logos — each tool logo appears exactly once. The image must contain exactly ' + tools.length + ' tool icon(s), matching the list above — not more, not fewer.**',
+      '- **Any tool, software, or brand logo that is not explicitly named in the TOOL / SOFTWARE ICONS list above** — no guessed, assumed, "typical for this niche," or filler logos',
+      '- **Any generic placeholder icon standing in for a real brand, or any invented symbol added just to fill space**',
       '- Truncated or cut-off headline text',
       '- Invented text — anything not explicitly listed under CONTENT above',
       '- Tool / software names rendered as text (official brand icons only)',
@@ -2288,11 +2295,14 @@ window.showToast = function (msg) {
       '- [ ] **NO invented text.** Every visible text string appears explicitly in the CONTENT block above.',
       '- [ ] Tool logos float freely — not aligned in a row of equal tiles, not duplicated, not accompanied by text.',
       '- [ ] Tool logos use the **actual distinct official brand mark** of each specific tool.',
+      '- [ ] **Count the tool icons in the image: there are exactly ' + tools.length + ', matching the closed list above — no extras, no omissions, no repeats.**',
+      '- [ ] **No tool/software logo appears that was not explicitly named in the brief.** Nothing was guessed, assumed, or added because it "felt right" for this type of service.',
+      '- [ ] **Count the feature items in the image: there are exactly ' + features.length + '.**',
       '- [ ] Feature items float freely — not wrapped in cards or grid cells.',
-      '- [ ] The palette, background, fonts, glow and composition anchors match the STYLE LOCK fingerprint exactly.',
+      '- [ ] The palette, background, fonts and composition anchors match the STYLE LOCK fingerprint exactly.',
       '- [ ] All typography and icons are **center-aligned**.',
       '- [ ] Legible at **320 px** width without zooming.',
-      '- [ ] **No text, icon, or graphic is repeated.**',
+      '- [ ] **No text, icon, logo, or graphic appears more than once anywhere in the image.**',
       '',
       '## OUTPUT',
       'Generate the final **' + preset.label + '** image now at **' + preset.w + ' × ' + preset.h + ' px**. Single image. No extra text, no annotations, no spec overlays, no dimension labels, no separator lists. If a field was marked REJECTED, do NOT fill the space — leave clean background.'
