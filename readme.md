@@ -1,4 +1,4 @@
-# ⚡ ArzoLaunch
+# ⚡ Launch Forge
 
 ### Service Launch Studio
 
@@ -14,7 +14,7 @@ A single-file, zero-dependency HTML studio that turns a rough freelance service 
 
 Built by [Yasir Shabbir](https://yasirshabbir.com)
 
-> **Current build documentation:** This README describes the single-file `prompt-forge.html` implementation (branded **ArzoLaunch** in the UI) supplied with this repository. Keep the README and HTML file in sync when features or platform rules change.
+> **Current build documentation:** This README describes the single-file `launch-forge.html` implementation (branded **Launch Forge** in the UI) supplied with this repository. Keep the README and HTML file in sync when features or platform rules change.
 
 ---
 
@@ -45,7 +45,7 @@ Built by [Yasir Shabbir](https://yasirshabbir.com)
 
 ## 🎯 What It Is
 
-**ArzoLaunch** is a self-contained HTML application — one file, no build step, no server, no npm — that acts as a **launch studio for service providers**. Paste in a raw description of what you do (a gig description, portfolio blurb, job post, or your own notes), and ArzoLaunch:
+**Launch Forge** is a self-contained HTML application — one file, no build step, no server, no npm — that acts as a **launch studio for service providers**. Paste in a raw description of what you do (a gig description, portfolio blurb, job post, or your own notes), and Launch Forge:
 
 1. **Extracts** the headline, features, tools, trust line, and a visual direction hint from your text.
 2. **Lets you tune** branding — colors, fonts, corner radius, or upload an entire design spec.
@@ -61,9 +61,9 @@ It's designed for **any** service provider: designers, developers, marketers, wr
 
 ## 💡 Why It Exists
 
-Most AI prompt generators give you a vague blob of text and wish you luck. ArzoLaunch is different:
+Most AI prompt generators give you a vague blob of text and wish you luck. Launch Forge is different:
 
-| Problem                                                              | ArzoLaunch's Answer                                                                                                        |
+| Problem                                                              | Launch Forge's Answer                                                                                                        |
 | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | AI covers come out with cards, tiles, and borders you didn't ask for | A hardened **ABSOLUTE RULES** block forbids containers, borders, duplicates, dimension annotations, and separator-style text |
 | AI renders "1280×800" and "safe area" *inside* the image             | Explicit **"render nothing about this spec"** instruction plus a final verification checklist                                |
@@ -86,7 +86,7 @@ Most AI prompt generators give you a vague blob of text and wish you luck. ArzoL
 
 ### 🧠 Smart Extraction
 
-Paste a paragraph, click **Extract & Auto-fill**, and ArzoLaunch heuristically parses:
+Paste a paragraph, click **Extract & Auto-fill**, and Launch Forge heuristically parses:
 
 * Main headline (with "I will…" stripping)
 * Features from a 200+ keyword library
@@ -148,7 +148,7 @@ Every text prompt you need, one checkbox each:
 
 ### 🩺 Live Service Review
 
-While you edit the Service Setup, ArzoLaunch checks the brief for common problems:
+While you edit the Service Setup, Launch Forge checks the brief for common problems:
 
 * Missing service topic or main headline
 * Missing / overlong feature items
@@ -195,7 +195,7 @@ The spec becomes the **authoritative brief** inside every prompt.
 
 The whole application ships as:
 
-* One `prompt-forge.html`
+* One `launch-forge.html`
 * No bundler
 * No framework runtime
 * No npm install
@@ -216,7 +216,7 @@ Open it directly, serve it locally, or place it on any static host.
 
 ```bash
 # 1. Save the file
-#    prompt-forge.html
+#    launch-forge.html
 
 # 2. Double-click it
 #    (or drag it into any modern browser)
@@ -239,7 +239,7 @@ npx serve .
 Then open:
 
 ```text
-http://localhost:8080/prompt-forge.html
+http://localhost:8080/launch-forge.html
 ```
 
 ### Option 3 — Host it anywhere static
@@ -280,7 +280,7 @@ Each tab is keyboard-navigable (`←` `→` `Home` `End` `Enter` `Space`) and ho
 
 ## 🖼 Canvas & Platform Presets
 
-ArzoLaunch currently exposes four ready-made canvas presets plus a fully custom mode.
+Launch Forge currently exposes four ready-made canvas presets plus a fully custom mode.
 
 | Platform            |    Canvas   |  Safe Area  | Padding |      Ratio      | Style Direction                                   |
 | ------------------- | :---------: | :---------: | :-----: | :-------------: | ------------------------------------------------- |
@@ -343,7 +343,7 @@ The design spec is inserted into every generated prompt as the **authoritative b
 
 ## 🧾 Service Setup & Freelancer Profile
 
-ArzoLaunch deliberately splits your data into **two levels**:
+Launch Forge deliberately splits your data into **two levels**:
 
 * **Service Setup (Tab 2)** — describes **one service** you're launching right now. Change these every time you launch something new.
 * **Freelancer Profile (Tab 3)** — describes **you** as a freelancer. Stays the same across every service.
@@ -454,7 +454,7 @@ Then it layers in:
 
 ### List-like text detection
 
-ArzoLaunch specifically detects fields that look like a separator list, such as:
+Launch Forge specifically detects fields that look like a separator list, such as:
 
 ```text
 Word • Word • Word
@@ -518,7 +518,7 @@ When **Show advanced fields** is enabled, the review also checks:
 ### Warning vs error behavior
 
 * **Errors** indicate missing inputs that materially weaken the generated brief.
-* **Warnings** indicate risky or low-quality input that ArzoLaunch can still process.
+* **Warnings** indicate risky or low-quality input that Launch Forge can still process.
 * Each flagged field receives a visual state, and review items are interactive so you can jump back to the source field.
 
 This review is intentionally advisory. It does not invent missing business facts for you.
@@ -581,13 +581,13 @@ The pack is designed to be pasted into a single AI chat and processed section by
 
 ### Important privacy boundary
 
-"Client-side" means ArzoLaunch does not send your service brief or profile to an ArzoLaunch server. Any AI service you later paste the generated prompts into will have its **own** privacy and data-retention policies.
+"Client-side" means Launch Forge does not send your service brief or profile to a Launch Forge server. Any AI service you later paste the generated prompts into will have its **own** privacy and data-retention policies.
 
 ---
 
 ## ♿ Accessibility
 
-ArzoLaunch is built with accessibility in mind:
+Launch Forge is built with accessibility in mind:
 
 * **Skip link** to jump straight into the generator
 * **ARIA roles** — `tablist`, `tab`, `tabpanel`, `radiogroup`, `status`, `alert`
@@ -881,7 +881,7 @@ The checkbox, generated output, download naming, and launch-pack section are wir
 The minimal project is:
 
 ```text
-prompt-forge.html      ← the entire application
+launch-forge.html      ← the entire application
 
 # Optional, for fully offline PDF parsing:
 pdf.min.js             ← PDF.js 3.11.174
@@ -891,7 +891,7 @@ pdf.worker.min.js      ← PDF.js 3.11.174
 Internally, the HTML file is organized roughly as:
 
 ```text
-prompt-forge.html
+launch-forge.html
 ├── <head>
 │   ├── Meta tags (dark mode, theme color, viewport)
 │   ├── Google Fonts preconnect + link
@@ -929,7 +929,7 @@ prompt-forge.html
 <details>
 <summary><strong>Do I need an API key?</strong></summary>
 
-No. ArzoLaunch generates **prompts**, not AI completions. You copy the prompt and paste it into ChatGPT, Claude, Gemini, Midjourney, DALL·E, Stable Diffusion, or another AI tool.
+No. Launch Forge generates **prompts**, not AI completions. You copy the prompt and paste it into ChatGPT, Claude, Gemini, Midjourney, DALL·E, Stable Diffusion, or another AI tool.
 
 </details>
 
@@ -943,7 +943,7 @@ No. It generates the **image prompt**. The Cover Preview tab is a **CSS/HTML app
 <details>
 <summary><strong>Will the AI follow the prompt exactly?</strong></summary>
 
-No model follows any prompt perfectly. ArzoLaunch is designed to improve consistency through an absolute-rules block, explicit spec isolation, negative instructions, rejected-field handling, and an 18-item final checklist.
+No model follows any prompt perfectly. Launch Forge is designed to improve consistency through an absolute-rules block, explicit spec isolation, negative instructions, rejected-field handling, and an 18-item final checklist.
 
 </details>
 
@@ -989,7 +989,7 @@ Try exporting the profile again, or save the relevant text as `.txt` / Markdown 
 <details>
 <summary><strong>Where is my data stored?</strong></summary>
 
-In your browser's `localStorage`, under the key `prompt-forge-v1`. ArzoLaunch does not maintain a backend database. Use the reset icon in the header to clear the stored state.
+In your browser's `localStorage`, under the key `prompt-forge-v1`. Launch Forge does not maintain a backend database. Use the reset icon in the header to clear the stored state.
 
 </details>
 
@@ -1003,7 +1003,7 @@ Yes. The project is documented as free to share, remix, and ship. Attribution is
 <details>
 <summary><strong>What's ArzoKeys?</strong></summary>
 
-ArzoKeys is a free Chrome extension for managing API keys and license tokens locally in the browser with cloud-sync. ArzoLaunch includes an ArzoKeys promo card and outbound link.
+ArzoKeys is a free Chrome extension for managing API keys and license tokens locally in the browser with cloud-sync. Launch Forge includes an ArzoKeys promo card and outbound link.
 
 → [arzokeys.com](https://arzokeys.com/)
 
@@ -1027,6 +1027,6 @@ No warranty, no support guarantee — but if you build something great with it, 
 
 Made for freelancers, by a freelancer.
 
-[⬆ Back to top](#-arzolaunch)
+[⬆ Back to top](#-launch-forge)
 
 </div>
