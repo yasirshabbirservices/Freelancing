@@ -405,17 +405,15 @@
   .preview-meta-chip { font-size: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem); color: hsl(var(--muted-fg)); padding: 0.375rem clamp(0.5rem, 2vw, 0.75rem); border-radius: 9999px; border: 1px solid hsl(var(--border)); background: hsl(var(--card) / 0.5); white-space: nowrap; }
   .preview-meta-chip.accent { color: hsl(var(--primary)); border-color: hsl(var(--primary) / 0.4); background: hsl(var(--primary) / 0.08); }
   .preview-frame { position: relative; width: 100%; aspect-ratio: 1280 / 800; background: #0A100E; border-radius: clamp(0.75rem, 2vw, 1.25rem); overflow: hidden; border: 1px solid hsl(var(--border)); box-shadow: 0 25px 60px -12px rgba(0,0,0,0.7), 0 0 60px hsl(var(--primary) / 0.15); max-height: 75vh; }
-  .preview-canvas { --pad: 75px; --s: 1; position: absolute; top: 0; left: 0; transform-origin: top left; overflow: hidden; background: radial-gradient(ellipse at 30% 20%, rgba(0,214,143,0.10) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(0,214,143,0.08) 0%, transparent 55%), #0A100E; font-family: 'Syne', 'Space Grotesk', sans-serif; color: #F3F3F1; }
+  .preview-canvas { --pad: 75px; --s: 1; position: absolute; top: 0; left: 0; transform-origin: top left; overflow: hidden; background: #0A100E; font-family: 'Syne', 'Space Grotesk', sans-serif; color: #F3F3F1; }
   .preview-safe { position: absolute; top: var(--pad); left: var(--pad); border: 1px dashed rgba(0,214,143,0.10); border-radius: 12px; pointer-events: none; }
-  .pc-blob { position: absolute; border-radius: 9999px; background: rgba(0,214,143,0.22); filter: blur(90px); opacity: 0.5; }
-  .pc-blob-1 { width: 380px; height: 380px; top: -60px; left: -40px; }
-  .pc-blob-2 { width: 460px; height: 460px; bottom: -120px; right: -80px; }
+  .pc-blob { display: none; }
   .pc-inner { position: absolute; inset: var(--pad); display: flex; flex-direction: column; align-items: center; text-align: center; padding: calc(12px * var(--s)) calc(24px * var(--s)); }
-  .pc-headline { font-family: 'Syne', sans-serif; font-weight: 800; font-size: calc(58px * var(--s)); line-height: 1.05; letter-spacing: -0.03em; color: #F3F3F1; max-width: 96%; margin-top: calc(8px * var(--s)); text-shadow: 0 0 40px rgba(0,214,143,0.25); word-break: break-word; overflow-wrap: anywhere; }
+  .pc-headline { font-family: 'Syne', sans-serif; font-weight: 800; font-size: calc(58px * var(--s)); line-height: 1.05; letter-spacing: -0.03em; color: #F3F3F1; max-width: 96%; margin-top: calc(8px * var(--s)); word-break: break-word; overflow-wrap: anywhere; }
   .pc-secondary { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: calc(20px * var(--s)); color: #819890; margin-top: calc(14px * var(--s)); letter-spacing: 0.01em; max-width: 94%; }
   .pc-supporting { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: calc(15px * var(--s)); color: #7d8f88; margin-top: calc(8px * var(--s)); max-width: 90%; }
   .pc-tools { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: calc(22px * var(--s)); margin-top: calc(30px * var(--s)); max-width: 100%; }
-  .pc-tool { width: calc(58px * var(--s)); height: calc(58px * var(--s)); border-radius: calc(16px * var(--s)); display: inline-flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: calc(22px * var(--s)); color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 24px rgba(0,214,143,0.15); flex-shrink: 0; }
+  .pc-tool { width: calc(58px * var(--s)); height: calc(58px * var(--s)); border-radius: calc(16px * var(--s)); display: inline-flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: calc(22px * var(--s)); color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.5); flex-shrink: 0; }
   .pc-features { display: flex; flex-wrap: wrap; justify-content: center; gap: calc(14px * var(--s)) calc(36px * var(--s)); margin-top: calc(26px * var(--s)); max-width: 100%; }
   .pc-feature { display: inline-flex; align-items: center; gap: calc(10px * var(--s)); color: #F3F3F1; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: calc(17px * var(--s)); letter-spacing: 0.005em; }
   .pc-feature-icon { width: calc(26px * var(--s)); height: calc(26px * var(--s)); display: inline-flex; align-items: center; justify-content: center; color: #00D68F; flex-shrink: 0; }
@@ -693,7 +691,7 @@
         <div class="form-section is-advanced" id="section-visual">
           <div class="form-section-head"><span class="form-section-num" aria-hidden="true">3</span><h2 class="form-section-title">Visual Direction — This Service</h2><span class="form-section-line" aria-hidden="true"></span></div>
           <p class="form-section-intro">Composition notes for this specific service's cover. Colours, fonts and the shared design spec come from the Freelancer Profile tab.</p>
-          <div class="field"><label class="field-label" for="visuals">Visual Elements / Composition Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="visuals" rows="3" placeholder="e.g. Floating vector shapes and color swatches arranged organically. Soft accent glow behind the headline."></textarea></div>
+          <div class="field"><label class="field-label" for="visuals">Visual Elements / Composition Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="visuals" rows="3" placeholder="e.g. Floating vector shapes and color swatches arranged organically on the flat background."></textarea></div>
           <div class="field"><label class="field-label" for="avoid">Must-Avoid <span class="opt">(optional)</span></label><textarea class="textarea" id="avoid" rows="2" placeholder="e.g. Generic clipart, busy backgrounds, stock photos."></textarea></div>
           <div class="field"><label class="field-label" for="notes">Additional Notes <span class="opt">(optional)</span></label><textarea class="textarea" id="notes" rows="2" placeholder="Anything else the AI should know."></textarea></div>
         </div>
@@ -1817,24 +1815,24 @@ window.showToast = function (msg) {
 
     /* Visual hint */
     const VISUAL_HINTS = [
-      { re: /logo|brand identity|graphic design|vector|icon design|illustration/i, hint: 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.' },
-      { re: /ui\/ux|ui design|ux design|app design|product design|wireframe|prototype/i, hint: 'Floating UI screens and wireframe elements scattered organically. Soft ambient glow behind the composition. No container boxes.' },
-      { re: /video|edit|motion|animation|film|reels|youtube|tiktok|short-form/i, hint: 'Floating video timeline, filmstrip, and playback elements arranged organically. Soft ambient glow. No container boxes.' },
-      { re: /photo|photography|portrait|product photo/i, hint: 'Floating camera aperture and lens motifs. Soft light rays in the accent color. No container boxes.' },
-      { re: /audio|music|podcast|voice|sound design/i, hint: 'Floating audio waveform and equalizer bars in the accent color. Soft ambient glow. No container boxes.' },
-      { re: /3d|render|blender|model/i, hint: 'Floating 3D primitive shapes and wireframe motifs arranged organically. Soft ambient glow. No container boxes.' },
-      { re: /seo|rank|search|keyword|backlink|serp/i, hint: 'Floating search result cards and upward trend curves in the accent color. Soft ambient glow. No container boxes.' },
-      { re: /ads|ppc|campaign|funnel|growth|lead|market/i, hint: 'Floating analytics charts and funnel shapes arranged organically. Upward trend curves in the accent color. No container boxes.' },
-      { re: /social media|instagram|facebook|linkedin|twitter|tiktok|community/i, hint: 'Floating social media UI elements and engagement icons arranged organically. Soft ambient glow. No container boxes.' },
-      { re: /email|newsletter|mailchimp|klaviyo|sequence/i, hint: 'Floating email UI panels and envelope motifs arranged organically. Soft ambient glow. No container boxes.' },
-      { re: /write|copy|content|blog|article|script|editor|ghostwrit/i, hint: 'Floating document pages and text cursor motifs arranged organically. Quotation mark accents. Soft ambient glow. No container boxes.' },
-      { re: /chat|bot|conversation|assistant|ai agent/i, hint: 'Floating conversational UI panel in the lower-middle area. Soft accent data-flow curves behind the headline. Blurred atmospheric blobs. Nothing grouped inside any container.' },
-      { re: /automat|workflow|integration|zapier|make\.com|n8n/i, hint: 'Floating automation workflow nodes connected by glowing accent lines. No container boxes around the nodes.' },
-      { re: /deploy|production|hosting|cloud|infra|devops|server/i, hint: 'App pipeline flowing from prototype to live domain. Thin accent data-flow curves. Floating UI screens in open space.' },
-      { re: /wordpress|website|web design|landing page|webflow|shopify|ecommerce|e-commerce/i, hint: 'Floating website UI panel with clean layout blocks. Soft accent curves. Blurred atmospheric blobs. No container boxes.' },
-      { re: /business|consult|strategy|plan|finance/i, hint: 'Floating graph lines and blueprint motifs arranged organically. Soft ambient glow. No container boxes.' }
+      { re: /logo|brand identity|graphic design|vector|icon design|illustration/i, hint: 'Floating vector shapes, color swatches, and typography specimens arranged organically on the flat background. No container boxes.' },
+      { re: /ui\/ux|ui design|ux design|app design|product design|wireframe|prototype/i, hint: 'Floating UI screens and wireframe elements scattered organically on the flat background. No container boxes.' },
+      { re: /video|edit|motion|animation|film|reels|youtube|tiktok|short-form/i, hint: 'Floating video timeline, filmstrip, and playback elements arranged organically on the flat background. No container boxes.' },
+      { re: /photo|photography|portrait|product photo/i, hint: 'Floating camera aperture and lens motifs on the flat background. No container boxes.' },
+      { re: /audio|music|podcast|voice|sound design/i, hint: 'Floating audio waveform and equalizer bars in the accent color on the flat background. No container boxes.' },
+      { re: /3d|render|blender|model/i, hint: 'Floating 3D primitive shapes and wireframe motifs arranged organically on the flat background. No container boxes.' },
+      { re: /seo|rank|search|keyword|backlink|serp/i, hint: 'Floating search result cards and upward trend curves in the accent color on the flat background. No container boxes.' },
+      { re: /ads|ppc|campaign|funnel|growth|lead|market/i, hint: 'Floating analytics charts and funnel shapes arranged organically on the flat background. Upward trend curves in the accent color. No container boxes.' },
+      { re: /social media|instagram|facebook|linkedin|twitter|tiktok|community/i, hint: 'Floating social media UI elements and engagement icons arranged organically on the flat background. No container boxes.' },
+      { re: /email|newsletter|mailchimp|klaviyo|sequence/i, hint: 'Floating email UI panels and envelope motifs arranged organically on the flat background. No container boxes.' },
+      { re: /write|copy|content|blog|article|script|editor|ghostwrit/i, hint: 'Floating document pages and text cursor motifs arranged organically on the flat background. Quotation mark accents. No container boxes.' },
+      { re: /chat|bot|conversation|assistant|ai agent/i, hint: 'Floating conversational UI panel in the lower-middle area on the flat background. Thin accent data-flow curves behind the headline. Nothing grouped inside any container.' },
+      { re: /automat|workflow|integration|zapier|make\.com|n8n/i, hint: 'Floating automation workflow nodes connected by thin accent lines on the flat background. No container boxes around the nodes.' },
+      { re: /deploy|production|hosting|cloud|infra|devops|server/i, hint: 'App pipeline flowing from prototype to live domain on the flat background. Thin accent data-flow curves. Floating UI screens in open space.' },
+      { re: /wordpress|website|web design|landing page|webflow|shopify|ecommerce|e-commerce/i, hint: 'Floating website UI panel with clean layout blocks on the flat background. Thin accent curves. No container boxes.' },
+      { re: /business|consult|strategy|plan|finance/i, hint: 'Floating graph lines and blueprint motifs arranged organically on the flat background. No container boxes.' }
     ];
-    let visualHint = 'Soft ambient glow. Thin accent data-flow curves. Blurred atmospheric blobs. Nothing grouped inside any container.';
+    let visualHint = 'Single flat uniform background colour. Thin accent data-flow curves. Nothing grouped inside any container.';
     for (const v of VISUAL_HINTS) { if (v.re.test(text)) { visualHint = v.hint; break; } }
     result.visuals = visualHint;
 
@@ -1984,14 +1982,12 @@ window.showToast = function (msg) {
     const radius = getVal('radius') || '16px';
     const s = Math.min(preset.w / 1280, preset.h / 769);
     applyCanvasDimensions();
-    previewCanvas.style.background = 'radial-gradient(ellipse at 30% 20%, ' + hexToRgba(primary, 0.10) + ' 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, ' + hexToRgba(primary, 0.08) + ' 0%, transparent 55%), ' + bg;
+    previewCanvas.style.background = bg;
     previewCanvas.style.fontFamily = "'" + headingFont + "', 'Syne', sans-serif";
-    previewCanvas.querySelectorAll('.pc-blob').forEach(b => { b.style.background = hexToRgba(primary, 0.22); });
     const h = $('pcHeadline');
     h.textContent = headline;
     h.style.fontFamily = "'" + headingFont + "', 'Syne', sans-serif";
     h.style.color = text;
-    h.style.textShadow = '0 0 40px ' + hexToRgba(primary, 0.25);
     const sec = $('pcSecondary');
     sec.textContent = secondary || '';
     sec.style.display = secondary ? '' : 'none';
@@ -2066,8 +2062,8 @@ window.showToast = function (msg) {
       '',
       '**Style fingerprint — reproduce exactly:**',
       '- Canvas: exactly **' + preset.w + ' × ' + preset.h + ' px**, one single image.',
-      '- Background: flat `' + bg + '` with exactly two soft radial accent washes — `' + hexToRgba(primary, 0.10) + '` ellipse centred at 30% / 20%, and `' + hexToRgba(primary, 0.08) + '` ellipse centred at 80% / 90%. No other gradients, no textures, no noise, no vignette.',
-      '- Accent colour: `' + primary + '`. Used only for ambient glow, thin data-flow curves, feature check icons and the trust line. Never as a large flat fill.',
+      '- Background: **one single uniform flat colour, `' + bg + '`, across the entire canvas** — corner to corner, edge to edge. No gradients, no radial washes, no colour tints in any corner, no textures, no noise, no vignette, no blobs, no glow bleeding into the background.',
+      '- Accent colour: `' + primary + '`. Used only for thin data-flow curves, feature check icons and the trust line — as flat colour, never as a glow, wash, or gradient. Never as a large flat fill, and never applied to the background itself.',
       '- Headline: **' + headingFont + '** weight 800, tracking −0.03em, colour `' + textColor + '`.',
       '- Body / UI text: **' + bodyFont + '** weight 500.',
       '- Tool icons: soft corner radius **' + radius + '**, official brand colours preserved exactly, no border, no tile, no chip, no badge behind them.',
@@ -2228,7 +2224,7 @@ window.showToast = function (msg) {
       '',
       '## CANVAS',
       sizeLine,
-      '- The entire design floats on **one continuous background** edge-to-edge.',
+      '- The entire design floats on **one single uniform flat background colour** — `' + bg + '` — across the whole canvas, edge-to-edge, corner-to-corner. No radial washes, no gradients, no textures, no blobs, no vignette, and no colour accents in any corner (top-left, top-right, bottom-left, bottom-right all identical).',
       '- Leave generous breathing room on all four sides so nothing crowds the edges. All headlines, secondary text, feature items, tool icons, and trust line stay comfortably inside the canvas with clear margin all around.',
       '- **CRITICAL: There are NO guides, NO dashed lines, NO crop marks, NO dimension labels, NO "safe area" text, NO ruler marks, and NO annotations of any kind in the image. Just clean background with the composition floating on it.**',
       '',
@@ -2243,7 +2239,7 @@ window.showToast = function (msg) {
       '5. **Feature items** — each feature is just an **icon + short text label** placed directly on the background. Spread them across the lower area with generous spacing. **Do NOT wrap them in chips, tiles, pills, or grid cells.** They read as floating annotations, not menu items.',
       '6. **Trust line** — small centered text at the bottom, directly on the background. **Skip entirely if the field above is marked ⛔ REJECTED.**',
       '',
-      'Depth comes from: soft accent ambient glow, subtle blurred atmospheric blobs behind the composition, thin accent data-flow curves, and restrained glass-like surfaces ONLY where the visual genuinely needs a floating UI panel (never to group text).',
+      'Depth comes from: thin accent data-flow curves and restrained glass-like surfaces ONLY where the visual genuinely needs a floating UI panel (never to group text). The background itself stays a single flat colour with no glow, wash, or blob behind any element.',
       '',
       '---',
       '',
@@ -2253,12 +2249,14 @@ window.showToast = function (msg) {
       designDetails,
       '',
       '## VISUAL DIRECTION',
-      visuals || 'Soft accent ambient glow behind the composition. Thin accent data-flow curves. Subtle blurred atmospheric blobs. No boxed panels anywhere. Depth via emitted light, not dark drop-shadows.',
+      visuals || 'Single flat uniform background colour, no glow or wash behind the composition. Thin accent data-flow curves only. No boxed panels anywhere. No blobs, no vignette, no corner accents.',
       '',
       '## STYLE',
       preset.style + ' Centered composition. Generous whitespace. High-impact visual hierarchy. Mobile-first clarity at 320 px — every character crisp and legible without zooming.',
       '',
       '## MUST AVOID',
+      '- **Any gradient, radial wash, glow, vignette, texture, noise, or colour accent anywhere on the background — the background is ONE single flat colour across the entire canvas, with zero exceptions in any corner.**',
+      '- **Any blurred blob, ambient glow, or atmospheric haze behind the headline, tools, features, or anywhere else — on the background OR on the content (logos, icons, text).**',
       '- **Any rectangle that contains other elements — cards, tiles, chips, pills, panels, grid cells, boxes, frames**',
       '- Any border, stroke, outline, or divider',
       '- Any container behind a group of icons or text',
@@ -2282,7 +2280,8 @@ window.showToast = function (msg) {
       '- [ ] **ZERO rectangles containing other elements.** No cards, tiles, chips, pills, panels, boxes, frames.',
       '- [ ] **ZERO borders, strokes, outlines, dividers.**',
       '- [ ] **ZERO separator lists — no line of dot-, bullet- or pipe-separated words anywhere.**',
-      '- [ ] Background is ONE continuous surface edge-to-edge.',
+      '- [ ] Background is **ONE single uniform flat colour** across the entire canvas — no gradients, no radial washes, no vignette, no blobs, no texture, no corner accents.',
+      '- [ ] Content (logos, tool icons, text) carries no glow, wash, or blurred haze behind it either.',
       '- [ ] Main headline renders **complete and unbroken** — no truncated words.',
       '- [ ] **Every field marked ⛔ REJECTED was dropped — nothing rendered for it at all.**',
       '- [ ] **NO text line lists tool / technology names — the icons alone carry that information.**',
@@ -2370,7 +2369,7 @@ window.showToast = function (msg) {
     $('features').value = 'Logo Design\nBrand Guidelines\nTypography\nColor Palette\nIcon Set\nSocial Kit';
     $('tools').value = 'Figma\nIllustrator\nPhotoshop\nCanva';
     $('trust').value = 'Built to be remembered';
-    $('visuals').value = 'Floating vector shapes, color swatches, and typography specimens arranged organically on the background. Soft ambient glow. No container boxes.';
+    $('visuals').value = 'Floating vector shapes, color swatches, and typography specimens arranged organically on the flat background. No container boxes.';
     $('avoid').value = 'Generic clipart, stock photography, busy backgrounds, distorted typography.';
   }
   function init() {
