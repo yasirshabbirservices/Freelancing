@@ -2047,7 +2047,7 @@ window.showToast = function (msg) {
   }
 
   /* ---- STYLE LOCK: keeps every generated image visually identical ---- */
-  function buildStyleLock() {
+  function buildStyleLock(useSpec) {
     const preset = getPlatformPreset();
     const primary = getVal('primaryHex') || '#00D68F';
     const bg = getVal('bgHex') || '#0A100E';
@@ -2055,25 +2055,44 @@ window.showToast = function (msg) {
     const headingFont = getVal('headingFont') || 'Syne';
     const bodyFont = getVal('bodyFont') || 'Space Grotesk';
     const radius = getVal('radius') || '16px';
+    /* In spec mode the DESIGN SPEC section below is the authoritative source for every
+       colour, font and radius value — never assert the manual colour-picker defaults here,
+       or they will silently override the user's uploaded/pasted brand spec. */
+    const bgLine = useSpec
+      ? '- Background: **one single uniform flat colour, exactly as specified in the DESIGN SPEC section below**, across the entire canvas — corner to corner, edge to edge. No gradients, no radial washes, no colour tints in any corner, no textures, no noise, no vignette, no blobs, no glow bleeding into the background.'
+      : '- Background: **one single uniform flat colour, `' + bg + '`, across the entire canvas** — corner to corner, edge to edge. No gradients, no radial washes, no colour tints in any corner, no textures, no noise, no vignette, no blobs, no glow bleeding into the background.';
+    const accentLine = useSpec
+      ? '- Accent colour: **exactly as specified in the DESIGN SPEC section below.** Used only for thin data-flow curves, feature check icons and the trust line — as flat colour, never as a glow, wash, or gradient. Never as a large flat fill, and never applied to the background itself.'
+      : '- Accent colour: `' + primary + '`. Used only for thin data-flow curves, feature check icons and the trust line — as flat colour, never as a glow, wash, or gradient. Never as a large flat fill, and never applied to the background itself.';
+    const headlineLine = useSpec
+      ? '- Headline: **typeface and text colour exactly as specified in the DESIGN SPEC section below**, weight 800, tracking −0.03em.'
+      : '- Headline: **' + headingFont + '** weight 800, tracking −0.03em, colour `' + textColor + '`.';
+    const bodyLine = useSpec
+      ? '- Body / UI text: **typeface exactly as specified in the DESIGN SPEC section below**, weight 500.'
+      : '- Body / UI text: **' + bodyFont + '** weight 500.';
+    const iconLine = useSpec
+      ? '- Tool icons: corner radius and treatment exactly as specified in the DESIGN SPEC section below, official brand colours preserved exactly, no border, no tile, no chip, no badge behind them.'
+      : '- Tool icons: soft corner radius **' + radius + '**, official brand colours preserved exactly, no border, no tile, no chip, no badge behind them.';
     return [
       '## 🎨 STYLE LOCK — IDENTICAL RESULT ON EVERY RUN',
       '',
       'This brief describes **one fixed visual system**. Every image produced from it — now, in a later message, or in a completely separate chat — must match the fingerprint below exactly. Only the CONTENT changes. The look never does.',
+      useSpec ? '\n**The DESIGN SPEC section below is the authoritative source of truth for colour, typography and radius — follow it exactly, not any generic defaults.**' : '',
       '',
       '**Style fingerprint — reproduce exactly:**',
       '- Canvas: exactly **' + preset.w + ' × ' + preset.h + ' px**, one single image.',
-      '- Background: **one single uniform flat colour, `' + bg + '`, across the entire canvas** — corner to corner, edge to edge. No gradients, no radial washes, no colour tints in any corner, no textures, no noise, no vignette, no blobs, no glow bleeding into the background.',
-      '- Accent colour: `' + primary + '`. Used only for thin data-flow curves, feature check icons and the trust line — as flat colour, never as a glow, wash, or gradient. Never as a large flat fill, and never applied to the background itself.',
-      '- Headline: **' + headingFont + '** weight 800, tracking −0.03em, colour `' + textColor + '`.',
-      '- Body / UI text: **' + bodyFont + '** weight 500.',
-      '- Tool icons: soft corner radius **' + radius + '**, official brand colours preserved exactly, no border, no tile, no chip, no badge behind them.',
+      bgLine,
+      accentLine,
+      headlineLine,
+      bodyLine,
+      iconLine,
       '- Lighting: soft emitted glow only. No hard drop shadows, no bevels, no 3D extrusion, no glass reflections.',
       '- Composition anchors as a percentage of canvas height: headline block 12–30%, secondary tagline ≈ 34%, supporting line ≈ 40%, tool cluster centre ≈ 56%, feature row ≈ 72%, trust line ≈ 90%. Everything horizontally centred.',
       '',
       '**When you are asked for a second or third image for this same service:** keep every value above identical, and change ONLY the single element the user names. Do not re-interpret the palette, typography, background, lighting, spacing or icon treatment. If you genuinely cannot keep the fingerprint identical, say so instead of improvising.',
       '',
       '**If your tool accepts a seed value:** reuse the same seed for every image generated from this brief.'
-    ].join('\n');
+    ].filter(Boolean).join('\n');
   }
 
   function buildPrompt() {
@@ -2111,10 +2130,11 @@ window.showToast = function (msg) {
     const avoidCustom = avoid ? avoid.split('\n').map(s => s.trim()).filter(Boolean).map(s => '- ' + s).join('\n') : '';
     const notesBlock = notes ? '\n## ADDITIONAL NOTES\n' + notes + '\n' : '';
     const specSection = buildSpecSection();
-    const styleLock = buildStyleLock();
+    const useSpec = mode === 'spec' && !!specSection;
+    const styleLock = buildStyleLock(useSpec);
 
     const brandingSection = ['## BRANDING','- Primary / Accent color: `' + primary + '`','- Secondary / Highlight color: `' + accent + '`','- Background color: `' + bg + '`','- Primary text color: `' + textColor + '`','- Heading font: **' + headingFont + '** (bold, geometric, wide, premium)','- Body / UI font: **' + bodyFont + '** (clean, technical, readable)','- Soft icon corner radius (for the icon glyphs only, not for content containers): **' + radius + '**','- Official brand colors of every tool / platform icon must be preserved exactly — never tint them to match the background.'].join('\n');
-    const designDetails = (mode === 'spec' && specSection) ? specSection : brandingSection;
+    const designDetails = useSpec ? specSection : brandingSection;
 
     /* Content blocks — verdicts baked in. */
     const contentBlocks = [];
@@ -2229,7 +2249,9 @@ window.showToast = function (msg) {
       '',
       '## CANVAS',
       sizeLine,
-      '- The entire design floats on **one single uniform flat background colour** — `' + bg + '` — across the whole canvas, edge-to-edge, corner-to-corner. No radial washes, no gradients, no textures, no blobs, no vignette, and no colour accents in any corner (top-left, top-right, bottom-left, bottom-right all identical).',
+      useSpec
+        ? '- The entire design floats on **one single uniform flat background colour — exactly as specified in the DESIGN SPEC section below** — across the whole canvas, edge-to-edge, corner-to-corner. No radial washes, no gradients, no textures, no blobs, no vignette, and no colour accents in any corner (top-left, top-right, bottom-left, bottom-right all identical).'
+        : '- The entire design floats on **one single uniform flat background colour** — `' + bg + '` — across the whole canvas, edge-to-edge, corner-to-corner. No radial washes, no gradients, no textures, no blobs, no vignette, and no colour accents in any corner (top-left, top-right, bottom-left, bottom-right all identical).',
       '- Leave generous breathing room on all four sides so nothing crowds the edges. All headlines, secondary text, feature items, tool icons, and trust line stay comfortably inside the canvas with clear margin all around.',
       '- **CRITICAL: There are NO guides, NO dashed lines, NO crop marks, NO dimension labels, NO "safe area" text, NO ruler marks, and NO annotations of any kind in the image. Just clean background with the composition floating on it.**',
       '',
