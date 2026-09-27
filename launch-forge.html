@@ -2036,56 +2036,240 @@ window.showToast = function (msg) {
     return [pasted].concat(fileTexts).filter(Boolean).join('\n\n');
   }
 
-  /* ---- Heuristic token extraction: pulls concrete colour/font/radius values out of a
-     pasted or uploaded design spec so the image prompt can assert them directly instead of
-     just pointing the model at a wall of prose it may not reliably parse on its own. ---- */
-  function findAllHexWithLabels(text) {
+  /* ---- Universal token extraction: pulls concrete colour/font/radius values out of a
+     pasted or uploaded design spec — in ANY format (a written design-system doc, CSS custom
+     properties, a JSON token file, a markdown table, plain prose, or just bare hex/rgb/hsl
+     colour codes with no labels at all) — so the image prompt can assert them directly
+     instead of just pointing the model at a wall of text it may not reliably parse itself. */
+  function hexToRgbTriplet(hex) {
+    const n = parseInt(hex.slice(1), 16);
+    return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+  }
+  function relLuminance(hex) {
+    const c = hexToRgbTriplet(hex);
+    const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
+  }
+  function colorSaturation(hex) {
+    const c = hexToRgbTriplet(hex);
+    const max = Math.max(c.r, c.g, c.b) / 255, min = Math.min(c.r, c.g, c.b) / 255;
+    return max - min;
+  }
+  function normalizeColorToken(str) {
+    str = str.trim();
+    let m = str.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/);
+    if (m) {
+      let hex = m[1];
+      if (hex.length === 3) hex = hex.split('').map((c) => c + c).join('');
+      if (hex.length === 8) hex = hex.slice(0, 6);
+      return '#' + hex.toUpperCase();
+    }
+    m = str.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+    if (m) {
+      const [r, g, b] = [m[1], m[2], m[3]].map((n) => Math.max(0, Math.min(255, parseInt(n, 10))));
+      return '#' + [r, g, b].map((n) => n.toString(16).padStart(2, '0').toUpperCase()).join('');
+    }
+    m = str.match(/^hsla?\(\s*(-?\d+(?:\.\d+)?)\s*,?\s*(\d+(?:\.\d+)?)%\s*,?\s*(\d+(?:\.\d+)?)%/i);
+    if (m) {
+      const h = ((parseFloat(m[1]) % 360) + 360) % 360, s = parseFloat(m[2]) / 100, l = parseFloat(m[3]) / 100;
+      const cc = (1 - Math.abs(2 * l - 1)) * s;
+      const x = cc * (1 - Math.abs((h / 60) % 2 - 1));
+      const mm = l - cc / 2;
+      let r = 0, g = 0, b = 0;
+      if (h < 60) { r = cc; g = x; b = 0; } else if (h < 120) { r = x; g = cc; b = 0; }
+      else if (h < 180) { r = 0; g = cc; b = x; } else if (h < 240) { r = 0; g = x; b = cc; }
+      else if (h < 300) { r = x; g = 0; b = cc; } else { r = cc; g = 0; b = x; }
+      const toHex = (v) => Math.round((v + mm) * 255).toString(16).padStart(2, '0').toUpperCase();
+      return '#' + toHex(r) + toHex(g) + toHex(b);
+    }
+    return null;
+  }
+  const COLOR_TOKEN_RE_G = /(#[0-9A-Fa-f]{3,8}\b|rgba?\([^)]+\)|hsla?\([^)]+\))/gi;
+  function cleanTokenLabel(raw) {
+    return raw.replace(/[`*_#"':=]+/g, ' ').replace(/[()]/g, ' ').replace(/\bvar\b/gi, ' ').replace(/^[-\s]+/, ' ').replace(/\s+/g, ' ').trim();
+  }
+  /* Every colour token on a line, paired with the text immediately before it (from the
+     previous match, or line start) — never just the first, or later colours on a line
+     (e.g. a second value in a CSS rule) get silently dropped. A label only "counts" for
+     keyword classification when it's short and token-like, so an incidental keyword deep
+     inside a long prose sentence can't hijack the result. */
+  function extractColorPairsFromLines(text) {
     const lines = text.split('\n');
     const out = [];
-    const lineRe = /\*\*([^*]+)\*\*[^#\n]*?(#[0-9A-Fa-f]{6})\b/;
-    for (const line of lines) {
-      const m = line.match(lineRe);
-      if (m) out.push({ label: m[1].trim(), hex: m[2].toUpperCase() });
+    for (const rawLine of lines) {
+      COLOR_TOKEN_RE_G.lastIndex = 0;
+      let m, prevEnd = 0;
+      while ((m = COLOR_TOKEN_RE_G.exec(rawLine))) {
+        const hex = normalizeColorToken(m[0]);
+        if (hex) {
+          const label = cleanTokenLabel(rawLine.slice(prevEnd, m.index));
+          out.push({ label: label, hex: hex, trusted: label.length > 0 && label.length <= 40 && label.split(' ').length <= 5 });
+        }
+        prevEnd = m.index + m[0].length;
+      }
     }
     return out;
+  }
+  /* Exact-label tier first. Modern shadcn/Tailwind-style token sets commonly define
+     compound pairs like --primary-foreground or --muted-foreground (the text colour to use
+     ON TOP OF that surface) right alongside the plain --foreground (the page's own text
+     colour) — both legitimately contain the word "foreground". A loose word-boundary match
+     alone would grab whichever one happens to appear first in the document, which is often
+     the wrong one. An exact label match ("foreground", "primary", ...) always wins over a
+     merely-containing one, regardless of where each appears. */
+  function exactLabelMatch(trusted, words) {
+    for (const w of words) {
+      const hit = trusted.find((p) => p.label.toLowerCase() === w);
+      if (hit) return hit;
+    }
+    return null;
+  }
+  function classifyLabeledColors(pairs) {
+    const tokens = {};
+    const trusted = pairs.filter((p) => p.trusted);
+    const byLabel = (re) => trusted.find((p) => re.test(p.label));
+
+    const bgPair = exactLabelMatch(trusted, ['background', 'bg', 'surface', 'base', 'canvas'])
+      || byLabel(/\b(background|bg|surface|base|canvas)\b/i);
+    if (bgPair) tokens.background = bgPair.hex;
+
+    const primaryPair = exactLabelMatch(trusted, ['primary', 'brand', 'main'])
+      || byLabel(/\b(primary|brand|main)\b/i);
+    if (primaryPair) tokens.primary = primaryPair.hex;
+
+    let accentPair = exactLabelMatch(trusted, ['accent', 'highlight'])
+      || byLabel(/\b(accent|highlight)\b/i);
+    if (!accentPair) accentPair = trusted.find((p) => p.label.toLowerCase() === 'secondary' && (!bgPair || p.hex !== bgPair.hex));
+    if (!accentPair) accentPair = trusted.find((p) => /\bsecondary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex));
+    if (!accentPair) accentPair = trusted.find((p) => /\btertiary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex) && (!primaryPair || p.hex !== primaryPair.hex));
+    if (accentPair) tokens.accent = accentPair.hex;
+
+    const textPair = exactLabelMatch(trusted, ['text', 'foreground', 'fg', 'ink'])
+      || byLabel(/\b(text|foreground|fg|ink)\b/i);
+    if (textPair) tokens.text = textPair.hex;
+
+    return tokens;
+  }
+  /* No usable labels at all — just colour codes. Darkest = background, a clearly
+     low-saturation lightest colour = text, and the most saturated remaining colour =
+     primary. With only one or two colours given, skip the guesswork that needs three. */
+  function classifyUnlabeledColors(hexList) {
+    const uniq = Array.from(new Set(hexList));
+    const tokens = {};
+    if (!uniq.length) return tokens;
+    if (uniq.length === 1) { tokens.primary = uniq[0]; return tokens; }
+
+    const withStats = uniq.map((hex) => ({ hex: hex, lum: relLuminance(hex), sat: colorSaturation(hex) }));
+    withStats.sort((a, b) => a.lum - b.lum);
+    const darkest = withStats[0];
+    const lightest = withStats[withStats.length - 1];
+    tokens.background = darkest.hex;
+
+    if (uniq.length === 2) { tokens.primary = lightest.hex; return tokens; }
+
+    if (lightest.sat < 0.25) tokens.text = lightest.hex;
+    const excluded = {}; [tokens.background, tokens.text].filter(Boolean).forEach((h) => { excluded[h] = true; });
+    const pool = withStats.filter((c) => !excluded[c.hex]);
+    const candidates = pool.length ? pool : withStats;
+    let best = candidates[0];
+    candidates.forEach((c) => { if (c.sat > best.sat) best = c; });
+    tokens.primary = best.hex;
+    return tokens;
+  }
+  /* Font names basically never legitimately start with these — but a "does X for role"
+     phrase or a sentence lead-in often ends up captured alongside the real name (e.g.
+     "Use Montserrat for headings" → "Use Montserrat"), so strip them off the front. */
+  const FONT_NAME_FILLER_WORDS = { use: 1, uses: 1, using: 1, and: 1, the: 1, a: 1, an: 1, with: 1, apply: 1, applying: 1, in: 1, is: 1, are: 1, our: 1, set: 1, sets: 1, default: 1, defaults: 1 };
+  function cleanFontName(raw) {
+    let name = raw.trim().replace(/[.,;]+$/, '');
+    name = name.split(',')[0].trim();
+    name = name.replace(/^['"`]|['"`]$/g, '');
+    const words = name.split(/\s+/);
+    while (words.length > 1 && FONT_NAME_FILLER_WORDS[words[0].toLowerCase()]) words.shift();
+    return words.join(' ');
+  }
+  function extractFontByRole(text, roleWords) {
+    const roleAlt = roleWords.join('|');
+    const q = '["\'`]?';
+    /* a) "Heading Font: Anton" / "headingFont": "Sora" */
+    let re = new RegExp('(?:' + roleAlt + ')[\\s_-]*font(?:[\\s_-]*family)?' + q + '\\s*[:=]\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
+    let m = text.match(re);
+    if (m) return cleanFontName(m[1]);
+    /* b) "font-heading: X" */
+    re = new RegExp('font(?:[\\s_-]*family)?[\\s_-]*(?:' + roleAlt + ')' + q + '\\s*[:=]\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
+    m = text.match(re);
+    if (m) return cleanFontName(m[1]);
+    /* c) "**Heading Font**: Anton" — and just as commonly, a bare role label with no
+       literal "font" word at all, e.g. "**Headings**: `Sora`" or "**Body / UI**: `Inter`". */
+    re = new RegExp('\\*\\*(?:' + roleAlt + ')(?:\\s*font)?s?[^*]*\\*\\*\\s*:?\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
+    m = text.match(re);
+    if (m) return cleanFontName(m[1]);
+    /* d) "`Sora` for headings" / "Inter for body/UI text" — capture bounded to at most 3
+       words so it can't run away across an earlier, unrelated "for <otherRole>" phrase
+       that appears first in prose (e.g. "...for headings and Open Sans for body text"). */
+    re = new RegExp(q + '([A-Za-z][A-Za-z0-9]*(?:\\s[A-Za-z0-9]+){0,2})' + q + '\\s+for\\s+(?:' + roleAlt + ')s?\\b', 'i');
+    m = text.match(re);
+    if (m) return cleanFontName(m[1]);
+    return null;
+  }
+  function extractGenericFont(text) {
+    const m = text.match(/font-family\s*[:=]\s*['"`]?([A-Za-z][A-Za-z0-9 ,+-]*)/i);
+    return m ? cleanFontName(m[1]) : null;
+  }
+  function extractRadiusToken(text) {
+    const radiusSection = text.match(/#{1,6}\s*Border Radius\b([\s\S]*?)(?=\n#{1,6}\s|\n---|$)/i);
+    if (radiusSection) {
+      const s = radiusSection[1];
+      const m = s.match(/\*\*DEFAULT\*\*\s*\((\d+(?:\.\d+)?(?:px|rem))\)/i) || s.match(/\bDEFAULT\b[^\n]*?(\d+(?:\.\d+)?(?:px|rem))/i);
+      if (m) return m[1];
+    }
+    let m = text.match(/--(?:border-)?radius[^:\n]*:\s*["']?(\d+(?:\.\d+)?(?:px|rem))/i);
+    if (m) return m[1];
+    m = text.match(/\b(?:border[-\s]?radius|corner\s*radius|radius)\b["']?\s*[:=]?[^\n]{0,40}?(\d+(?:\.\d+)?(?:px|rem))/i);
+    if (m) return m[1];
+    return null;
   }
 
   function extractDesignTokens(text) {
     const tokens = {};
     if (!text) return tokens;
-    const pairs = findAllHexWithLabels(text);
-    const byLabel = (re) => pairs.find((p) => re.test(p.label));
 
-    const bgPair = byLabel(/\bbackground\b/i) || byLabel(/\bsurface\b/i);
-    if (bgPair) tokens.background = bgPair.hex;
+    const pairs = extractColorPairsFromLines(text);
+    Object.assign(tokens, classifyLabeledColors(pairs));
 
-    const primaryPair = byLabel(/\bprimary\b/i);
-    if (primaryPair) tokens.primary = primaryPair.hex;
-
-    let accentPair = byLabel(/\baccent\b/i);
-    if (!accentPair) accentPair = pairs.find((p) => /\bsecondary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex));
-    if (!accentPair) accentPair = pairs.find((p) => /\btertiary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex) && (!primaryPair || p.hex !== primaryPair.hex));
-    if (accentPair) tokens.accent = accentPair.hex;
-
-    const textPair = byLabel(/\btext\b/i) || byLabel(/\bforeground\b/i);
-    if (textPair) tokens.text = textPair.hex;
-
-    const headingFontMatch = text.match(/\*\*(?:headline|heading|display)\s*font\*\*:?\s*([A-Za-z0-9][A-Za-z0-9 ,+-]*)/i);
-    if (headingFontMatch) tokens.headingFont = headingFontMatch[1].trim().replace(/[.,;]+$/, '');
-    const bodyFontMatch = text.match(/\*\*body\s*font\*\*:?\s*([A-Za-z0-9][A-Za-z0-9 ,+-]*)/i);
-    if (bodyFontMatch) tokens.bodyFont = bodyFontMatch[1].trim().replace(/[.,;]+$/, '');
-
-    const radiusSection = text.match(/#{1,6}\s*Border Radius\b([\s\S]*?)(?=\n#{1,6}\s|\n---|$)/i);
-    const scanForDefaultRadius = (s) => {
-      const m = s.match(/\*\*DEFAULT\*\*\s*\((\d+px)\)/i) || s.match(/\bDEFAULT\b[^\n]*?(\d+px)/i);
-      return m ? m[1] : null;
-    };
-    if (radiusSection) tokens.radius = scanForDefaultRadius(radiusSection[1]);
-    if (!tokens.radius) {
-      const m = text.match(/border[-\s]?radius[^\n]{0,40}?(\d+px)/i);
-      if (m) tokens.radius = m[1];
+    if (!tokens.background || !tokens.primary) {
+      const fallback = classifyUnlabeledColors(pairs.map((p) => p.hex));
+      if (!tokens.background && fallback.background) tokens.background = fallback.background;
+      if (!tokens.primary && fallback.primary) tokens.primary = fallback.primary;
+      if (!tokens.text && fallback.text) tokens.text = fallback.text;
     }
 
+    tokens.headingFont = extractFontByRole(text, ['headline', 'heading', 'display', 'title']);
+    tokens.bodyFont = extractFontByRole(text, ['body', 'paragraph', 'ui']);
+    if (!tokens.headingFont && !tokens.bodyFont) {
+      const generic = extractGenericFont(text);
+      if (generic) { tokens.headingFont = generic; tokens.bodyFont = generic; }
+    } else if (!tokens.bodyFont) {
+      tokens.bodyFont = extractGenericFont(text);
+    } else if (!tokens.headingFont) {
+      tokens.headingFont = extractGenericFont(text);
+    }
+
+    tokens.radius = extractRadiusToken(text);
+
+    /* Safety net: primary and background should never collide when the document actually
+       offers more than one distinct colour — that would mean a whole colour got silently
+       dropped upstream. Re-derive primary from the full unlabeled palette in that case. */
+    if (tokens.background && tokens.primary && tokens.background === tokens.primary) {
+      const allColors = Array.from(new Set(pairs.map((p) => p.hex)));
+      if (allColors.length > 1) {
+        const fb = classifyUnlabeledColors(allColors);
+        const alt = (fb.primary && fb.primary !== tokens.background) ? fb.primary : allColors.find((h) => h !== tokens.background);
+        if (alt) tokens.primary = alt;
+      }
+    }
+
+    Object.keys(tokens).forEach((k) => { if (tokens[k] == null) delete tokens[k]; });
     return tokens;
   }
 
