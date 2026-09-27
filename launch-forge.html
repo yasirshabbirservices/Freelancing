@@ -2110,23 +2110,42 @@ window.showToast = function (msg) {
     }
     return out;
   }
+  /* Exact-label tier first. Modern shadcn/Tailwind-style token sets commonly define
+     compound pairs like --primary-foreground or --muted-foreground (the text colour to use
+     ON TOP OF that surface) right alongside the plain --foreground (the page's own text
+     colour) — both legitimately contain the word "foreground". A loose word-boundary match
+     alone would grab whichever one happens to appear first in the document, which is often
+     the wrong one. An exact label match ("foreground", "primary", ...) always wins over a
+     merely-containing one, regardless of where each appears. */
+  function exactLabelMatch(trusted, words) {
+    for (const w of words) {
+      const hit = trusted.find((p) => p.label.toLowerCase() === w);
+      if (hit) return hit;
+    }
+    return null;
+  }
   function classifyLabeledColors(pairs) {
     const tokens = {};
     const trusted = pairs.filter((p) => p.trusted);
     const byLabel = (re) => trusted.find((p) => re.test(p.label));
 
-    const bgPair = byLabel(/\b(background|bg|surface|base|canvas)\b/i);
+    const bgPair = exactLabelMatch(trusted, ['background', 'bg', 'surface', 'base', 'canvas'])
+      || byLabel(/\b(background|bg|surface|base|canvas)\b/i);
     if (bgPair) tokens.background = bgPair.hex;
 
-    const primaryPair = byLabel(/\b(primary|brand|main)\b/i);
+    const primaryPair = exactLabelMatch(trusted, ['primary', 'brand', 'main'])
+      || byLabel(/\b(primary|brand|main)\b/i);
     if (primaryPair) tokens.primary = primaryPair.hex;
 
-    let accentPair = byLabel(/\b(accent|highlight)\b/i);
+    let accentPair = exactLabelMatch(trusted, ['accent', 'highlight'])
+      || byLabel(/\b(accent|highlight)\b/i);
+    if (!accentPair) accentPair = trusted.find((p) => p.label.toLowerCase() === 'secondary' && (!bgPair || p.hex !== bgPair.hex));
     if (!accentPair) accentPair = trusted.find((p) => /\bsecondary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex));
     if (!accentPair) accentPair = trusted.find((p) => /\btertiary\b/i.test(p.label) && (!bgPair || p.hex !== bgPair.hex) && (!primaryPair || p.hex !== primaryPair.hex));
     if (accentPair) tokens.accent = accentPair.hex;
 
-    const textPair = byLabel(/\b(text|foreground|fg|ink)\b/i);
+    const textPair = exactLabelMatch(trusted, ['text', 'foreground', 'fg', 'ink'])
+      || byLabel(/\b(text|foreground|fg|ink)\b/i);
     if (textPair) tokens.text = textPair.hex;
 
     return tokens;
@@ -2157,21 +2176,38 @@ window.showToast = function (msg) {
     tokens.primary = best.hex;
     return tokens;
   }
+  /* Font names basically never legitimately start with these — but a "does X for role"
+     phrase or a sentence lead-in often ends up captured alongside the real name (e.g.
+     "Use Montserrat for headings" → "Use Montserrat"), so strip them off the front. */
+  const FONT_NAME_FILLER_WORDS = { use: 1, uses: 1, using: 1, and: 1, the: 1, a: 1, an: 1, with: 1, apply: 1, applying: 1, in: 1, is: 1, are: 1, our: 1, set: 1, sets: 1, default: 1, defaults: 1 };
   function cleanFontName(raw) {
     let name = raw.trim().replace(/[.,;]+$/, '');
     name = name.split(',')[0].trim();
-    return name.replace(/^['"`]|['"`]$/g, '');
+    name = name.replace(/^['"`]|['"`]$/g, '');
+    const words = name.split(/\s+/);
+    while (words.length > 1 && FONT_NAME_FILLER_WORDS[words[0].toLowerCase()]) words.shift();
+    return words.join(' ');
   }
   function extractFontByRole(text, roleWords) {
     const roleAlt = roleWords.join('|');
     const q = '["\'`]?';
+    /* a) "Heading Font: Anton" / "headingFont": "Sora" */
     let re = new RegExp('(?:' + roleAlt + ')[\\s_-]*font(?:[\\s_-]*family)?' + q + '\\s*[:=]\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
     let m = text.match(re);
     if (m) return cleanFontName(m[1]);
+    /* b) "font-heading: X" */
     re = new RegExp('font(?:[\\s_-]*family)?[\\s_-]*(?:' + roleAlt + ')' + q + '\\s*[:=]\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
     m = text.match(re);
     if (m) return cleanFontName(m[1]);
-    re = new RegExp('\\*\\*(?:' + roleAlt + ')[^*]*\\*\\*\\s*:?\\s*([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
+    /* c) "**Heading Font**: Anton" — and just as commonly, a bare role label with no
+       literal "font" word at all, e.g. "**Headings**: `Sora`" or "**Body / UI**: `Inter`". */
+    re = new RegExp('\\*\\*(?:' + roleAlt + ')(?:\\s*font)?s?[^*]*\\*\\*\\s*:?\\s*' + q + '([A-Za-z][A-Za-z0-9 ,+-]*)', 'i');
+    m = text.match(re);
+    if (m) return cleanFontName(m[1]);
+    /* d) "`Sora` for headings" / "Inter for body/UI text" — capture bounded to at most 3
+       words so it can't run away across an earlier, unrelated "for <otherRole>" phrase
+       that appears first in prose (e.g. "...for headings and Open Sans for body text"). */
+    re = new RegExp(q + '([A-Za-z][A-Za-z0-9]*(?:\\s[A-Za-z0-9]+){0,2})' + q + '\\s+for\\s+(?:' + roleAlt + ')s?\\b', 'i');
     m = text.match(re);
     if (m) return cleanFontName(m[1]);
     return null;
